@@ -29,6 +29,8 @@ module.exports = {
         "comma-spacing":0,
         "key-spacing":0,
         "vue/html-indent":0,
+        "no-multiple-empty-lines":0,
+        "semi": [2, "always"],//语句强制分号结尾,
         "indent": 0
     },
     'extends': [

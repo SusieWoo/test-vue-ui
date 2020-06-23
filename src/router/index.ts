@@ -1,6 +1,5 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
-import Home from "../views/Home.vue";
+import Vue from 'vue';
+import VueRouter, { RouteConfig } from 'vue-router';
 import Layout from '@/components/layout/index.vue'
 
 
@@ -28,6 +27,33 @@ const routes: Array<RouteConfig> = [
         meta: {
           title: 'Dashboard',
           icon: 'dashboard'
+        }
+      }
+    ]
+  },
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/tree',
+    meta: {
+      title: 'Example',
+      icon: 'example'
+    },
+    children: [
+      {
+        path: 'table',
+        component: () => import(/* webpackChunkName: "table" */ '@/views/example/table/index.vue'),
+        meta: {
+          title: 'Table',
+          icon: 'table'
+        }
+      },
+      {
+        path: 'test',
+        component: () => import(/* webpackChunkName: "table" */ '@/views/example/test/index.vue'),
+        meta: {
+          title: 'Text',
+          icon: 'nested'
         }
       }
     ]
