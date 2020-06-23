@@ -1,5 +1,5 @@
-const path = require('path')
-const name = 'Vue Typescript Test'
+const path = require('path');
+const name = 'Vue Typescript Test';
 module.exports = {
     publicPath: process.env.NODE_ENV === 'production' ? '' : '/', // TODO: Remember to change this to fit your need
     lintOnSave: process.env.NODE_ENV === 'development',
@@ -11,6 +11,14 @@ module.exports = {
                 path.resolve(__dirname, 'src/styles/_mixins.scss')
             ]
         }
+    },
+    css:{
+        sourceMap:true,
+        extract:false
+    },
+    chainWebpack: config => {
+        // 修复HMR
+        config.resolve.symlinks(true);
     },
     pwa: {
         name: name

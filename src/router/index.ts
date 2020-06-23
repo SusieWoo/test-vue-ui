@@ -1,20 +1,20 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Layout from '@/components/layout/index.vue'
+import Layout from '@/components/layout/index.vue';
 
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
-    path: "/",
-    redirect: '/login',
+    path: '/',
+    redirect: '/login'
   },
   {
-    path: "/login",
-    name: "Login",
+    path: '/login',
+    name: 'Login',
     component: () =>
-      import(/* webpackChunkName: "login" */ "../views/Login.vue")
+      import(/* webpackChunkName: "login" */ '../views/Login.vue')
   },
   {
     path: '/dashboard',
@@ -72,7 +72,7 @@ const routes: Array<RouteConfig> = [
         }
       }
     ]
-  },
+  }
 ];
 
 const router = new VueRouter({

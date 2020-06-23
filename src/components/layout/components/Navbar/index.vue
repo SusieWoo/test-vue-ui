@@ -54,11 +54,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { AppModule } from '@/store/modules/app'
-import { UserModule } from '@/store/modules/user'
-import Breadcrumb from '@/components/layout/components/Breadcrumb/index.vue'
-import Hamburger from '@/components/layout/components/Hamburger/index.vue'
+import { Component, Vue } from 'vue-property-decorator';
+import { AppModule } from '@/store/modules/app';
+import { UserModule } from '@/store/modules/user';
+import Breadcrumb from '@/components/layout/components/Breadcrumb/index.vue';
+import Hamburger from '@/components/layout/components/Hamburger/index.vue';
 
 @Component({
   name: 'Navbar',
@@ -69,24 +69,24 @@ import Hamburger from '@/components/layout/components/Hamburger/index.vue'
 })
 export default class extends Vue {
   get sidebar() {
-    return AppModule.sidebar
+    return AppModule.sidebar;
   }
 
   get device() {
-    return AppModule.device.toString()
+    return AppModule.device.toString();
   }
 
   get userName() {
-    return UserModule.name
+    return UserModule.name;
   }
 
   private toggleSideBar() {
-    AppModule.ToggleSideBar(false)
+    AppModule.ToggleSideBar(false);
   }
 
   private async logout() {
-    await UserModule.LogOut({})
-    this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    await UserModule.LogOut({});
+    this.$router.push(`/login?redirect=${this.$route.fullPath}`);
   }
 }
 </script>

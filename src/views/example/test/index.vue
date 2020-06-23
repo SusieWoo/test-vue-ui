@@ -1,16 +1,16 @@
 <template>
     <div class="home">
         树形结构：
-        <tree prop="treeList" />
+        <Tree prop="treeList" />
     </div>
 </template>
 
 <script>
     // @ is an alias to /src
-    import Tree from "@/components/tree/index.vue";
+    import Tree from '@/components/tree/index.vue';
 
     export default {
-        name: "Dashboard",
+        name: 'Dashboard',
         components: {
             Tree
         },

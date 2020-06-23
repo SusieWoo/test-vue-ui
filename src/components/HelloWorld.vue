@@ -5,11 +5,18 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from 'vue-property-decorator';
+import Bus from '@/common/bus.js';
+
 
 @Component
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
+    mounted() {
+            Bus.$on('XXXX-a', (data:any) => {
+              console.log(data);
+            });
+        }
 }
 </script>
 

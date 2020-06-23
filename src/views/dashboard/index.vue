@@ -1,16 +1,21 @@
 <template>
   <div class="home">
     <HelloWorld msg="from home.vue" />
+    <div class="qqq">
+      123123123123
+    </div>
     <el-slider v-model="value2" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import HelloWorld from '@/components/HelloWorld.vue';
+import Bus from '@/common/bus.js';
+Bus.$on('XXXX-a', (data) => {});
 
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   components: {
     HelloWorld
   },
@@ -18,6 +23,22 @@ export default {
       return {
           value2: 50
       };
+  },
+  mounted() {
+    setTimeout(() => {
+      Bus.$emit('XXXX-a', {
+        res:1111
+      });
+    },1000);
+  },
+  destroyed() {
+
   }
 };
 </script>
+
+<style scoped>
+  .qqq{
+    color: blue;
+  }
+</style>

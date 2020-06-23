@@ -96,17 +96,17 @@ export default class extends Vue {
   }
 
   created() {
-    this.getList()
+    this.getList();
   }
 
   private async getList() {
-    this.listLoading = true
-    const { data } = await queryManagerList(this.listQuery)
-    this.list = data.items
+    this.listLoading = true;
+    const { data } = await queryManagerList(this.listQuery);
+    this.list = data.items;
     // Just to simulate the time of the request
     setTimeout(() => {
-      this.listLoading = false
-    }, 0.5 * 1000)
+      this.listLoading = false;
+    }, 0.5 * 1000);
   }
 }
 </script>
