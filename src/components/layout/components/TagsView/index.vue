@@ -73,7 +73,6 @@ export default class extends Vue {
   private affixTags: ITagView[] = []
 
   get visitedViews() {
-      console.log(' TagsViewModule.visitedViews', TagsViewModule.visitedViews)
     return TagsViewModule.visitedViews
   }
 
@@ -133,7 +132,6 @@ export default class extends Vue {
 
   private initTags() {
     this.affixTags = this.filterAffixTags(this.routes)
-    console.log('layout-com-tagsview',this.routes)
     for (const tag of this.affixTags) {
       // Must have tag name
       if (tag.name) {

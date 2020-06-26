@@ -15,9 +15,5 @@ module.exports = {
     css:{
         sourceMap:true,
         extract:false
-    },
-    chainWebpack: config => {
-        // 修复HMR
-        config.resolve.symlinks(true);
     }
 }
