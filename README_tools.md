@@ -13,7 +13,7 @@ here地图。在线客服。表单。
 
 ## 兄弟组件传值
 
-import Bus from '@/common/bus.js';
+import Bus from '@/common/bus.ts';
 Bus.$emit('XXXX-a', data);
 Bus.$on('XXXX-a', (data) => {});
 Bus.$off("XXXX-a")

@@ -11,6 +11,9 @@
       class="breadcrumb-container"
     />
     <div class="right-menu">
+      <template v-if="device!=='mobile'">
+        <lang-select class="right-menu-item hover-effect" />
+      </template>
       <el-dropdown
         class="avatar-container right-menu-item hover-effect"
         trigger="click"
@@ -25,22 +28,6 @@
               Home
             </el-dropdown-item>
           </router-link>
-          <a
-            target="_blank"
-            href="https://github.com/armour/vue-typescript-admin-template/"
-          >
-            <el-dropdown-item>
-              Github
-            </el-dropdown-item>
-          </a>
-          <a
-            target="_blank"
-            href="https://armour.github.io/vue-typescript-admin-docs/"
-          >
-            <el-dropdown-item>
-              Docs
-            </el-dropdown-item>
-          </a>
           <el-dropdown-item divided>
             <span
               style="display:block;"
@@ -86,7 +73,7 @@ export default class extends Vue {
   }
 
   private async logout() {
-    await UserModule.LogOut({});
+    await UserModule.LogOut();
     this.$router.push(`/login?redirect=${this.$route.fullPath}`);
   }
 }

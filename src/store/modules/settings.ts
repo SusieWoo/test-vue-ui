@@ -1,6 +1,7 @@
 import { VuexModule, Module, Mutation, Action, getModule } from 'vuex-module-decorators'
 import store from '@/store'
 import defaultSettings from '@/settings'
+import elementVariables from '@/styles/element-variables.scss'
 
 export interface ISettingsState {
   theme: string
@@ -13,6 +14,7 @@ export interface ISettingsState {
 
 @Module({ dynamic: true, store, name: 'settings' })
 class Settings extends VuexModule implements ISettingsState {
+  public theme = elementVariables.theme
   public fixedHeader = defaultSettings.fixedHeader
   public showSettings = defaultSettings.showSettings
   public showTagsView = defaultSettings.showTagsView

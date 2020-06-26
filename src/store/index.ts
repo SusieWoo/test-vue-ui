@@ -12,7 +12,7 @@ export interface IRootState {
   user: IUserState,
   tagsView: ITagsViewState,
   permission: IPermissionState,
-  settings: ISettingsState,
+  settings: ISettingsState
 }
 
 export default new Vuex.Store<IRootState>({});

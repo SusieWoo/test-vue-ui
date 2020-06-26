@@ -1,7 +1,7 @@
 const path = require('path');
 const name = 'Vue Typescript Test';
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '' : '/', // TODO: Remember to change this to fit your need
+    publicPath: process.env.NODE_ENV === 'production' ? '' : '/', // TODO
     lintOnSave: process.env.NODE_ENV === 'development',
     pluginOptions: {
         'style-resources-loader': {
@@ -19,8 +19,5 @@ module.exports = {
     chainWebpack: config => {
         // 修复HMR
         config.resolve.symlinks(true);
-    },
-    pwa: {
-        name: name
     }
-};
+}

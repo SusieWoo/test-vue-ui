@@ -11,7 +11,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-import Bus from '@/common/bus.js';
+import Bus from '@/common/bus.ts';
 Bus.$on('XXXX-a', (data) => {});
 
 export default {
