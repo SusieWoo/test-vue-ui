@@ -14,7 +14,7 @@ export default class HelloWorld extends Vue {
   @Prop() private msg!: string;
     mounted() {
             Bus.$on('XXXX-a', (data:any) => {
-              console.log(data);
+//              console.log(data);
             });
         }
 }

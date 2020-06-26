@@ -10,7 +10,10 @@
     />
     <sidebar class="sidebar-container" />
     <div class="main-container">
-      <navbar />
+      <div :class="{'fixed-header': false}">
+        <navbar />
+        <tags-view />
+      </div>
       <app-main />
     </div>
   </div>
@@ -20,13 +23,13 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 import { DeviceType, AppModule } from '@/store/modules/app';
-import { AppMain, Sidebar, Navbar } from './components';
+import { AppMain, Sidebar, Navbar, TagsView } from './components';
 import ResizeMixin from './mixin/resize';
 
 @Component({
   name: 'Layout',
   components: {
-    AppMain, Sidebar, Navbar
+    AppMain, Sidebar, Navbar, TagsView
   }
 })
 export default class extends mixins(ResizeMixin) {

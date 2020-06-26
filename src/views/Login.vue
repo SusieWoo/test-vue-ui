@@ -1,19 +1,5 @@
 <template>
   <div class="login-container">
-      <div class="title-container">
-        <h3 class="title">
-          Login Form
-        </h3>
-      </div>
-
-      {{loginForm.username}}
-      <div style="position:relative">
-        <div class="tips">
-          <span> username: 15040123214 </span>
-          <span> password: 123456 </span>
-        </div>
-      </div>
-      <br>
       <router-link to="/dashboard">
 登陆进主页面
 </router-link> |
@@ -99,8 +85,12 @@ import { Dictionary } from 'vue-router/types/router';
 import { Form as ElForm, Input } from 'element-ui';
 import { UserModule } from '@/store/modules/user';
 import { isValidUsername } from '@/utils/validate';
+import LangSelect from '@/components/LangSelect/index.vue'
 @Component({
-  name: 'Login'
+  name: 'Login',
+    components: {
+        LangSelect
+    }
 })
 export default class extends Vue {
     private validateUsername = (rule: any, value: string, callback: Function) => {
@@ -166,9 +156,8 @@ export default class extends Vue {
             if (valid) {
                 this.loading = true;
                 await UserModule.Login(this.loginForm);
-                await UserModule.GetUserInfo();
                 this.$router.push({
-                    path: this.redirect || '/dashboard',
+                    path: this.redirect || '/',
                     query: this.otherQuery
                 });
                 // Just to simulate the time of the request

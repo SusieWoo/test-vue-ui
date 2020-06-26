@@ -31,7 +31,24 @@ module.exports = {
         "vue/html-indent":0,
         "no-multiple-empty-lines":0,
         "semi": [2, "always"],//语句强制分号结尾,
-        "indent": 0
+        "indent": 0,
+        '@typescript-eslint/ban-types': 'off',
+        '@typescript-eslint/explicit-module-boundary-types': 'off',
+        '@typescript-eslint/member-delimiter-style': ['error',
+            {
+                multiline: {
+                    delimiter: 'none'
+                },
+                singleline: {
+                    delimiter: 'comma'
+                }
+            }],
+        '@typescript-eslint/no-explicit-any': 'off',
+        'vue/array-bracket-spacing': 'error',
+        'vue/arrow-spacing': 'error',
+        'vue/block-spacing': 'error',
+        'vue/key-spacing': 'error',
+        'vue/object-curly-spacing': 'error'
     },
     'extends': [
         'eslint:recommended',

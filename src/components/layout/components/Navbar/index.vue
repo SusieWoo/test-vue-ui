@@ -59,11 +59,12 @@ import { AppModule } from '@/store/modules/app';
 import { UserModule } from '@/store/modules/user';
 import Breadcrumb from '@/components/layout/components/Breadcrumb/index.vue';
 import Hamburger from '@/components/layout/components/Hamburger/index.vue';
-
+import LangSelect from '@/components/LangSelect/index.vue'
 @Component({
   name: 'Navbar',
   components: {
     Breadcrumb,
+    LangSelect,
     Hamburger
   }
 })
