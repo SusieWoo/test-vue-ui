@@ -12,13 +12,9 @@ sass -》 less；用户信息存储；页面刷新 信息保留;websockt;时间�
 
 ## 兄弟组件传值
 
-import Bus from '@/common/bus.js';
-Bus.$emit('XXXX-a', data);
-Bus.$on('XXXX-a', (data) => {});
-Bus.$off("XXXX-a")
-
-## 分环境打包
-
+this.$bus.$emit('XXXX-a', data);
+this.$bus.$on('XXXX-a', (data) => {});
+this.$bus.$off("XXXX-a")
 
 
 ## 请求接口

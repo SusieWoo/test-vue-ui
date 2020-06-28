@@ -11,8 +11,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
-import Bus from '@/common/bus.js';
-Bus.$on('XXXX-a', (data) => {});
+
 
 export default {
   name: 'Dashboard',
@@ -26,7 +25,7 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      Bus.$emit('XXXX-a', {
+      this.$bus.$emit('XXXX-a', {
         res:1111
       });
     },1000);

@@ -3,16 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve:dev": "vue-cli-service serve --mode development --open",
-    "serve:test": "vue-cli-service serve --mode testing --open",
-    "serve:uat": "vue-cli-service serve --mode uat --open",
-    "serve:prod": "vue-cli-service serve --mode production --open",
-
+    "serve:dev": "vue-cli-service serve --mode development",
+    "serve:test": "vue-cli-service serve --mode testing",
+    "serve:uat": "vue-cli-service serve --mode uat",
+    "serve:prod": "vue-cli-service serve --mode production",
     "build:dev": "vue-cli-service build --mode development",
     "build:test": "vue-cli-service build --mode testing",
     "build:uat": "vue-cli-service build --mode uat",
     "build:prod": "vue-cli-service build --mode production",
-
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -30,10 +28,11 @@
     "vuex-module-decorators": "^0.10.1"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.10.3",
+    "@types/js-cookie": "^2.2.2",
+    "@types/webpack-env": "^1.14.0",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
-    "@vue/eslint-config-standard": "^4.0.0",
-    "@types/js-cookie": "^2.2.2",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-eslint": "~4.4.0",
     "@vue/cli-plugin-router": "~4.4.0",
@@ -41,22 +40,23 @@
     "@vue/cli-plugin-vuex": "~4.4.0",
     "@vue/cli-service": "~4.4.0",
     "@vue/eslint-config-prettier": "^6.0.0",
+    "@vue/eslint-config-standard": "^4.0.0",
     "@vue/eslint-config-typescript": "^5.0.2",
-    "@types/webpack-env": "^1.14.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.3",
+    "babel-plugin-component": "^1.1.1",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
     "less": "^3.0.4",
     "less-loader": "^5.0.0",
+    "prettier": "^1.19.1",
     "sass": "^1.22.10",
     "sass-loader": "^7.3.1",
     "style-resources-loader": "^1.2.1",
-    "prettier": "^1.19.1",
     "typescript": "~3.9.3",
-    "vue-template-compiler": "^2.6.11",
     "vue-cli-plugin-style-resources-loader": "^0.1.3",
+    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.39.3"
   }
 }
