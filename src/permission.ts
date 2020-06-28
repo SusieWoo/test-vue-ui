@@ -10,7 +10,7 @@ import settings from './settings'
 
 NProgress.configure({ showSpinner: false })
 
-const whiteList = ['/login', '/auth-redirect']
+const whiteList = ['/login']
 
 const getPageTitle = (key: string) => {
   const hasKey = i18n.te(`route.${key}`)
@@ -22,19 +22,16 @@ const getPageTitle = (key: string) => {
 }
 
 router.beforeEach(async(to: Route, _: Route, next: any) => {
-  // Start progress bar
   NProgress.start()
-  // Determine whether the user has logged in
   if (UserModule.token) {
     if (to.path === '/login') {
-      // If is logged in, redirect to the home page
       next({ path: '/' })
       NProgress.done()
     } else {
-      // Check whether the user has obtained his permission roles
       if (UserModule.roles.length === 0) {
         try {
           // Note: roles must be a object array! such as: ['admin'] or ['developer', 'editor']
+          //获取用户信息
           await UserModule.GetUserInfo()
           const roles = UserModule.roles
           // Generate accessible routes map based on role
@@ -43,11 +40,11 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
           router.addRoutes(PermissionModule.dynamicRoutes)
           // Hack: ensure addRoutes is complete
           // Set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
+          next({ ...to, replace: true }) /*...相当于它拷贝了一个to对象*/
         } catch (err) {
           // Remove token and redirect to login page
           UserModule.ResetToken()
-          Message.error(err || 'Has Error')
+          Message.error(err || '用户信息获取失败')
           next(`/login?redirect=${to.path}`)
           NProgress.done()
         }
@@ -56,7 +53,7 @@ router.beforeEach(async(to: Route, _: Route, next: any) => {
       }
     }
   } else {
-    // Has no token
+    // 没有token 白名单
     if (whiteList.indexOf(to.path) !== -1) {
       // In the free login whitelist, go directly
       next()
@@ -74,5 +71,5 @@ router.afterEach((to: Route) => {
   NProgress.done()
 
   // set page title
-  document.title = getPageTitle(to.meta.title)
+  // document.title = getPageTitle(to.meta.title)
 })

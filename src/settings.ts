@@ -6,21 +6,17 @@ interface ISettings {
   fixedHeader: boolean // If true, will fix the header component
   errorLog: string[] // The env to enable the errorlog component, default 'production' only
   sidebarTextTheme: boolean // If true, will change active text color for sidebar based on theme
-  devServerPort: number // Port number for webpack-dev-server
-  mockServerPort: number // Port number for mock server
 }
 
 // You can customize below settings :)
 const settings: ISettings = {
-  title: 'Vue Typescript Admin',
+  title: 'Test VUE fish',
   showSettings: true,
-  showTagsView: true,
-  fixedHeader: false,
-  showSidebarLogo: false,
+  showTagsView: true,//是否用tags标签打开路由 todo
+  fixedHeader: true,//是否固定头部 todo
+  showSidebarLogo: false,//是否显示左上方logo todo
   errorLog: ['production'],
   sidebarTextTheme: true,
-  devServerPort: 9527,
-  mockServerPort: 9528
 }
 
 export default settings

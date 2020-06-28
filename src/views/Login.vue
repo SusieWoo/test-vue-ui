@@ -195,6 +195,7 @@ export default class extends Vue {
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
       -webkit-appearance: none;
+      color:#fff;
     }
   }
 
@@ -202,7 +203,7 @@ export default class extends Vue {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.1);
     border-radius: 5px;
-    color: #454545;
+    color: #fff;
   }
 }
 </style>
@@ -213,6 +214,7 @@ export default class extends Vue {
         overflow: hidden;
         background-color: $loginBg;
 
+
         .login-form {
             position: relative;
             width: 520px;
@@ -220,6 +222,7 @@ export default class extends Vue {
             padding: 160px 35px 0;
             margin: 0 auto;
             overflow: hidden;
+            color: #fff;
         }
 
         .tips {

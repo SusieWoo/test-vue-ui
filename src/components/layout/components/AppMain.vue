@@ -4,9 +4,11 @@
             name="fade-transform"
             mode="out-in"
     >
-      <keep-alive :include="cachedViews">
-        <router-view :key="key" />
-      </keep-alive>
+      <div class="routerView">
+        <keep-alive :include="cachedViews">
+          <router-view :key="key" />
+        </keep-alive>
+      </div>
     </transition>
   </section>
 </template>
@@ -36,6 +38,9 @@
     width: 100%;
     position: relative;
     overflow: hidden;
+    .routerView{
+      margin:10px;
+    }
   }
 
   .fixed-header+.app-main {

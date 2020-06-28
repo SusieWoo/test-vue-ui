@@ -19,7 +19,7 @@
         @click.middle.native="!isAffix(tag)?closeSelectedTag(tag):''"
         @contextmenu.prevent.native="openMenu(tag, $event)"
       >
-        {{tag.title}}
+        {{$t('route.' + tag.meta.title)}}
         <span
           v-if="!isAffix(tag)"
           class="el-icon-close"
@@ -33,19 +33,19 @@
       class="contextmenu"
     >
       <li @click="refreshSelectedTag(selectedTag)">
-          刷新
+        {{ $t('tagsView.refresh') }}
       </li>
       <li
         v-if="!isAffix(selectedTag)"
         @click="closeSelectedTag(selectedTag)"
       >
-          关闭
+          {{$t('tagsView.close')}}
       </li>
       <li @click="closeOthersTags">
-          关闭其它
+        {{ $t('tagsView.closeOthers') }}
       </li>
       <li @click="closeAllTags(selectedTag)">
-          关闭所有
+        {{ $t('tagsView.closeAll') }}
       </li>
     </ul>
   </div>

@@ -11,11 +11,11 @@
         <span
           v-if="item.redirect === 'noredirect' || index === breadcrumbs.length-1"
           class="no-redirect"
-        >{{ item.meta.title }}</span>
+        >{{ $t('route.' + item.meta.title) }}</span>
         <a
           v-else
           @click.prevent="handleLink(item)"
-        >{{ item.meta.title }}</a>
+        >{{ $t('route.' + item.meta.title) }}</a>
       </el-breadcrumb-item>
     </transition-group>
   </el-breadcrumb>
@@ -52,7 +52,7 @@ export default class extends Vue {
     const first = matched[0];
     if (!this.isDashboard(first)) {
       matched = [
-        { path: '/dashboard', meta: { title: 'Dashboard' } } as RouteRecord
+        { path: '/dashboard', meta: { title: 'dashboard' } } as RouteRecord
       ].concat(matched);
     }
     this.breadcrumbs = matched.filter(item => {

@@ -25,14 +25,14 @@
         <el-dropdown-menu slot="dropdown">
           <router-link to="/">
             <el-dropdown-item>
-              Home
+              {{ $t('navbar.dashboard') }}
             </el-dropdown-item>
           </router-link>
           <el-dropdown-item divided>
             <span
               style="display:block;"
               @click="logout"
-            >LogOut</span>
+            >{{ $t('navbar.logOut') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

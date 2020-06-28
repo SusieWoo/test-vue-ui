@@ -62,7 +62,20 @@ service.interceptors.response.use(
           UserModule.ResetToken();
           location.reload(); // To prevent bugs from vue-router
         });
-      } else {
+      }else if (res.resultCode === 509) {
+            MessageBox.confirm(
+                '你已被登出，可以取消继续留在该页面，或者重新登录',
+                '确定登出',
+                {
+                    confirmButtonText: '重新登录',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }
+            ).then(() => {
+                UserModule.ResetToken()
+                location.reload() // To prevent bugs from vue-router
+            })
+        } else {
         Message({
           message: res.message || 'Error',
           type: 'error',

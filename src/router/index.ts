@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router, { RouteConfig } from 'vue-router'
 import Layout from '@/components/layout/index.vue';
+import nestedRouter from './modules/nested'
 
 Vue.use(Router)
 export const constantRoutes: RouteConfig[] = [
@@ -50,12 +51,13 @@ export const asyncRoutes: RouteConfig[] = [
         component: () => import(/* webpackChunkName: "pdf" */ '@/views/about/index.vue'),
         name: 'About',
         meta: {
-          title: '关于我们',
-          icon: 'pdf'
+          title: 'about',
+          icon: 'link'
         }
       }
     ]
   },
+  nestedRouter,
   {
     path: '/pdf',
     component: Layout,
@@ -67,7 +69,22 @@ export const asyncRoutes: RouteConfig[] = [
         name: 'PDF',
         meta: {
           title: 'pdf',
-          icon: 'pdf'
+          icon: 'example'
+        }
+      }
+    ]
+  },
+  {
+    path: '/i18n',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "i18n-demo" */ '@/views/i18n-demo/index.vue'),
+        name: 'I18n',
+        meta: {
+          title: 'i18n',
+          icon: 'form'
         }
       }
     ]
@@ -78,76 +95,6 @@ export const asyncRoutes: RouteConfig[] = [
     meta: { hidden: true }
   },
 ]
-
-const routes: Array<RouteConfig> = [
-  {
-    path: '/',
-    redirect: '/login'
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () =>
-      import(/* webpackChunkName: "login" */ '../views/Login.vue')
-  },
-  {
-    path: '/dashboard',
-    component: Layout,
-    redirect: '/dashboard',
-    children: [
-      {
-        path: '/dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
-        meta: {
-          title: 'Dashboard',
-          icon: 'dashboard'
-        }
-      }
-    ]
-  },
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/tree',
-    meta: {
-      title: 'Example',
-      icon: 'example'
-    },
-    children: [
-      {
-        path: 'table',
-        component: () => import(/* webpackChunkName: "table" */ '@/views/example/table/index.vue'),
-        meta: {
-          title: 'Table',
-          icon: 'table'
-        }
-      },
-      {
-        path: 'test',
-        component: () => import(/* webpackChunkName: "table" */ '@/views/example/test/index.vue'),
-        meta: {
-          title: 'Text',
-          icon: 'nested'
-        }
-      }
-    ]
-  },
-  {
-    path: '/about',
-    component: Layout,
-    redirect: '/about',
-    children: [
-      {
-        path: '/about',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
-        meta: {
-          title: 'About',
-          icon: 'user'
-        }
-      }
-    ]
-  }
-];
 
 const createRouter = () => new Router({
   // mode: 'history',  // Disabled due to Github Pages doesn't support this, enable this if you need.
