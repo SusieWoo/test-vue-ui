@@ -13,7 +13,6 @@ const nestedRoutes: RouteConfig = {
   children: [
     {
       path: 'menu1',
-      component: () => import(/* webpackChunkName: "menu1" */ '@/views/nested/menu1/index.vue'),
       redirect: '/nested/menu1/menu1-1',
       name: 'Menu1',
       meta: { title: 'menu1' },

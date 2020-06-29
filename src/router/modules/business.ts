@@ -4,6 +4,7 @@ import Layout from '@/components/layout/index.vue'
 const businessRoutes: RouteConfig = {
   path: '/business',
   component: Layout,
+
   name: 'Business',
   meta: {
     title: 'business',
@@ -14,7 +15,7 @@ const businessRoutes: RouteConfig = {
       path: 'app-config',
       name: 'App-config',
       meta: { title: 'app-config' },
-      redirect: '/views/app/business/app-config/banner',
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/app-config/app-config.vue'),
       children: [
         {
           path: 'banner',
