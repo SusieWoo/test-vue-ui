@@ -83,7 +83,7 @@ import {
   MessageBox,
   Message,
   Notification,
-  scrollbar
+  Scrollbar
 } from 'element-ui';
 
 
@@ -97,7 +97,7 @@ Vue.use(SvgIcon, {
   defaultHeight: '1em'
 });
 
-Vue.use(scrollbar);
+Vue.use(Scrollbar);
 Vue.use(Pagination);
 Vue.use(Dialog);
 Vue.use(Autocomplete);

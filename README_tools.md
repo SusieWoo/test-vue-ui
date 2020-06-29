@@ -16,6 +16,25 @@ this.$bus.$emit('XXXX-a', data);
 this.$bus.$on('XXXX-a', (data) => {});
 this.$bus.$off("XXXX-a")
 
+## 按需引入elementUi
+
+使用了element官网的方案实现按需引入，注引入el-scrollbar等类似的隐藏组件时，需要手动在element包中修改。
+如未使用ts，则可以忽略。
+
+# types文件夹中加入scrollbar.d.ts文件，入参根据引入组件不同，自行添加
+
+import { ElementUIComponent } from './component'
+
+export declare class ElScrollbar extends ElementUIComponent {
+
+  name:'scrollbar' ;
+
+}
+
+# element-ui.d.ts文件中加入一行
+
+export class Scrollbar extends ElScrollbar {}
+
 
 ## 请求接口
 ```
