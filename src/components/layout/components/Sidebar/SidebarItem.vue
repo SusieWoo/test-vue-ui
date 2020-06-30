@@ -146,14 +146,16 @@ export default class extends Vue {
 
       .el-submenu {
         overflow: hidden;
-
+        .el-menu-item{
+          height: 30px;
+          line-height: 30px;
+        }
         &>.el-submenu__title {
           padding: 0px !important;
 
           .el-submenu__icon-arrow {
             display: none;
           }
-
           &>span {
             visibility: hidden;
           }
