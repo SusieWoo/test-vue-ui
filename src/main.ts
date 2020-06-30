@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import '@/styles/element-variables.scss';
+
 import ElementUI from 'element-ui';
 import SvgIcon from 'vue-svgicon';
 import '@/icons/components';
@@ -11,7 +12,17 @@ import { AppModule } from '@/store/modules/app'
 import '@/permission'
 import '@/styles/index.scss'
 
+import HereMap from '@/components/HereMap'
+// import '@/styles/element-main.scss'
+
 Vue.config.productionTip = false;
+
+console.log(HereMap)
+Vue.use(HereMap, {
+  apiKey: 'W2tAflEZh_G8e84lx8ZmLtlQ9gFR5DAflxIBf0J_X9A',
+  customUICss: true
+})
+
 Vue.use(SvgIcon, {
   tagName: 'svg-icon',
   defaultWidth: '1em',

@@ -11,6 +11,7 @@ export default {
     'menu1-3': '菜单 1-3',
     menu2: '菜单 2',
     pdf: 'PDF打印',
+    here:'here 地图',
     clipboard: '粘贴板',
     i18n: '国际化',
   },
