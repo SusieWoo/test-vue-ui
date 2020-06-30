@@ -96,6 +96,7 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
+<<<<<<< HEAD
   {
     path: '/pdf-download-example',
     component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
@@ -118,7 +119,9 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
+=======
   businessRoutes
+>>>>>>> noi18
 ]
 
 const createRouter = () => new Router({

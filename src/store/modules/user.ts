@@ -55,10 +55,10 @@ class User extends VuexModule implements IUserState {
   }
 
   @Action
-  public async Login(userInfo: { username: string, password: string}) {
+  public async Login(userInfo: { username: string; password: string }) {
     let { username, password } = userInfo
     username = username.trim()
-    const { data } = await login({ loginName:username, password })
+    const { data } = await login({ loginName: username, password })
     setToken(data.token)
     this.SET_TOKEN(data.token)
   }
@@ -82,11 +82,12 @@ class User extends VuexModule implements IUserState {
     //todo 角色假数据
     // const { roles, name, avatar, introduction, email } = data
     const { roles, name, avatar, introduction, email } = {
-      avatar: "https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif",
-      email: "admin@test.com",
-      introduction: "I am a super administrator",
-      name: "Super Admin",
-      roles: ["admin"],}
+      avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+      email: 'admin@test.com',
+      introduction: 'I am a super administrator',
+      name: 'Super Admin',
+      roles: ['admin'],
+    }
 
     // roles must be a non-empty array
     if (!roles || roles.length <= 0) {

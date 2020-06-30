@@ -1,6 +1,6 @@
 <template>
-  <div style="padding:30px;">
-    31312312312312312
+  <div class="app-container">
+    <router-view></router-view>
   </div>
 </template>
 
@@ -8,7 +8,13 @@
 import { Component, Vue } from 'vue-property-decorator'
 
 @Component({
-  name: 'Menu1-1'
+  name: 'App-config'
 })
-export default class extends Vue {}
+export default class extends Vue {
+
+
+
+
+
+}
 </script>

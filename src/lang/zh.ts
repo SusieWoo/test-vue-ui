@@ -14,6 +14,10 @@ export default {
     here:'here 地图',
     clipboard: '粘贴板',
     i18n: '国际化',
+    business: '业务支撑',
+    'app-config': 'app页面配置',
+    banner: '页面配置',
+    screen: '开屏页配置',
   },
   navbar: {
     logOut: '退出登录',

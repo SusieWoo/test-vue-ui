@@ -96,28 +96,6 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  {
-    path: '/pdf-download-example',
-    component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
-    meta: { hidden: true }
-  },
-
-  {
-    path: '/heremap',
-    component: Layout,
-    redirect: '/pdf/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "pdf" */ '@/views/here/hereMap.vue'),
-        name: 'HERE',
-        meta: {
-          title: 'here',
-          elementIcon: 'el-icon-map-location'
-        }
-      }
-    ]
-  },
   businessRoutes
 ]
 

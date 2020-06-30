@@ -7,7 +7,6 @@
     "serve:test": "vue-cli-service serve --mode testing --open",
     "serve:uat": "vue-cli-service serve --mode uat --open",
     "serve:prod": "vue-cli-service serve --mode production --open",
-
     "build:dev": "vue-cli-service build --mode development",
     "build:test": "vue-cli-service build --mode testing",
     "build:uat": "vue-cli-service build --mode uat",

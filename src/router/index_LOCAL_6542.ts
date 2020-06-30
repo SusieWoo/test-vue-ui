@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Router, { RouteConfig } from 'vue-router'
 import Layout from '@/components/layout/index.vue';
 import nestedRouter from './modules/nested'
-import businessRoutes from './modules/business'
 
 Vue.use(Router)
 export const constantRoutes: RouteConfig[] = [
@@ -49,7 +48,7 @@ export const asyncRoutes: RouteConfig[] = [
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/about/index.vue'),
+        component: () => import(/* webpackChunkName: "pdf" */ '@/views/about/index.vue'),
         name: 'About',
         meta: {
           title: 'about',
@@ -74,12 +73,6 @@ export const asyncRoutes: RouteConfig[] = [
         }
       }
     ]
-  },
-  
-  {
-    path: '/pdf-download-example',
-    component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
-    meta: { hidden: true }
   },
   {
     path: '/i18n',
@@ -118,7 +111,6 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  businessRoutes
 ]
 
 const createRouter = () => new Router({

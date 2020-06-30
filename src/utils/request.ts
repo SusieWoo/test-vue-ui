@@ -9,26 +9,26 @@ const service = axios.create({
 });
 
 
+
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    // Add X-Access-Token header to every request, you can add other custom headers here
-    if (UserModule.token) {
-      config.headers['X-Access-Token'] = UserModule.token;
+    let token: string | undefined = 'ef6ea00da7e34fa1b211cbf1cbe0b341';
+    if (config.url === '/getUserInfo') {
+      token = getToken();
     }
-
-    /*todo 这里没有解决调用接口问题，get的入参*/
     let base = {
-        token : getToken(),
-        appType : 3
+      token: token,
+      appType: 3
     };
+    /*这里解决调用接口问题，get的入参*/
     if (config.method === 'post') {
-        config.data = config.data || {};
-        Object.assign(config.data,base);
+      config.data = config.data || {};
+      Object.assign(config.data, base);
     }
     if (config.method === 'get') {
-        config.params = config.params || {};
-        Object.assign(config.params,base);
+      config.params = config.params || {};
+      Object.assign(config.params, base);
     }
 
     return config;
@@ -62,20 +62,20 @@ service.interceptors.response.use(
           UserModule.ResetToken();
           location.reload(); // To prevent bugs from vue-router
         });
-      }else if (res.resultCode === 509) {
-            MessageBox.confirm(
-                '你已被登出，可以取消继续留在该页面，或者重新登录',
-                '确定登出',
-                {
-                    confirmButtonText: '重新登录',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }
-            ).then(() => {
-                UserModule.ResetToken()
-                location.reload() // To prevent bugs from vue-router
-            })
-        } else {
+      } else if (res.resultCode === 509) {
+        MessageBox.confirm(
+          '你已被登出，可以取消继续留在该页面，或者重新登录',
+          '确定登出',
+          {
+            confirmButtonText: '重新登录',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }
+        ).then(() => {
+          UserModule.ResetToken()
+          location.reload() // To prevent bugs from vue-router
+        })
+      } else {
         Message({
           message: res.message || 'Error',
           type: 'error',
