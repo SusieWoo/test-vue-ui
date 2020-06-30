@@ -13,7 +13,7 @@
   </el-tabs>
 </template>
 <script>
-import List from './list.vue';
+import List from './components/list.vue';
 export default {
   components: {
     List
