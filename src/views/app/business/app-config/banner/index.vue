@@ -4,11 +4,11 @@
            @tab-click="handleClick">
     <el-tab-pane label="车主版"
                  name="first">
-      <List :msg="type" />
+      <List ref="list" />
     </el-tab-pane>
     <el-tab-pane label="司机版"
                  name="second">
-      <List :msg="type" />
+      <List ref="list" />
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -20,16 +20,15 @@ export default {
   },
   data () {
     return {
-      activeName: 'first',
-      type: 1
+      activeName: 'first'
     };
   },
   methods: {
     handleClick (tab, event) {
       if (tab.name === 'first') {
-        this.type = 1;
+        this.$refs.list.handleTag(1)
       } else {
-        this.type = 2;
+        this.$refs.list.handleTag(2)
       }
     }
   }
