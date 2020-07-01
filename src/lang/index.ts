@@ -47,7 +47,7 @@ export const getLocale = () => {
   if (cookieLanguage) {
     return cookieLanguage
   }
-
+  // navigator.language 返回一个字符串,该字符串代表用户的首先语言，通常是浏览器使用的语言。navigator.language为只读属性。
   const language = navigator.language.toLowerCase()
   const locales = Object.keys(messages)
   for (const locale of locales) {

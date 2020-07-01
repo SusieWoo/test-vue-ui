@@ -48,3 +48,23 @@ export const logout = (params: any) =>
 ## PWA
 Progressive Web Apps 是 Google 提出的用前沿的 Web 技术为网页提供 App 般使用体验的一系列方案。这篇文章里我们来完成一个非常简单的 PWA 页面。
 一个 PWA 应用首先是一个网页, 可以通过 Web 技术编写出一个网页应用. 随后添加上 App Manifest 和 Service Worker 来实现 PWA 的安装和离线等功能。
+
+## 面包屑跳转问题
+把面包屑组件中 :to="item.redirect||item.path"这个改为:to="getGoToPath(item)"
+// 获取当前的链接路径
+
+getGoToPath(item) {
+     if (item.path) {
+          var path = item.path;
+          var startPos = path.indexOf(":");
+
+          if (startPos !== -1) {
+              var endPos = path.indexOf("/", startPos);
+              var key = path.substring(startPos + 1, endPos);
+              path = path.replace(":" + key, this.$route.params[key]);
+              return path;
+       }
+  }
+
+  return item.redirect || item.path;
+}

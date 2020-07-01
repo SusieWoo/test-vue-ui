@@ -3,6 +3,7 @@ import { RouteConfig } from 'vue-router'
 import { asyncRoutes, constantRoutes } from '@/router'
 import store from '@/store'
 
+// route.meta.roles 里写入可访问权限的角色
 const hasPermission = (roles: string[], route: RouteConfig) => {
   if (route.meta && route.meta.roles) {
     return roles.some(role => route.meta.roles.includes(role))
@@ -15,6 +16,7 @@ export const filterAsyncRoutes = (routes: RouteConfig[], roles: string[]) => {
   const res: RouteConfig[] = []
   routes.forEach(route => {
     const r = { ...route }
+    //判断是否路由允许该角色
     if (hasPermission(roles, r)) {
       if (r.children) {
         r.children = filterAsyncRoutes(r.children, roles)
@@ -44,10 +46,8 @@ class Permission extends VuexModule implements IPermissionState {
   @Action
   public GenerateRoutes(roles: string[]) {
     let accessedRoutes
-    console.log(roles);
-    
     /*todo 判断需要根据需求改*/
-   if (roles.includes('admin')) {
+    if (roles.includes('admin')) {
       accessedRoutes = asyncRoutes
     } else {
       accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)

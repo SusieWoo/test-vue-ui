@@ -34,6 +34,7 @@ module.exports = {
     "spaced-comment": 0,
     "eol-last": 0,
     "comma-spacing": 0,
+    "vue/html-quotes": ["error", "double"],
     "key-spacing": 0,
     "vue/html-indent": 0,
     "no-multiple-empty-lines": 0,

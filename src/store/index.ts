@@ -9,9 +9,9 @@ Vue.use(Vuex);
 
 export interface IRootState {
   app: IAppState
-  user: IUserState,
-  tagsView: ITagsViewState,
-  permission: IPermissionState,
+  user: IUserState
+  tagsView: ITagsViewState
+  permission: IPermissionState
   settings: ISettingsState
 }
 
