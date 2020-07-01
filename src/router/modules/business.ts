@@ -12,26 +12,25 @@ const businessRoutes: RouteConfig = {
   },
   children: [
     {
-      path: 'app-config',
-      name: 'App-config',
-      meta: { title: 'app-config' },
-      component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/app-config/app-config.vue'),
+      path: 'appConfig',
+      name: 'AppConfig',
+      meta: { title: 'appConfig' },
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/appConfig/appConfig.vue'),
       children: [
         {
           path: 'banner',
-          component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/app-config/banner/index.vue'),
+          component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/appConfig/banner/index.vue'),
           name: 'Banner',
           meta: { title: 'banner' }
         },
         {
           path: 'screen',
-          component: () => import(/* webpackChunkName: "screen" */ '@/views/app/business/app-config/screen/index.vue'),
+          component: () => import(/* webpackChunkName: "screen" */ '@/views/app/business/appConfig/screen/index.vue'),
           name: 'Screen',
           meta: { title: 'screen' }
         }
       ]
     },
-    
   ]
 }
 
