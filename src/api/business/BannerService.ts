@@ -13,3 +13,11 @@ export const MoveBannerInfo = (params: any) =>
     method: 'get',
     params
   });
+export const DelBannerInfo = (id: any) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/BannerInfo/DelBannerInfo',
+    method: 'post',
+    data: {
+      id: id
+    }
+  });

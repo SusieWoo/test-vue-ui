@@ -36,7 +36,7 @@
                   查询
                 </el-button>
                 <el-button type="primary"
-                           @click="getDriver">
+                           @click="edit">
                   新建
                 </el-button>
               </el-form-item>
@@ -94,7 +94,7 @@
               编辑
             </el-button>
             <el-button type="text"
-                       @click="del(scope)">
+                       @click="del(scope.row)">
               删除
             </el-button>
           </template>
@@ -110,19 +110,28 @@
                      @size-change="handleSizeChange"
                      @current-change="handleCurrentChange" />
     </el-row>
+    <Edit :id="editId"
+          :open="showModal"
+          :type="type"
+          @confirm="closeModal" />
   </div>
 </template>
 
 <script>
-import { QueryBannerInfo, MoveBannerInfo } from '@/api/business/BannerService';
+import { QueryBannerInfo, MoveBannerInfo, DelBannerInfo } from '@/api/business/BannerService';
 import { basedata } from '@/api/public/PublicService';
+import Edit from './edit';
 
 export default {
   name: 'List',
+  components: {
+    Edit
+  },
   data () {
     return {
       Data: [],
       type: 1,
+      showModal: false,
       query: {
         type: 1,
         page_number: 1,
@@ -144,17 +153,20 @@ export default {
       this.query.page_size = pageSize;
       this.getDriver();
     },
+    closeModal (pageSize) {
+      this.showModal = false;
+    },
     async getSortInsurance (Sort) {
       await MoveBannerInfo(Sort)
       this.getDriver();
     },
     async up (obj, s) {
       const Id = obj.id;
-      let id_change = null;
-      let type_change = null;
+      let idChange = null;
+      let typeChange = null;
       if (!s - 1 < 0) {
-        id_change = this.Data[s - 1].id;
-        type_change = this.Data[s - 1].bannerType;
+        idChange = this.Data[s - 1].id;
+        typeChange = this.Data[s - 1].bannerType;
       } else {
         return;
       }
@@ -162,21 +174,21 @@ export default {
       const SortInsurance = {
         moveToType: obj.bannerType,
         moveId: Id,
-        moveType: type_change,
-        moveToId: id_change
+        moveType: typeChange,
+        moveToId: idChange
       };
       this.getSortInsurance(SortInsurance);
     },
     async down (obj, s) {
       const Id = obj.id;
-      let id_change = mydata[s + 1].id;
-      let type_change = mydata[s + 1].bannerType;
+      let idChange = this.Data[s + 1].id;
+      let typeChange = this.Data[s + 1].bannerType;
 
       const SortInsurance = {
         moveToType: obj.bannerType,
         moveId: Id,
-        moveType: type_change,
-        moveToId: id_change
+        moveType: typeChange,
+        moveToId: idChange
       };
       this.getSortInsurance(SortInsurance);
     },
@@ -184,13 +196,26 @@ export default {
       const res = await QueryBannerInfo(this.query)
       console.log(row, res)
     },
-    async edit (row) {
-      const res = await QueryBannerInfo(this.query)
-      console.log(row, res)
+    edit (row) {
+      this.showModal = true
     },
-    async del (row) {
-      const res = await QueryBannerInfo(this.query)
-      console.log(row, res)
+    async delBannerInfo (id) {
+      await DelBannerInfo(id)
+      this.getDriver();
+      this.$message({
+        type: 'success',
+        message: '删除成功!'
+      });
+    },
+    del (row) {
+      this.$confirm('确定删除 ' + row.bannerName + ' banner吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.delBannerInfo(row.id)
+      }).catch(() => {
+      });
     },
     async getDriver () {
       const params = this.query;
@@ -215,7 +240,6 @@ export default {
           break;
         default: type = 'A';
       }
-      console.log({ type: type, code: 'BAN1' })
       const res = await basedata({ type: type, code: 'BAN1' })
       this.bannerTypeList = res.data.list;
     },
