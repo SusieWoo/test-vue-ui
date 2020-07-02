@@ -23,12 +23,12 @@ export default {
       default: false
     },
     id: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 0
     },
     type: {
-      type: String,
-      default: ''
+      type: Number,
+      default: 1
     }
 
   },
@@ -42,6 +42,9 @@ export default {
         console.log(1)
       }
     }
+  },
+  mounted () {
+    console.log(this.open, this.id, this.type);
   },
   methods: {
     cancel: function () {

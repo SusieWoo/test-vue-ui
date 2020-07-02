@@ -131,6 +131,8 @@ export default {
     return {
       Data: [],
       type: 1,
+      editId: 1,
+      total: 0,
       showModal: false,
       query: {
         type: 1,

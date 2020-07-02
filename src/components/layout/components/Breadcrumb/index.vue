@@ -53,7 +53,7 @@ export default class extends Vue {
   }
 
   private isDashboard(route: RouteRecord) {
-    const name = route && route.meta && route.meta.title;
+    const name = route && route.name;
     return name === "Dashboard";
   }
 
