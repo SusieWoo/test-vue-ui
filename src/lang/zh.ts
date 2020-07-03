@@ -15,6 +15,7 @@ export default {
     clipboard: '粘贴板',
     i18n: '国际化',
     business: '业务支撑',
+    carGroup: '车队管理',
     appConfig: 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',

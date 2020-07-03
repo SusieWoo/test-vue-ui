@@ -12,6 +12,12 @@ const businessRoutes: RouteConfig = {
   },
   children: [
     {
+      path: 'carGroup',
+      name: 'CarGroup',
+      meta: { title: 'carGroup' },
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/carGroup/index.vue'),
+    },
+    {
       path: 'appConfig',
       name: 'AppConfig',
       meta: { title: 'appConfig' },
