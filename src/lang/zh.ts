@@ -74,14 +74,10 @@ export default {
     discharge: '排放',
     arStatus: '当前车辆状态',
     province: '所属省',
-<<<<<<< HEAD
     city: '所属市',
     reasonAlert:'请输入解绑原因'
     
 
 
-=======
-    city: '所属市'
->>>>>>> noi18-guowang
   }
 }
