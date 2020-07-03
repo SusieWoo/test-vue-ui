@@ -68,3 +68,6 @@ getGoToPath(item) {
 
   return item.redirect || item.path;
 }
+
+## loading 写到对应div
+ v-loading.fullscreen.lock="fullscreenLoading"

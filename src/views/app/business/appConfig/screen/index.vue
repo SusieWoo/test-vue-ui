@@ -44,7 +44,8 @@
                            :value="item.key" />
               </el-select>
             </el-form-item>
-            <el-form-item label="跳转页面">
+            <el-form-item label="跳转页面"
+                          prop="name">
               <el-input v-model="row.name" />
             </el-form-item>
             <el-form-item>
@@ -77,10 +78,10 @@ export default {
       },
       finishUpload: true,
       rules: {
-        activityName: [
+        name: [
           { required: true, message: '必填', trigger: 'change' },
           { validator: checkString, trigger: 'change' },
-          { max: 100, message: '输入长度不可超过100', trigger: 'change' }
+          { max: 3, message: '输入长度不可超过3', trigger: 'change' }
         ]
       },
       bannerStatus: [{ key: '1', value: '上线' }, { key: '0', value: '下线' }],
