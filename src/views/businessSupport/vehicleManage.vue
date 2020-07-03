@@ -315,6 +315,7 @@ export default {
 
     clear() {},
     async getList() {
+      console.log('search')
       const re = await carBindList(this.querys);
       this.tableData = re.data.list;
       this.total = re.data.total;
