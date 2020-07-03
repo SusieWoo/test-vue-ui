@@ -11,14 +11,14 @@ export default {
     'menu1-3': '菜单 1-3',
     menu2: '菜单 2',
     pdf: 'PDF打印',
-    here:'here 地图',
+    here: 'here 地图',
     clipboard: '粘贴板',
     i18n: '国际化',
     business: '业务支撑',
     appConfig: 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',
-    vehicleManage:'车辆绑定管理'
+    vehicleManage: '车辆绑定管理',
   },
   navbar: {
     logOut: '退出登录',
@@ -42,5 +42,35 @@ export default {
     close: '关闭',
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
+  },
+  common: {
+    search: '搜索',
+    clear: '清空',
+    all: '全部',
+    select: '请选择',
+    beginDate: '选择起始日期',
+    endDate: '选择截止日期',
+    yes: '是',
+    no: '否',
+    to: '至',
+  },
+  business: {
+    bindTeam: '绑定车队',
+    unbindHistory: '解绑记录',
+    vin: '车辆VIN',
+    phone: '用户手机号',
+    motor: '发动机号',
+    firstBind: '车辆首次绑定',
+    pvin: '请输入车辆VIN',
+    pphone: '请输入用户手机号',
+    pmotor: '请输入发动机号',
+    carType: '车型',
+    carSeries: '车系',
+    discharge: '排放',
+    arStatus: '当前车辆状态',
+    province: '所属省',
+    city: '所属市'
+
+
   }
 }

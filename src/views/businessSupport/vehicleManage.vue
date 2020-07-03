@@ -1,31 +1,34 @@
 <template>
   <div class="vehicle-manage">
-    <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-      <el-tab-pane label="全部" name="all"></el-tab-pane>
-      <el-tab-pane label="绑定车队" name="1"></el-tab-pane>
-      <el-tab-pane label="解绑记录" name="0"></el-tab-pane>
+    <el-tabs v-model="activeName" type="card">
+      <el-tab-pane :label="$t('common.all')" name="all"></el-tab-pane>
+      <el-tab-pane :label="$t('business.bindTeam')" name="1"></el-tab-pane>
+      <el-tab-pane :label="$t('business.unbindHistory')" name="0"></el-tab-pane>
     </el-tabs>
     <el-card class="card-panel">
       <el-form :inline="true" :model="querys" label-position="left">
-        <el-form-item label="车辆VIN">
-          <el-input v-model="querys.vin" placeholder="请输入车辆VIN" />
+        <el-form-item :label="$t('business.vin')">
+          <el-input v-model="querys.vin" :placeholder="$t('business.pvin')" />
         </el-form-item>
-        <el-form-item label="用户手机号">
-          <el-input v-model="querys.phone" placeholder="请输入用户手机号" />
+        <el-form-item :label="$t('business.phone')">
+          <el-input v-model="querys.phone" :placeholder="$t('business.pphone')" />
         </el-form-item>
-        <el-form-item label="发动机号">
-          <el-input v-model="querys.engineNum" placeholder="请输入发动机号" />
+        <el-form-item :label="$t('business.motor')">
+          <el-input v-model="querys.engineNum" :placeholder="$t('business.pmotor')" />
         </el-form-item>
 
         <el-form-item>
-          <el-button type="primary" icon="el-icon-search" @click="getList">搜索</el-button>
+          <el-button type="primary" icon="el-icon-search" @click="getList">{{$t('common.search')}}</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-delete" @click="clear">{{$t('common.clear')}}</el-button>
         </el-form-item>
 
         <com-search>
           <template>
             <span slot="item">
-              <el-form-item label="车辆首次绑定">
-                <el-select v-model="querys.firstBind" class="search-item" placeholder="请选择">
+              <el-form-item :label="$t('business.firstBind')">
+                <el-select v-model="querys.firstBind" class="search-item" :placeholder="$t('common.select')">
                   <el-option
                     v-for="item in bindList"
                     :key="item.value"
@@ -39,7 +42,7 @@
                   v-model="querys.excuteStart"
                   class="search-item"
                   type="date"
-                  placeholder="选择起始日期"
+                  :placeholder="$t('common.beginDate')"
                 ></el-date-picker>
               </el-form-item>
               <el-form-item label="至">
@@ -47,13 +50,13 @@
                   v-model="querys.excuteEnd"
                   class="search-item"
                   type="date"
-                  placeholder="选择截止日期"
+                  :placeholder="$t('common.endDate')"
                 ></el-date-picker>
               </el-form-item>
-              <el-form-item label="车系">
+              <el-form-item :label="$t('business.carSeries')">
                 <multiple-select :width="160" isLabelData :data="treeData" v-model="querys.series"></multiple-select>
               </el-form-item>
-              <el-form-item label="车型">
+              <el-form-item :label="$t('business.carType')">
                 <el-select v-model="querys.type" multiple class="search-item" placeholder="请选择车系">
                   <el-option
                     v-for="(item,index) in seriesList "
@@ -63,11 +66,11 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="排放：">
+              <el-form-item :label="$t('business.discharge')">
                 <el-input v-model="querys.dischargeId" placeholder="请选择排放" />
               </el-form-item>
 
-              <el-form-item label="当前车辆状态">
+              <el-form-item :label="$t('business.arStatus')">
                 <el-select v-model="querys.arStatus" class="search-item" placeholder="请选择当前车辆状态">
                   <el-option
                     v-for="item in bindList"
@@ -77,7 +80,7 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="所属省：">
+              <el-form-item :label="$t('business.province')">
                 <el-select
                   v-model="querys.provinceId"
                   @change="changeArea"
@@ -92,7 +95,7 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item label="市：">
+              <el-form-item :label="$t('business.city')">
                 <el-select v-model="querys.cityId" class="search-item" placeholder="请选择市">
                   <el-option
                     v-for="item in cityList "
@@ -108,31 +111,88 @@
       </el-form>
     </el-card>
 
-
+    <el-table class='t-table' stripe :data="tableData" style="width: 100%">
+      <el-table-column prop="date" align="center" label="事项" width="80">
+        <template slot-scope="scope">
+          <span>{{scope.row.excuteType==1?'绑定':scope.row.excuteType==0?'解绑':''}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="carVin" align="center" label="VIN" width="180"></el-table-column>
+      <el-table-column prop="carStatus" align="center" label="车辆当前状态" width="120"></el-table-column>
+      <el-table-column prop="firstBind" align="center" label="车辆首次绑定" width="120">
+        <template slot-scope="scope" align="center">
+          <span>{{scope.row.firstBind==1?'是':scope.row.firstBind==0?'否':''}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="phone" align="center" label="车队" width="120"></el-table-column>
+      <el-table-column prop="seriesName" align="center" label="车系" width="80"></el-table-column>
+      <el-table-column prop="modelName" align="center" label="车型" width="120"></el-table-column>
+      <el-table-column prop="dischargeName" align="center" label="排放" width="80"></el-table-column>
+      <el-table-column prop="provinceName" align="center" label="所属省" width="80"></el-table-column>
+      <el-table-column prop="cityName" align="center" label="所属市" width="80"></el-table-column>
+      <el-table-column prop="excutePerson" align="center" label="处理人"  width="80"></el-table-column>
+      <el-table-column prop="excuteTime" align="center" label="处理时间"  width="160"></el-table-column>
+      <el-table-column fixed="right" align="center" label="操作" width="120">
+        <template>
+          <el-button type="text" size="small">查看详情</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+     <!-- 分页组件 start -->
+    <pagination
+      v-show="total>0"
+      :total="total"
+      :page.sync="querys.page_number"
+      :limit.sync="querys.page_size"
+      @pagination="getList"
+    />
+    <!-- 分页组件 end -->
+    
   </div>
 </template>
 
 <script>
 import {
   queryCarPropertyForMaintains,
-  queryArea
+  queryArea,
+  carBindList
 } from "@/api/business/businessService";
 
+
+import pagination from '@/components/pagination'; 
 import multipleSelect from "@/components/multipleSelect";
 import comSearch from "@/components/comSearch";
+
 export default {
   components: {
     multipleSelect,
-    comSearch
+    comSearch,
+    pagination
   },
   data() {
     return {
-      activeName: "",
+      total:0,
       querys: {
-        provinceId: ""
+        page_number: 1,
+        page_size: 10,
+        carStatus: "",
+        carVin: "",
+        cityId: "",
+        dischargeId: "",
+        excuteEnd: "",
+        excuteStart: "",
+        excuteType: "",
+        firstBind: "",
+        model: "",
+        phone: "",
+        provinceId: "",
+        series: ""
       },
+      tableData: [],
+
+      activeName: "",
       bindList: [
-        { label: "全部", value: null },
+        { label: '全部', value: null },
         { label: "是", value: 1 },
         { label: "否", value: 0 }
       ],
@@ -152,12 +212,17 @@ export default {
   mounted() {
     this.getSeriesList();
     this.getProvinceList();
+    this.getList();
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(this.multiValue);
+    clear(){
+
     },
-    getList() {},
+    async getList() {
+      const re = await carBindList(this.querys);
+      this.tableData = re.data.list
+      this.total = re.data.total
+    },
     async getSeriesList() {
       const re = await queryCarPropertyForMaintains();
       this.seriesList = re.data;
@@ -167,11 +232,9 @@ export default {
           label: item
         };
       });
-      // console.log(this.treeData )
     },
     changeArea() {
-      // console.log(this.querys.provinceId);
-      this.querys.cityId = ""
+      this.querys.cityId = "";
       this.getProvinceList(this.querys.provinceId);
     },
     async getProvinceList(id) {
