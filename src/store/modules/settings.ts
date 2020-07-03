@@ -6,7 +6,6 @@ import elementVariables from '@/styles/element-variables.scss'
 export interface ISettingsState {
   theme: string
   fixedHeader: boolean
-  showSettings: boolean
   showTagsView: boolean
   showSidebarLogo: boolean
   sidebarTextTheme: boolean
@@ -16,13 +15,12 @@ export interface ISettingsState {
 class Settings extends VuexModule implements ISettingsState {
   public theme = elementVariables.theme
   public fixedHeader = defaultSettings.fixedHeader
-  public showSettings = defaultSettings.showSettings
   public showTagsView = defaultSettings.showTagsView
   public showSidebarLogo = defaultSettings.showSidebarLogo
   public sidebarTextTheme = defaultSettings.sidebarTextTheme
 
   @Mutation
-  private CHANGE_SETTING(payload: { key: string, value: any }) {
+  private CHANGE_SETTING(payload: { key: string; value: any }) {
     const { key, value } = payload
     if (Object.prototype.hasOwnProperty.call(this, key)) {
       (this as any)[key] = value
@@ -30,7 +28,7 @@ class Settings extends VuexModule implements ISettingsState {
   }
 
   @Action
-  public ChangeSetting(payload: { key: string, value: any}) {
+  public ChangeSetting(payload: { key: string; value: any }) {
     this.CHANGE_SETTING(payload)
   }
 }

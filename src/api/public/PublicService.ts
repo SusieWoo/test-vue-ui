@@ -10,3 +10,10 @@ export const basedata = (params: any) =>
     method: 'get',
     params
   });
+//图片上传
+export const uploadImageAndCrtThumbImage = (data: any) =>
+  request({
+    url: process.env.VUE_APP_UPLOAD_API + 'uploadImageAndCrtThumbImage',
+    method: 'post',
+    data
+  });

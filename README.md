@@ -7,7 +7,7 @@ yarn install
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve:prod
+yarn serve:dev
 ```
 
 ### Compiles and minifies for production

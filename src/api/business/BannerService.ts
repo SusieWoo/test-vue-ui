@@ -21,3 +21,15 @@ export const DelBannerInfo = (id: any) =>
       id: id
     }
   });
+export const getCustomFilelList = (params: any) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/servicestation/activity/query',
+    method: 'get',
+    params
+  });
+export const update = (params: any) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/servicestation/activity/update',
+    method: 'get',
+    params
+  });
