@@ -3,7 +3,7 @@
     <el-form-item>
       <el-button
         type="text"
-        :icon="[isShow?'el-icon-caret-bottom':'el-icon-caret-top']"
+        :icon="getIcon"
         @click="toggleShow"
       >高级筛选</el-button>
     </el-form-item>
@@ -21,6 +21,10 @@ export default class ComSearch extends Vue {
   private isShow: boolean = false;
   private toggleShow() {
     this.isShow = !this.isShow;
+  }
+  public get getIcon() {
+    let i = this.isShow?'el-icon-caret-bottom':'el-icon-caret-top'
+    return "computed " + i;
   }
 }
 </script>

@@ -23,7 +23,7 @@
 
         <com-search>
           <template>
-            <span style="" slot="item">
+            <span slot="item">
               <el-form-item label="车辆首次绑定">
                 <el-select v-model="querys.firstBind" class="search-item" placeholder="请选择">
                   <el-option
@@ -107,6 +107,8 @@
         </com-search>
       </el-form>
     </el-card>
+
+
   </div>
 </template>
 
@@ -169,6 +171,7 @@ export default {
     },
     changeArea() {
       // console.log(this.querys.provinceId);
+      this.querys.cityId = ""
       this.getProvinceList(this.querys.provinceId);
     },
     async getProvinceList(id) {
