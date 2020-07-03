@@ -18,6 +18,7 @@ export default {
     'app-config': 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',
+    vehicleManage:'车辆绑定管理'
   },
   navbar: {
     logOut: '退出登录',

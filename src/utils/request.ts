@@ -13,7 +13,7 @@ const service = axios.create({
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '47ab05edb8754fc0bf418b28bf22d418';
+    let token: string | undefined = 'eb7bf2cd267241c4bb2d7568f0b472c7';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }

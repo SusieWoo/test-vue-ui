@@ -27,7 +27,7 @@
       :draggable="true"
       :volatility="true"
       :rotation="180"
-    >
+    />
     </h-map>
     </div>
    

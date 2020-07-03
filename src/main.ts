@@ -2,7 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import '@/styles/element-variables.scss';
+// import '@/styles/element-variables.scss';
+import '@/styles/element-main.scss';
 
 import ElementUI from 'element-ui';
 import SvgIcon from 'vue-svgicon';
@@ -13,7 +14,6 @@ import '@/permission'
 import '@/styles/index.scss'
 
 import HereMap from '@/components/HereMap'
-// import '@/styles/element-main.scss'
 
 Vue.config.productionTip = false;
 
