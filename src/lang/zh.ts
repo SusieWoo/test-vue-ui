@@ -45,6 +45,8 @@ export default {
     closeAll: '关闭所有'
   },
   common: {
+    confirm: '确定',
+    cancel: '取消',
     search: '搜索',
     clear: '清空',
     all: '全部',
@@ -54,6 +56,8 @@ export default {
     yes: '是',
     no: '否',
     to: '至',
+    bind: '绑定',
+    unbind: '解绑'
   },
   business: {
     bindTeam: '绑定车队',
@@ -70,7 +74,9 @@ export default {
     discharge: '排放',
     arStatus: '当前车辆状态',
     province: '所属省',
-    city: '所属市'
+    city: '所属市',
+    reasonAlert:'请输入解绑原因'
+    
 
 
   }

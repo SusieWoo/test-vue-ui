@@ -5,17 +5,19 @@
       <el-tab-pane :label="$t('business.bindTeam')" name="1"></el-tab-pane>
       <el-tab-pane :label="$t('business.unbindHistory')" name="0"></el-tab-pane>
     </el-tabs>
+
+    <!-- 查询条件start -->
     <el-card class="card-panel">
       <el-form :inline="true" :model="querys" label-position="left">
         <el-form-item :label="$t('business.vin')">
           <el-input v-model="querys.vin" :placeholder="$t('business.pvin')" />
         </el-form-item>
         <el-form-item :label="$t('business.phone')">
-          <el-input v-model="querys.phone" :placeholder="$t('business.pphone')" />
+          <el-input type="number" v-model="querys.phone" :placeholder="$t('business.pphone')" />
         </el-form-item>
-        <el-form-item :label="$t('business.motor')">
+        <!-- <el-form-item :label="$t('business.motor')">
           <el-input v-model="querys.engineNum" :placeholder="$t('business.pmotor')" />
-        </el-form-item>
+        </el-form-item>-->
 
         <el-form-item>
           <el-button type="primary" icon="el-icon-search" @click="getList">{{$t('common.search')}}</el-button>
@@ -28,7 +30,11 @@
           <template>
             <span slot="item">
               <el-form-item :label="$t('business.firstBind')">
-                <el-select v-model="querys.firstBind" class="search-item" :placeholder="$t('common.select')">
+                <el-select
+                  v-model="querys.firstBind"
+                  class="search-item"
+                  :placeholder="$t('common.select')"
+                >
                   <el-option
                     v-for="item in bindList"
                     :key="item.value"
@@ -40,6 +46,7 @@
               <el-form-item label="处理时间">
                 <el-date-picker
                   v-model="querys.excuteStart"
+                  value-format="yyyy-MM-dd"
                   class="search-item"
                   type="date"
                   :placeholder="$t('common.beginDate')"
@@ -49,6 +56,7 @@
                 <el-date-picker
                   v-model="querys.excuteEnd"
                   class="search-item"
+                  value-format="yyyy-MM-dd"
                   type="date"
                   :placeholder="$t('common.endDate')"
                 ></el-date-picker>
@@ -110,11 +118,13 @@
         </com-search>
       </el-form>
     </el-card>
+    <!-- 查询条件end -->
 
-    <el-table class='t-table' stripe :data="tableData" style="width: 100%">
+    <!-- 表格start -->
+    <el-table class="t-table" stripe :data="tableData" style="width: 100%">
       <el-table-column prop="date" align="center" label="事项" width="80">
         <template slot-scope="scope">
-          <span>{{scope.row.excuteType==1?'绑定':scope.row.excuteType==0?'解绑':''}}</span>
+          <span>{{scope.row.excuteType==1?$t('common.bind'):scope.row.excuteType==0?$t('common.unbind'):''}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="carVin" align="center" label="VIN" width="180"></el-table-column>
@@ -130,15 +140,48 @@
       <el-table-column prop="dischargeName" align="center" label="排放" width="80"></el-table-column>
       <el-table-column prop="provinceName" align="center" label="所属省" width="80"></el-table-column>
       <el-table-column prop="cityName" align="center" label="所属市" width="80"></el-table-column>
-      <el-table-column prop="excutePerson" align="center" label="处理人"  width="80"></el-table-column>
-      <el-table-column prop="excuteTime" align="center" label="处理时间"  width="160"></el-table-column>
+      <el-table-column prop="excutePerson" align="center" label="处理人" width="80"></el-table-column>
+      <el-table-column prop="excuteTime" align="center" label="处理时间" width="160"></el-table-column>
       <el-table-column fixed="right" align="center" label="操作" width="120">
-        <template>
-          <el-button type="text" size="small">查看详情</el-button>
+        <template slot-scope="scope">
+          <el-popover placement="left" width="500" trigger="click">
+            <div class="center">详情数据</div>
+            <div class="list">
+              <span>身份证(组织机构代码):</span>
+              <span class="red ml-10">{{detail.organizatione}}</span>
+            </div>
+            <div class="list">
+              <span>发票号:</span>
+              <span class="red ml-10">{{detail.invoiceNo}}</span>
+            </div>
+            <div class="list">
+              <span>处理时间:</span>
+              <span class="red ml-10">{{detail.excuteTime}}</span>
+            </div>
+            <div class="list">
+              <span>处理人:</span>
+              <span class="red ml-10">{{detail.excutePerson}}</span>
+            </div>
+            <el-button
+              slot="reference"
+              type="text"
+              @click="getDetail(scope.row.reviewId)"
+              size="small"
+            >查看详情</el-button>
+          </el-popover>
+
+          <el-button
+            class="ml-10"
+            v-if="scope.row.excuteType==1"
+            type="text"
+            @click="showDialog(scope.row.reviewId)"
+            size="small"
+          >{{$t('common.unbind')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
-     <!-- 分页组件 start -->
+    <!-- 表格end-->
+    <!-- 分页start -->
     <pagination
       v-show="total>0"
       :total="total"
@@ -146,8 +189,28 @@
       :limit.sync="querys.page_size"
       @pagination="getList"
     />
-    <!-- 分页组件 end -->
-    
+    <!-- 分页 end -->
+
+    <!-- 弹窗start -->
+    <el-dialog title="确认解绑该车辆吗？" :visible.sync="bindDialogVisible" width="30%">
+      <span class="red">*</span>
+      <span>解绑操作将导致APP用户所加的车辆失效和数据丢失，请确认是否进行该操作。</span>
+
+      <el-input
+        style="margin-top:10px"
+        type="textarea"
+        :rows="4"
+        placeholder="请输入原因(必填)，不能超过100字"
+        v-model="reason"
+      ></el-input>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="bindDialogVisible = false">{{$t('common.cancel')}}</el-button>
+        <el-button type="primary" @click="unbindData">{{$t('common.unbind')}}</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 弹窗end -->
   </div>
 </template>
 
@@ -155,11 +218,12 @@
 import {
   queryCarPropertyForMaintains,
   queryArea,
-  carBindList
+  carBindList,
+  carBindDetail,
+  carUnBind
 } from "@/api/business/businessService";
 
-
-import pagination from '@/components/pagination'; 
+import pagination from "@/components/pagination";
 import multipleSelect from "@/components/multipleSelect";
 import comSearch from "@/components/comSearch";
 
@@ -171,7 +235,7 @@ export default {
   },
   data() {
     return {
-      total:0,
+      total: 0,
       querys: {
         page_number: 1,
         page_size: 10,
@@ -189,10 +253,11 @@ export default {
         series: ""
       },
       tableData: [],
-
+      detailList: [],
+      detail: {},
       activeName: "",
       bindList: [
-        { label: '全部', value: null },
+        { label: "全部", value: null },
         { label: "是", value: 1 },
         { label: "否", value: 0 }
       ],
@@ -205,7 +270,11 @@ export default {
       ProvinceList: [],
       cityList: [],
       treeData: [],
-      multiValue: ""
+      multiValue: "",
+      dialogVisible: false,
+      bindDialogVisible: false,
+      reason: "",
+      eviewId: ""
     };
   },
   watch: {},
@@ -215,13 +284,40 @@ export default {
     this.getList();
   },
   methods: {
-    clear(){
-
+    unbindData(id) {
+      if (!this.reason) {
+        this.$message.warning(this.$t("business.reasonAlert"));
+        return false;
+      }
+      this.unBindFn();
     },
+    async unBindFn() {
+      const params = {
+        reviewId: this.reviewId,
+        advice: this.reason,
+        tbossUserName: "lianxue"
+      };
+      const re = await carUnBind(params);
+      if (re.data.resultCode === 200) {
+        this.$message.success("解绑成功");
+        this.getList();
+      }
+    },
+
+    async getDetail(id) {
+      const re = await carBindDetail({ reviewId: id });
+      this.detail = re.data;
+    },
+    showDialog(id) {
+      this.bindDialogVisible = true;
+      this.reviewId = id;
+    },
+
+    clear() {},
     async getList() {
       const re = await carBindList(this.querys);
-      this.tableData = re.data.list
-      this.total = re.data.total
+      this.tableData = re.data.list;
+      this.total = re.data.total;
     },
     async getSeriesList() {
       const re = await queryCarPropertyForMaintains();
@@ -250,7 +346,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.collapse-select {
-  padding: 0 20px;
+.vehicle-manage {
+  .collapse-select {
+    padding: 0 20px;
+  }
+  .ml-10 {
+    margin-left: 10px;
+  }
+  .list {
+    padding: 10px 5px;
+    border-bottom: 1px solid #dfe6ec;
+  }
+  .red {
+    color: $red;
+  }
+  .center {
+    text-align: center;
+    border-bottom: 1px solid #dfe6ec;
+    padding-bottom: 10px;
+  }
 }
 </style>
