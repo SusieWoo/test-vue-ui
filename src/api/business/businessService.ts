@@ -20,12 +20,33 @@ export const queryArea = (id: any) => {
 
 }
 export const carBindList = (data: any) => {
-  console.log('here')
   if (isMock){
     return Mock.carBindList();
   }
   return  request({
     url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/review/carBindList',
+    method: 'post',
+    data: data
+  });
+
+}
+export const carBindDetail = (data: any) => {
+  // if (isMock){
+  //   return Mock.carBindList();
+  // }
+  return  request({
+    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/review/carBindDetail',
+    method: 'post',
+    data: data
+  });
+
+}
+export const carUnBind = (data: any) => {
+  // if (isMock){
+  //   return Mock.carBindList();
+  // }
+  return  request({
+    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/review/carUnBind',
     method: 'post',
     data: data
   });
