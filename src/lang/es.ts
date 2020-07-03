@@ -11,6 +11,7 @@ export default {
     'menu1-3': 'Menu 1-3',
     menu2: 'Menu 2',
     pdf: 'PDF',
+    here:'here Maps',
     i18n: 'I18n es'
   },
   navbar: {

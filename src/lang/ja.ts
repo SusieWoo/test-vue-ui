@@ -11,6 +11,7 @@ export default {
     'menu1-3': 'メニュー 1-3',
     menu2: 'メニュー 2',
     pdf: 'PDFメメ',
+    here:'',
     i18n: '多言語'
   },
   navbar: {

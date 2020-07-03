@@ -11,6 +11,7 @@ export default {
     'menu1-3': '메뉴 1-3',
     menu2: '메뉴 2',
     pdf: 'PDF어어어',
+    here:'here Maps',
     i18n: '언어'
   },
   navbar: {

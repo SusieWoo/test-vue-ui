@@ -16,6 +16,7 @@
             v-if="theOnlyOneChild.meta.icon"
             :name="theOnlyOneChild.meta.icon"
           />
+           <i style="text-align:left; font-size:16px ;color:#d6e3fb" v-if="theOnlyOneChild.meta.elementIcon"  :class="theOnlyOneChild.meta.elementIcon"></i>
           <span
             v-if="theOnlyOneChild.meta.title"
             slot="title"

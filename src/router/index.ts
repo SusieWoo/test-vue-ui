@@ -95,6 +95,23 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
+
+  {
+    path: '/heremap',
+    component: Layout,
+    redirect: '/pdf/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "pdf" */ '@/views/here/hereMap.vue'),
+        name: 'HERE',
+        meta: {
+          title: 'here',
+          elementIcon: 'el-icon-map-location'
+        }
+      }
+    ]
+  },
   businessRoutes
 ]
 
