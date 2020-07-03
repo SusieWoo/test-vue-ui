@@ -1,11 +1,10 @@
 <template>
-  <el-container class="view-form">
+  <el-container v-loading.fullscreen.lock="fullscreenLoading">
     <el-form ref="form"
              :rules="rules"
-             label-width="220px"
+             label-width="100px"
              :model="row">
-      <el-row type="flex"
-              justify="center">
+      <el-row :gutter="20">
         <el-col :span="24">
           <div slot="header">
             <span>信息</span>
@@ -13,24 +12,27 @@
           <el-col :span="18"
                   :offset="2">
             <el-form-item label="上传">
-              <el-upload class="upload-demo"
+              <el-upload ref="uploadImg"
+                         class="upload-demo"
                          :action="this.UPLOAD_API"
-                         :on-success="_uploadSucHousePic"
-                         :on-progress="_progress"
-                         :on-preview="_handlePreview"
-                         :on-remove="_handleRemove"
-                         :before-remove="_beforeRemove"
+                         :on-success="uploadSucHousePic"
+                         :on-progress="progress"
+                         :on-preview="handlePreview"
+                         :on-remove="handleRemove"
+                         :before-remove="beforeRemove"
+                         accept="image/png,image/gif,image/jpg,image/jpeg"
+                         list-type="picture-card"
                          multiple
-                         :limit="10"
-                         :on-exceed="_handleExceed"
-                         :file-list="row.fileArray">
+                         :limit="uploadConfig.numLimt"
+                         :on-exceed="handleExceed"
+                         :before-upload="beforeUploadFile">
                 <el-button size="small"
                            type="primary">
                   点击上传
                 </el-button>
                 <div slot="tip"
                      class="el-upload__tip">
-                  提示：最大支持5M文件，如果文件较大，请先压缩文件
+                  提示：最大支持{{uploadConfig.sizeLimit}}M文件
                 </div>
               </el-upload>
             </el-form-item>
@@ -45,6 +47,12 @@
             <el-form-item label="跳转页面">
               <el-input v-model="row.name" />
             </el-form-item>
+            <el-form-item>
+              <el-button type="primary"
+                         @click.native="submit('form')">
+                立即创建
+              </el-button>
+            </el-form-item>
           </el-col>
         </el-col>
       </el-row>
@@ -54,11 +62,20 @@
 
 <script>
 import { checkString } from '@/utils/rules'
+import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
 export default {
   data () {
     return {
       row: {
+        fileObjec: []
       },
+      fullscreenLoading: false,
+      uploadConfig: {
+        sizeInvalid: false,
+        sizeLimit: 2,
+        numLimt: 1
+      },
+      finishUpload: true,
       rules: {
         activityName: [
           { required: true, message: '必填', trigger: 'change' },
@@ -70,38 +87,75 @@ export default {
     }
   },
   methods: {
-    _handleRemove (file, fileList) {
+    handleRemove (file, fileList) {
       console.log(file, fileList)
     },
-    _handlePreview (file) {
+    handlePreview (file) {
       console.log(file)
     },
-    _handleExceed (files, fileList) {
-      this.$message.warning('当前限制选择 10 个文件，本次选择了' + files.length + '个文件，共选择了' + (files.length + fileList.length) + '个文件')
+    handleExceed (files, fileList) {
+      this.$message.warning('当前限制选择 ' + this.uploadConfig.numLimt + ' 个文件，本次选择了' + files.length + '个文件，共选择了' + (files.length + fileList.length) + '个文件')
     },
-    _beforeRemove (file, fileList) {
+    beforeRemove (file, fileList) {
+      if (this.uploadConfig.sizeInvalid) {
+        this.uploadConfig.sizeInvalid = false;
+        return
+      }
       return this.$confirm('确定移除' + file.name + '？')
     },
-    _reset () {
+    reset () {
       if (this.endDate === '0') {
         this.row.activityEndDate = ''
       }
     },
-    _progress () {
+    progress () {
       this.finishUpload = false
     },
-    _uploadSucHousePic (res) {
+    uploadSucHousePic (res) {
       this.finishUpload = true
+      this.fullscreenLoading = false
       if (res.status === 200) {
-        this.fileObjec.push({
-          filePath: res.data.filePath,
-          fileName: res.data.fileName,
-          fileType: res.data.fileType
+        this.row.fileObjec.push({
+          filePath: res.data[1].fullPath,
+          fileName: res.data[1].fileName,
+          fileType: res.data[1].ext_name
         })
       } else {
         this.$message.error('网络服务异常，文件上传失败')
       }
-    }
+    },
+    beforeUploadFile (file) {
+      const size = file.size / 1024 / 1024
+      const limit = this.uploadConfig.sizeLimit
+      if (size > limit) {
+        this.$notify.warning({
+          title: '警告',
+          message: `文件大小不得超过${limit}M`
+        });
+        this.uploadConfig.sizeInvalid = true;
+        this.fullscreenLoading = true;
+        return false
+      }
+    },
+    submit (formName) {
+      this.$refs[formName].validate((valid, obj) => {
+        if (valid) {
+          if (!this.finishUpload) {
+            this.$message.error('请等待图片上传完成')
+            return
+          }
+          const arg = this.row
+          console.log(arg)
+        } else {
+          this.$refs[Object.keys(obj)[0]].focus()
+        }
+      })
+    },
   }
 }
 </script>
+<style lang="less" scoped>
+.el-form {
+  width: 100%;
+}
+</style>
