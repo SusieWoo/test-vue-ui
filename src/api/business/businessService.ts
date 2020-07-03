@@ -31,6 +31,20 @@ export const carBindList = (data: any) => {
   });
 
 }
+export const carTeamList = (data: any) => {
+  console.log('1')
+  if (isMock){
+    console.log('2')
+    return Mock.carTeamList();
+  }
+  console.log('3')
+  return  request({
+    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/carTeam/carTeamList',
+    method: 'post',
+    data: data
+  });
+
+}
 
 
 

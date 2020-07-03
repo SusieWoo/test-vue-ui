@@ -71,7 +71,5 @@ export default {
     arStatus: '当前车辆状态',
     province: '所属省',
     city: '所属市'
-
-
   }
 }
