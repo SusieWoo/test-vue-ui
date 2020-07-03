@@ -31,6 +31,12 @@ const businessRoutes: RouteConfig = {
         }
       ]
     },
+    {
+      path: 'vehicleManage',
+      name: 'vehicleManage',
+      meta: { title: 'vehicleManage' },
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/businessSupport/vehicleManage.vue')
+    },
   ]
 }
 
