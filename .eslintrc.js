@@ -34,7 +34,7 @@ module.exports = {
     "spaced-comment": 0,
     "eol-last": 0,
     "comma-spacing": 0,
-    "vue/html-quotes": ["error", "double"],
+    "vue/html-quotes": 0,
     "key-spacing": 0,
     "vue/html-indent": 0,
     "no-multiple-empty-lines": 0,
@@ -42,16 +42,6 @@ module.exports = {
     "indent": 0,
     '@typescript-eslint/ban-types': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/member-delimiter-style': ['error',
-      {
-        multiline: {
-          delimiter: 'none'
-        },
-        singleline: {
-          delimiter: 'comma'
-        }
-      }
-    ],
     '@typescript-eslint/no-explicit-any': 'off',
     'vue/array-bracket-spacing': 'error',
     'vue/arrow-spacing': 'error',

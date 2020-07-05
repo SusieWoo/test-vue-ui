@@ -11,31 +11,10 @@
           </div>
           <el-col :span="18"
                   :offset="2">
-            <el-form-item label="上传">
-              <el-upload ref="uploadImg"
-                         class="upload-demo"
-                         :action="this.UPLOAD_API"
-                         :on-success="uploadSucHousePic"
-                         :on-progress="progress"
-                         :on-preview="handlePreview"
-                         :on-remove="handleRemove"
-                         :before-remove="beforeRemove"
-                         accept="image/png,image/gif,image/jpg,image/jpeg"
-                         list-type="picture-card"
-                         multiple
-                         :limit="uploadConfig.numLimt"
-                         :on-exceed="handleExceed"
-                         :before-upload="beforeUploadFile">
-                <el-button size="small"
-                           type="primary">
-                  点击上传
-                </el-button>
-                <div slot="tip"
-                     class="el-upload__tip">
-                  提示：最大支持{{uploadConfig.sizeLimit}}M文件
-                </div>
-              </el-upload>
-            </el-form-item>
+            <UploadImg :upload-config="uploadConfig"
+                       :upload-finish="finishUpload"
+                       @on-upload-success="uploadSuccess"
+                       @on-handle-remove="handleRemove" />
             <el-form-item label="App类型">
               <el-select v-model="row.bannerStatus">
                 <el-option v-for="item in bannerStatus"
@@ -63,20 +42,23 @@
 
 <script>
 import { checkString } from '@/utils/rules'
-import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
+import UploadImg from '@/components/UploadImg'
+
 export default {
+  components: {
+    UploadImg
+  },
   data () {
     return {
       row: {
         fileObjec: []
       },
       fullscreenLoading: false,
+      finishUpload: true,
       uploadConfig: {
-        sizeInvalid: false,
         sizeLimit: 2,
         numLimt: 1
       },
-      finishUpload: true,
       rules: {
         name: [
           { required: true, message: '必填', trigger: 'change' },
@@ -88,55 +70,20 @@ export default {
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview (file) {
-      console.log(file)
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning('当前限制选择 ' + this.uploadConfig.numLimt + ' 个文件，本次选择了' + files.length + '个文件，共选择了' + (files.length + fileList.length) + '个文件')
-    },
-    beforeRemove (file, fileList) {
-      if (this.uploadConfig.sizeInvalid) {
-        this.uploadConfig.sizeInvalid = false;
-        return
-      }
-      return this.$confirm('确定移除' + file.name + '？')
-    },
     reset () {
       if (this.endDate === '0') {
         this.row.activityEndDate = ''
       }
     },
-    progress () {
-      this.finishUpload = false
+    uploadSuccess (res) {
+      this.row.fileObjec = res;
+      console.log(this.row.fileObjec)
     },
-    uploadSucHousePic (res) {
-      this.finishUpload = true
-      this.fullscreenLoading = false
-      if (res.status === 200) {
-        this.row.fileObjec.push({
-          filePath: res.data[1].fullPath,
-          fileName: res.data[1].fileName,
-          fileType: res.data[1].ext_name
-        })
-      } else {
-        this.$message.error('网络服务异常，文件上传失败')
+    handleRemove (res) {
+      if (this.row.fileObjec[0].filePath === res.response.data[1].fullPath) {
+        this.row.fileObjec = [];
       }
-    },
-    beforeUploadFile (file) {
-      const size = file.size / 1024 / 1024
-      const limit = this.uploadConfig.sizeLimit
-      if (size > limit) {
-        this.$notify.warning({
-          title: '警告',
-          message: `文件大小不得超过${limit}M`
-        });
-        this.uploadConfig.sizeInvalid = true;
-        this.fullscreenLoading = true;
-        return false
-      }
+      console.log(this.row.fileObjec)
     },
     submit (formName) {
       this.$refs[formName].validate((valid, obj) => {

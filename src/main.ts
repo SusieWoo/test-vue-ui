@@ -41,4 +41,10 @@ new Vue({
   render: h => h(App)
 }).$mount('#app');
 
-Vue.prototype.UPLOAD_API = process.env.VUE_APP_UPLOAD_API
+declare module 'vue/types/vue' {
+  interface Vue {
+    $UPLOAD_API: any
+  }
+}
+
+Vue.prototype.$UPLOAD_API = process.env.VUE_APP_UPLOAD_API
