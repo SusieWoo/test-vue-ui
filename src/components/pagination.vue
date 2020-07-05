@@ -14,70 +14,39 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'pagination',
-  props: {
-    total: {
-      required: true,
-      type: Number
-    },
-    page: {
-      type: Number,
-      default: 1
-    },
-    limit: {
-      type: Number,
-      default: 20
-    },
-    pageSizes: {
-      type: Array,
-      default() {
-        return [10, 20, 30, 50]
-      }
-    },
-    layout: {
-      type: String,
-      default: 'total, sizes, prev, pager, next, jumper'
-    },
-    background: {
-      type: Boolean,
-      default: true
-    },
-    hidden: {
-      type: Boolean,
-      default: false
-    }
-  },
-  computed: {
-    currentPage: {
-      get() {
-        return this.page
-      },
-      set(val) {
-        this.$emit('update:page', val)
-      }
-    },
-    pageSize: {
-      get() {
-        return this.limit
-      },
-      set(val) {
-        this.$emit('update:limit', val)
-      }
-    }
-  },
-  methods: {
-    handleSizeChange(val) {
-      this.$emit('pagination', { page: this.currentPage, limit: val })
-      
-    },
-    handleCurrentChange(val) {
-      this.$emit('pagination', { page: val, limit: this.pageSize })
-     
-    }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+
+@Component
+export default class Pageination extends Vue {
+
+  @Prop({ required: true }) private total!: Number;
+  @Prop({ default: false }) private hidden!: boolean;
+  @Prop({ default: true }) private background!: boolean;
+  @Prop({ default: () => {[10, 20, 30, 50]}})private pageSizes!: object;
+  @Prop({ default: "total, sizes, prev, pager, next, jumper" })private layout!: string;
+  @Prop({ default: 1 }) private page!: Number;
+  @Prop({ default: 20 }) private limit!: Number;
+
+  private get currentPage() {
+    return this.page;
   }
-}
+  private set currentPage(val) {
+    this.$emit("update:page", val);
+  }
+  private get pageSize() {
+    return this.limit;
+  }
+  private set pageSize(val) {
+    this.$emit("update:limit", val);
+  }
+
+  private handleSizeChange(val: number) {
+    this.$emit("pagination", { page: this.currentPage, limit: val });
+  }
+  private handleCurrentChange(val: any) {
+    this.$emit("pagination", { page: val, limit: this.pageSize });
+  }
 </script>
 
 <style scoped>

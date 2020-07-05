@@ -50,6 +50,16 @@ export const carUnBind = (data: any) => {
     method: 'post',
     data: data
   });
+}
+export const carTeamList = (data: any) => {
+  if (isMock){
+    return Mock.carTeamList();
+  }
+  return  request({
+    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/carTeam/carTeamList',
+    method: 'post',
+    data: data
+  });
 
 }
 
