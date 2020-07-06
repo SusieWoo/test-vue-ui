@@ -76,8 +76,28 @@ export default {
     province: '所属省',
     city: '所属市',
     reasonAlert:'请输入解绑原因'
-    
-
-
+  },
+  carGroup: {
+    groupName: '车队名称',
+    groupNamePlaceholder: '请输入车队名称',
+    build: '新建车队',
+    setVip: '设为 VIP',
+    export: '导出',
+    isCompany: '是否企业',
+    isGroup: '是否集团客户',
+    isVip: '是否VIP',
+    createType: '是否tboss创建',
+    createStartTime: '创建时间',
+    startTimePlaceholder: '选择合同开始日期',
+    endTimePlaceholder: '选择合同结束日期',
+    all: '全部',
+    yes: "是",
+    no: "不是",
+    to: "至",
+    id: "车队ID",
+    creater: "创建人",
+    look: '查看',
+    edit: '编辑',
+    operation: '操作'
   }
 }
