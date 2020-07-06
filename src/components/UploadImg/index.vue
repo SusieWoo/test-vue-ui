@@ -1,5 +1,5 @@
 <template>
-  <el-form-item label="上传"
+  <el-form-item :label="uploadConfig.label"
                 prop="img">
     <el-upload ref="uploadImg"
                :show-file-list="true"
@@ -25,7 +25,7 @@
       </el-button>
       <div slot="tip"
            class="el-upload__tip">
-        提示：最大支持{{uploadConfig.sizeLimit}}M文件
+        提示：{{uploadConfig.notice}}
       </div>
     </el-upload>
   </el-form-item>
@@ -40,6 +40,8 @@ interface iFileImg {
   fileType: string
 }
 interface iUploadParams {
+  notice: string
+  label: string
   sizeLimit: number
   numLimt: number
 }

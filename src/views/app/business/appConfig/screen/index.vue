@@ -16,8 +16,8 @@
                        @on-upload-success="uploadSuccess"
                        @on-handle-remove="handleRemove" />
             <el-form-item label="App类型">
-              <el-select v-model="row.bannerStatus">
-                <el-option v-for="item in bannerStatus"
+              <el-select v-model="row.appType">
+                <el-option v-for="item in appArr"
                            :key="item.key"
                            :label="item.value"
                            :value="item.key" />
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { ViewData } from '@/data'
 import { checkString } from '@/utils/rules'
 import UploadImg from '@/components/UploadImg'
 
@@ -53,9 +54,13 @@ export default {
       row: {
         fileObjec: []
       },
+      //得到数据 APP类型
+      appArr: ViewData.operateAppScreen.appTypeList,
       fullscreenLoading: false,
       finishUpload: true,
       uploadConfig: {
+        notice: '建议比例和分辨率：1080*1920',
+        label: '广告页图片',
         sizeLimit: 2,
         numLimt: 1
       },
