@@ -20,6 +20,7 @@ export default {
     banner: '页面配置',
     screen: '开屏页配置',
     vehicleManage: '车辆绑定管理',
+    messageManage: '消息管理',
   },
   navbar: {
     logOut: '退出登录',
@@ -57,7 +58,11 @@ export default {
     no: '否',
     to: '至',
     bind: '绑定',
-    unbind: '解绑'
+    unbind: '解绑',
+    add: '新增',
+    operate: '操作',
+    reSend: '重发',
+    export: '导出'
   },
   business: {
     bindTeam: '绑定车队',
@@ -75,7 +80,7 @@ export default {
     arStatus: '当前车辆状态',
     province: '所属省',
     city: '所属市',
-    reasonAlert:'请输入解绑原因'
+    reasonAlert: '请输入解绑原因'
   },
   carGroup: {
     groupName: '车队名称',
@@ -91,13 +96,36 @@ export default {
     startTimePlaceholder: '选择合同开始日期',
     endTimePlaceholder: '选择合同结束日期',
     all: '全部',
-    yes: "是",
-    no: "不是",
-    to: "至",
-    id: "车队ID",
-    creater: "创建人",
+    yes: '是',
+    no: '不是',
+    to: '至',
+    id: '车队ID',
+    creater: '创建人',
     look: '查看',
     edit: '编辑',
     operation: '操作'
+  },
+  message: {
+    pushMessage: '推送消息',
+    smsMessage: '短消息',
+    statisticsMessage: '短信统计',
+    title: '标题',
+    createUser: '创建人',
+    targetUser: '目标用户',
+    createTime: '创建时间',
+    pv: 'PV',
+    uv: 'UV',
+    dateTime: '时间',
+    noticeType: '通知方式',
+    msgType: '消息类型',
+
+    pKeyWord: '请输入标题关键字',
+    carType: '车型',
+    carSeries: '车系',
+    discharge: '排放',
+    arStatus: '当前车辆状态',
+    province: '所属省',
+    city: '所属市',
+    reasonAlert: '请输入解绑原因'
   }
 }
