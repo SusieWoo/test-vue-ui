@@ -88,31 +88,8 @@
                   />
                 </el-select>
               </el-form-item>
-              <el-form-item :label="$t('business.province')">
-                <el-select
-                  v-model="querys.provinceId"
-                  @change="changeArea"
-                  class="search-item"
-                  placeholder="请选择省"
-                >
-                  <el-option
-                    v-for="item in ProvinceList "
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('business.city')">
-                <el-select v-model="querys.cityId" class="search-item" placeholder="请选择市">
-                  <el-option
-                    v-for="item in cityList "
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  />
-                </el-select>
-              </el-form-item>
+              <area-select :aclass="'search-item'" :provinceId.sync='querys.provinceId'  
+              :cityId.sync='querys.cityId'></area-select>
             </span>
           </template>
         </com-search>
@@ -224,6 +201,7 @@ import {
 } from "@/api/business/businessService";
 
 import pagination from "@/components/pagination";
+import areaSelect from "@/components/areaSelect";
 import multipleSelect from "@/components/multipleSelect";
 import comSearch from "@/components/comSearch";
 
@@ -231,7 +209,8 @@ export default {
   components: {
     multipleSelect,
     comSearch,
-    pagination
+    pagination,
+    areaSelect
   },
   data() {
     return {
@@ -315,7 +294,7 @@ export default {
 
     clear() {},
     async getList() {
-      console.log('search')
+      console.log("search",this.querys);
       const re = await carBindList(this.querys);
       this.tableData = re.data.list;
       this.total = re.data.total;

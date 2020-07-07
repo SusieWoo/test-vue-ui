@@ -5,6 +5,7 @@
 </template>
 <script>
 import E from "wangeditor";
+const imgUri = ''
 export default {
   name: "editorElem",
   data() {
@@ -35,10 +36,8 @@ export default {
       this.editorContent = html;
       this.catchData(this.editorContent); // 把这个html通过catchData的方法传入父组件
     };
-    this.editor.customConfig.uploadImgServer = `/attachment/upload?access_token=${localStorage.getItem(
-      "access_token"
-    )}`;
-    this.editor.customConfig.uploadFileName = "attachments";
+    this.editor.customConfig.uploadImgServer = ``;//uploadimg
+    this.editor.customConfig.uploadFileName = "file"; //上传图片参数名
     this.editor.customConfig.uploadImgParamsWithUrl = true;
     this.editor.customConfig.menus = [
       // 菜单配置
@@ -74,7 +73,8 @@ export default {
         // }
       },
       success: function(xhr, editor, result) {
-        this.imgUrl = `/attachment/download/${result[0].id}`;
+        // this.imgUrl = `/attachment/download/${result[0].id}`;
+        this.imgUrl = ``;
       },
       fail: function(xhr, editor, result) {
         // 图片上传并返回结果，但图片插入错误时触发
@@ -86,7 +86,8 @@ export default {
       customInsert: function(insertImg, result, editor) {
         // 图片上传并返回结果，自定义插入图片的事件（而不是编辑器自动插入图片！！！）
         // insertImg 是插入图片的函数，editor 是编辑器对象，result 是服务器端返回的结果
-        insertImg(`/attachment/download/${result[0].id}`);
+        // insertImg(`/attachment/download/${result[0].id}`);
+        insertImg(``);
       }
     };
 
@@ -99,6 +100,6 @@ export default {
 </script>
 <style lang="scss" rel="stylesheet/scss">
 #wangeditor {
-  width: 41rem;
+  width: 30rem;
 }
 </style>
