@@ -20,6 +20,8 @@ export default {
     banner: '页面配置',
     screen: '开屏页配置',
     vehicleManage: '车辆绑定管理',
+    basicInfo: '基础信息',
+    carManage: '车辆管理',
   },
   navbar: {
     logOut: '退出登录',
@@ -57,7 +59,9 @@ export default {
     no: '否',
     to: '至',
     bind: '绑定',
-    unbind: '解绑'
+    unbind: '解绑',
+    place:'请输入',
+    edit:'编辑'
   },
   business: {
     bindTeam: '绑定车队',
@@ -76,8 +80,12 @@ export default {
     province: '所属省',
     city: '所属市',
     reasonAlert:'请输入解绑原因'
-    
+  
 
-
+  },
+  basicInfo:{
+    place:'请输入',
+    carNo:"车牌号",
+    bottomCarNo:"底牌号",
   }
 }
