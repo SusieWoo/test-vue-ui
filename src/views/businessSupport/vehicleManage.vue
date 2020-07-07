@@ -101,7 +101,7 @@
     <!-- 查询条件end -->
 
     <!-- 表格start -->
-    <el-table class="t-table" stripe :data="tableData" style="width: 100%">
+    <el-table v-loading="loading" class="t-table" stripe :data="tableData" style="width: 100%">
       <el-table-column prop="date" align="center" label="事项" width="80">
         <template slot-scope="scope">
           <span>{{scope.row.excuteType==1?$t('common.bind'):scope.row.excuteType==0?$t('common.unbind'):''}}</span>
@@ -234,6 +234,7 @@ export default {
         provinceId: "",
         series: ""
       },
+      loading: false,
       tableData: [],
       detailList: [],
       detail: {},
@@ -316,7 +317,9 @@ export default {
     },
     async getList() {
       console.log("search", this.querys);
+      this.loading = true;
       const re = await carBindList(this.querys);
+      this.loading = false;
       this.tableData = re.data.list;
       this.total = re.data.total;
     },
