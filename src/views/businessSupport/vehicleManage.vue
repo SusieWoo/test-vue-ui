@@ -88,8 +88,11 @@
                   />
                 </el-select>
               </el-form-item>
-              <area-select :aclass="'search-item'" :provinceId.sync='querys.provinceId'  
-              :cityId.sync='querys.cityId'></area-select>
+              <area-select
+                :aclass="'search-item'"
+                :provinceId.sync="querys.provinceId"
+                :cityId.sync="querys.cityId"
+              ></area-select>
             </span>
           </template>
         </com-search>
@@ -292,9 +295,27 @@ export default {
       this.reviewId = id;
     },
 
-    clear() {},
+    clear() {
+      this.querys = {
+        page_number: 1,
+        page_size: 10,
+        carStatus: "",
+        carVin: "",
+        cityId: "",
+        dischargeId: "",
+        excuteEnd: "",
+        excuteStart: "",
+        excuteType: "",
+        firstBind: "",
+        model: "",
+        phone: "",
+        provinceId: "",
+        series: ""
+      };
+      this.getList();
+    },
     async getList() {
-      console.log("search",this.querys);
+      console.log("search", this.querys);
       const re = await carBindList(this.querys);
       this.tableData = re.data.list;
       this.total = re.data.total;

@@ -79,6 +79,8 @@ export default {
     changeProvince() {
       this.cityId = "";
       this.getProvinceList(this.provinceId);
+       this.$emit("update:provinceId", this.provinceId);
+       this.$emit("update:cityId", '');
     },
     changeCity() {
       this.$emit("update:provinceId", this.provinceId);
