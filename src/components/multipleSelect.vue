@@ -73,6 +73,10 @@ export default {
     };
   },
   watch: {
+    data: function(){
+      this.selectNone();
+      this.changeValue();
+    },
     value: function(val) {
       this.tempValue = val;
     },
@@ -93,7 +97,6 @@ export default {
       this.List = [];
     },
     onCheckNode(data, checked, indeterminate) {
-      console.log(this.defaultKeys);
       let duplicateArr = this.List.filter(item => {
         return item.id === data.id;
       });
@@ -109,19 +112,19 @@ export default {
         });
       }
     },
+    changeValue(){
+      const labelArr = this.List.map(item => {
+        return item.label;
+      });
+      const idArr = this.List.map(item => {
+        return item.id;
+      });
+      this.labelData = labelArr.join(",");
+      this.valueData = idArr.join(",");
+    },
     hidePopover() {
-      if (this.List.length > 0) {
-        const labelArr = this.List.map(item => {
-          return item.label;
-        });
-        const idArr = this.List.map(item => {
-          return item.id;
-        });
-        this.labelData = labelArr.join(",");
-        this.valueData = idArr.join(",");
-      } else {
-        this.labelData = "";
-      }
+      this.changeValue();
+
       if (this.isLabelData) {
         this.$emit("input", this.labelData);
       } else {
