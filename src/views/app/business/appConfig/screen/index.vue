@@ -5,35 +5,37 @@
              label-width="100px"
              :model="row">
       <el-row :gutter="20">
-        <el-col :span="24">
-          <div slot="header">
-            <span>信息</span>
-          </div>
-          <el-col :span="18"
-                  :offset="2">
-            <UploadImg :upload-config="uploadConfig"
-                       :upload-finish="finishUpload"
-                       @on-upload-success="uploadSuccess"
-                       @on-handle-remove="handleRemove" />
-            <el-form-item label="App类型">
-              <el-select v-model="row.appType">
-                <el-option v-for="item in appArr"
-                           :key="item.key"
-                           :label="item.value"
-                           :value="item.key" />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="跳转页面"
-                          prop="name">
-              <el-input v-model="row.name" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary"
-                         @click.native="submit('form')">
-                立即创建
-              </el-button>
-            </el-form-item>
-          </el-col>
+        <el-col :span="12"
+                :offset="3">
+          <UploadImg :upload-config="uploadConfig"
+                     :upload-finish="finishUpload"
+                     @on-upload-success="uploadSuccess"
+                     @on-handle-remove="handleRemove" />
+          <el-form-item :label="$t('business.appConfig.appType')"
+                        prop="appType">
+            <el-select v-model="row.appType">
+              <el-option v-for="item in appArr"
+                         :key="item.key"
+                         :label="item.value"
+                         :value="item.key" />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('business.appConfig.accTarget')"
+                        prop="accTarget">
+            <el-input v-model="row.accTarget" />
+          </el-form-item>
+          <el-form-item :label="$t('business.appConfig.tm')"
+                        prop="tm">
+            <el-input v-model="row.tm">
+              <template slot="append">{{$t('common.seconds')}}</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary"
+                       @click="submit('form')">
+              立即创建
+            </el-button>
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -42,8 +44,9 @@
 
 <script>
 import { ViewData } from '@/data'
-import { checkString } from '@/utils/rules'
+import { Num, checkUrl } from '@/utils/rules'
 import UploadImg from '@/components/UploadImg'
+import { setAd } from '@/api/business/BannerService';
 
 export default {
   components: {
@@ -51,8 +54,12 @@ export default {
   },
   data () {
     return {
+      fileObjec: [],
       row: {
-        fileObjec: []
+        appType: '0',
+        imgUrl: null,
+        accTarget: null,
+        tm: 5
       },
       //得到数据 APP类型
       appArr: ViewData.operateAppScreen.appTypeList,
@@ -65,11 +72,16 @@ export default {
         numLimt: 1
       },
       rules: {
-        name: [
+        tm: [
           { required: true, message: '必填', trigger: 'change' },
-          { validator: checkString, trigger: 'change' },
-          { max: 3, message: '输入长度不可超过3', trigger: 'change' }
-        ]
+          { validator: Num, trigger: 'change' }
+        ],
+        appType: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        accTarget: [
+          { validator: checkUrl, trigger: 'change' }
+        ],
       },
       bannerStatus: [{ key: '1', value: '上线' }, { key: '0', value: '下线' }],
     }
@@ -81,14 +93,25 @@ export default {
       }
     },
     uploadSuccess (res) {
-      this.row.fileObjec = res;
-      console.log(this.row.fileObjec)
+      this.fileObjec = res;
     },
     handleRemove (res) {
-      if (this.row.fileObjec[0].filePath === res.response.data[1].fullPath) {
-        this.row.fileObjec = [];
+      if (this.fileObjec[0].filePath === res.response.data[1].fullPath) {
+        this.fileObjec = [];
       }
-      console.log(this.row.fileObjec)
+    },
+    async add (query) {
+      const params = query;
+      if (this.fileObjec && this.fileObjec[0] && this.fileObjec[0].filePath) {
+        params.imgUrl = this.fileObjec[0].filePath
+      } else {
+        this.$message.warning('请上传图片')
+        return false
+      }
+      this.fullscreenLoading = true
+      await setAd(params);
+      this.$message.success('操作成功')
+      this.fullscreenLoading = false
     },
     submit (formName) {
       this.$refs[formName].validate((valid, obj) => {
@@ -97,13 +120,15 @@ export default {
             this.$message.error('请等待图片上传完成')
             return
           }
-          const arg = this.row
-          console.log(arg)
+          this.add(this.row)
         } else {
-          this.$refs[Object.keys(obj)[0]].focus()
+          return false
         }
       })
     },
+    init () {
+      this.getData();
+    }
   }
 }
 </script>
