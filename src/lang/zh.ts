@@ -61,12 +61,21 @@ export default {
     to: '至',
     bind: '绑定',
     unbind: '解绑',
-    place:'请输入',
-    edit:'编辑',
+    place: '请输入',
+    edit: '编辑',
     add: '新增',
     operate: '操作',
     reSend: '重发',
-    export: '导出'
+    export: '导出',
+    seconds: '秒',
+    clickUpload: '点击上传',
+    notice: '提示',
+    toDel: '确定删除',
+    netError: '网络服务异常',
+    fileUploadFail: '文件上传失败',
+    fileSizeFail: '文件大小不得超过',
+    warning: '警告'
+
   },
   business: {
     bindTeam: '绑定车队',
@@ -84,14 +93,17 @@ export default {
     arStatus: '当前车辆状态',
     province: '所属省',
     city: '所属市',
-    reasonAlert:'请输入解绑原因'
-  
-
+    reasonAlert: '请输入解绑原因',
+    appConfig: {
+      appType: 'App类型',
+      accTarget: '跳转页面',
+      tm: '停留时间',
+    }
   },
-  basicInfo:{
-    place:'请输入',
-    carNo:"车牌号",
-    bottomCarNo:"底牌号",
+  basicInfo: {
+    place: '请输入',
+    carNo: '车牌号',
+    bottomCarNo: '底牌号',
     reasonAlert: '请输入解绑原因'
   },
   carGroup: {

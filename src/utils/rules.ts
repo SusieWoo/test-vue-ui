@@ -1,10 +1,29 @@
 /**
  * 自定义表单校验方法 && 基于element-ui 封装的全局自定义校验规则
  */
-export const checkString = (rule: any, value: any, callback: any) => { //校验非法字符
+//非法字符
+export const checkString = (rule: any, value: any, callback: any) => {
   const reg = /[@#\$%\^&\*\!~`'",:+=?\\]+/g
   if (reg.test(value)) {
     return callback(new Error('含有非法字符，请重新输入'))
+  } else {
+    callback()
+  }
+}
+//url地址
+export const checkUrl = (rule: any, value: any, callback: any) => {
+  const reg = /^(https|http|ftp|mms)?:\/\//
+  if (!reg.test(value)) {
+    return callback(new Error('链接地址不正确，请重新输入'))
+  } else {
+    callback()
+  }
+}
+//正整数
+export const Num = (rule: any, value: any, callback: any) => {
+  const reg = /^[1-9]\d*$/
+  if (!reg.test(value)) {
+    return callback(new Error('只能输入正整数'))
   } else {
     callback()
   }

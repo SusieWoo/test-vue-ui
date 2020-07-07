@@ -21,18 +21,18 @@
                :drag="false">
       <el-button size="small"
                  type="primary">
-        点击上传
+        {{$t('common.clickUpload')}}
       </el-button>
       <div slot="tip"
            class="el-upload__tip">
-        提示：{{uploadConfig.notice}}
+        {{$t('common.notice')}}：{{uploadConfig.notice}}
       </div>
     </el-upload>
   </el-form-item>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
 
 interface iFileImg {
   filePath: string
@@ -74,7 +74,7 @@ export default class UploadImg extends Vue {
       this.sizeInvalid = false
       return
     }
-    return this.$confirm('确定移除' + file.name + '？')
+    return this.$confirm(this.$t('common.toDel') + file.name + '？')
   }
   private progress() {
     this.uploadFinish = false
@@ -97,7 +97,9 @@ export default class UploadImg extends Vue {
       this.fileObjec.push(obj)
       return this.fileObjec
     } else {
-      this.$message.error('网络服务异常，文件上传失败')
+      this.$message.error(
+        `${this.$t('common.netError')},${this.$t('common.fileUploadFail')}`
+      )
     }
   }
   private beforeUploadFile(file: any) {
@@ -105,8 +107,8 @@ export default class UploadImg extends Vue {
     const limit = this.uploadConfig.sizeLimit
     if (size > limit) {
       this.$notify.warning({
-        title: '警告',
-        message: `文件大小不得超过${limit}M`
+        title: `${this.$t('common.warning')}`,
+        message: `${this.$t('common.fileSizeFail')}${limit}M`
       })
       this.sizeInvalid = true
       return false
