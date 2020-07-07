@@ -3,60 +3,69 @@
     <el-card class="card-panel">
       <el-form :inline="true" :model="query" label-position="left">
         <el-row>
-          <el-col :span="16" :offset="1">
-            <el-form-item label="车队名称：" label-width="120px">
-              <el-input v-model="query.keyWord" placeholder="请输入车队名称" style="width: 220px"/>
+          <el-col :span="12" :offset="1">
+            <el-form-item :label="$t('carGroup.groupName')" label-width="120px">
+              <el-input v-model="query.keyWord" :placeholder="$t('carGroup.groupNamePlaceholder')" style="width: 220px"/>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="8">
             <el-form-item>
               <el-button type="primary" icon="el-icon-search" @click="getList">{{$t('common.search')}}</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="">{{$t('carGroup.build')}}</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="">{{$t('carGroup.setVip')}}</el-button>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="">{{$t('carGroup.export')}}</el-button>
             </el-form-item>
           </el-col>
           <com-search>
             <template>
               <span slot="item">
-                <el-form-item label="是否企业：" label-width="120px">
-                  <el-select v-model="query.isCompany" placeholder="全部">
-                    <el-option label="是" :value="1"></el-option>
-                    <el-option label="不是" :value="0"></el-option>
+                <el-form-item :label="$t('carGroup.isCompany')+'：'" label-width="120px">
+                  <el-select v-model="query.isCompany" :placeholder="$t('carGroup.all')">
+                    <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
+                    <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="是否集团客户：" label-width="120px">
-                  <el-select v-model="query.isGroup" placeholder="全部">
-                    <el-option label="是" :value="1"></el-option>
-                    <el-option label="不是" :value="0"></el-option>
+                <el-form-item :label="$t('carGroup.isGroup')+'：'" label-width="120px">
+                  <el-select v-model="query.isGroup" :placeholder="$t('carGroup.all')">
+                    <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
+                    <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="是否VIP：" label-width="120px">
-                  <el-select v-model="query.isVip" placeholder="全部">
-                    <el-option label="是" :value="1"></el-option>
-                    <el-option label="不是" :value="0"></el-option>
+                <el-form-item :label="$t('carGroup.isVip')+'：'" label-width="120px">
+                  <el-select v-model="query.isVip" :placeholder="$t('carGroup.all')">
+                    <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
+                    <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="是否tboss创建：" label-width="120px">
-                  <el-select v-model="query.createType" placeholder="全部">
-                    <el-option label="是" :value="1"></el-option>
-                    <el-option label="不是" :value="0"></el-option>
+                <el-form-item :label="$t('carGroup.createType')+'：'" label-width="120px">
+                  <el-select v-model="query.createType" :placeholder="$t('carGroup.all')">
+                    <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
+                    <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
-                <el-form-item label="创建时间：" label-width="120px">
+                <el-form-item :label="$t('carGroup.createStartTime')+'：'" label-width="120px">
                   <el-date-picker
                     style="width: 100%"
                     v-model="query.createStartTime"
                     type="date"
-                    placeholder="选择合同开始日期"
+                    :placeholder="$t('carGroup.startTimePlaceholder')"
                     value-format="yyyy-MM-dd"
                     :picker-options="pickerOptionsStart"
                   >
                   </el-date-picker>
                 </el-form-item>
-                <el-form-item label="至">
+                <el-form-item :label="$t('carGroup.to')">
                   <el-date-picker
                     style="width: 100%"
                     v-model="query.createEndTime"
                     type="date"
-                    placeholder="选择合同结束日期"
+                    :placeholder="$t('carGroup.endTimePlaceholder')"
                     value-format="yyyy-MM-dd"
                     :picker-options="pickerOptionsEnd"
                   >
@@ -75,30 +84,30 @@
       style="width: 100%; text-align: center;"
       @selection-change="handleSelectionChange"
     >
-      <el-table-column type="selection" width="50" align="center" label="当前页"></el-table-column>
-      <el-table-column prop="carTeamid" align="center" label="车队ID"></el-table-column>
-      <el-table-column prop="carTeamName" align="center" label="车队名称"></el-table-column>
-      <el-table-column align="center" label="是否企业">
+      <el-table-column type="selection" width="50" align="center"></el-table-column>
+      <el-table-column prop="carTeamid" align="center" :label="$t('carGroup.id')"></el-table-column>
+      <el-table-column prop="carTeamName" align="center" :label="$t('carGroup.groupName')"></el-table-column>
+      <el-table-column align="center" :label="$t('carGroup.isCompany')">
         <template slot-scope="scope" align="center">
-          <span>{{scope.row.isCompany=='0'?'否':scope.row.isCompany=='1'?'是':''}}</span>
+          <span>{{scope.row.isCompany=='0'?$t('common.no'):scope.row.isCompany=='1'?$t('carGroup.yes'):''}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="是否集团客户">
+      <el-table-column align="center" :label="$t('carGroup.isGroup')">
         <template slot-scope="scope" align="center">
-          <span>{{scope.row.isGroup=='0'?'否':scope.row.isGroup=='1'?'是':''}}</span>
+          <span>{{scope.row.isGroup=='0'?$t('common.no'):scope.row.isGroup=='1'?$t('carGroup.yes'):''}}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="是否VIP">
+      <el-table-column align="center" :label="$t('carGroup.isVip')">
         <template slot-scope="scope" align="center">
-          <span>{{scope.row.isVip=='0'?'否':scope.row.isVip=='1'?'是':''}}</span>
+          <span>{{scope.row.isVip=='0'?$t('common.no'):scope.row.isVip=='1'?$t('carGroup.yes'):''}}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="createUser" align="center" label="创建人"></el-table-column>
-      <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" width="120">
+      <el-table-column prop="createUser" align="center" :label="$t('carGroup.creater')"></el-table-column>
+      <el-table-column prop="createTime" align="center" :label="$t('carGroup.createStartTime')"></el-table-column>
+      <el-table-column fixed="right" align="center" :label="$t('carGroup.operation')" width="120">
         <template>
-          <el-button type="text" size="small">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button type="text" size="small">{{$t('carGroup.look')}}</el-button>
+          <el-button type="text" size="small">{{$t('carGroup.edit')}}</el-button>
         </template>
       </el-table-column>
     </el-table>

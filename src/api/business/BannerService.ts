@@ -33,3 +33,9 @@ export const update = (params: any) =>
     method: 'get',
     params
   });
+export const setAd = (data: any) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/wechat/setAd',
+    method: 'post',
+    data
+  });

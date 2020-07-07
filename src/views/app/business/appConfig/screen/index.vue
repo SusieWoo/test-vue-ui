@@ -5,56 +5,37 @@
              label-width="100px"
              :model="row">
       <el-row :gutter="20">
-        <el-col :span="24">
-          <div slot="header">
-            <span>信息</span>
-          </div>
-          <el-col :span="18"
-                  :offset="2">
-            <el-form-item label="上传">
-              <el-upload ref="uploadImg"
-                         class="upload-demo"
-                         :action="this.UPLOAD_API"
-                         :on-success="uploadSucHousePic"
-                         :on-progress="progress"
-                         :on-preview="handlePreview"
-                         :on-remove="handleRemove"
-                         :before-remove="beforeRemove"
-                         accept="image/png,image/gif,image/jpg,image/jpeg"
-                         list-type="picture-card"
-                         multiple
-                         :limit="uploadConfig.numLimt"
-                         :on-exceed="handleExceed"
-                         :before-upload="beforeUploadFile">
-                <el-button size="small"
-                           type="primary">
-                  点击上传
-                </el-button>
-                <div slot="tip"
-                     class="el-upload__tip">
-                  提示：最大支持{{uploadConfig.sizeLimit}}M文件
-                </div>
-              </el-upload>
-            </el-form-item>
-            <el-form-item label="App类型">
-              <el-select v-model="row.bannerStatus">
-                <el-option v-for="item in bannerStatus"
-                           :key="item.key"
-                           :label="item.value"
-                           :value="item.key" />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="跳转页面"
-                          prop="name">
-              <el-input v-model="row.name" />
-            </el-form-item>
-            <el-form-item>
-              <el-button type="primary"
-                         @click.native="submit('form')">
-                立即创建
-              </el-button>
-            </el-form-item>
-          </el-col>
+        <el-col :span="12"
+                :offset="3">
+          <UploadImg :upload-config="uploadConfig"
+                     :upload-finish="finishUpload"
+                     @on-upload-success="uploadSuccess"
+                     @on-handle-remove="handleRemove" />
+          <el-form-item :label="$t('business.appConfig.appType')"
+                        prop="appType">
+            <el-select v-model="row.appType">
+              <el-option v-for="item in appArr"
+                         :key="item.key"
+                         :label="item.value"
+                         :value="item.key" />
+            </el-select>
+          </el-form-item>
+          <el-form-item :label="$t('business.appConfig.accTarget')"
+                        prop="accTarget">
+            <el-input v-model="row.accTarget" />
+          </el-form-item>
+          <el-form-item :label="$t('business.appConfig.tm')"
+                        prop="tm">
+            <el-input v-model="row.tm">
+              <template slot="append">{{$t('common.seconds')}}</template>
+            </el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary"
+                       @click="submit('form')">
+              立即创建
+            </el-button>
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -62,81 +43,75 @@
 </template>
 
 <script>
-import { checkString } from '@/utils/rules'
-import ElImageViewer from 'element-ui/packages/image/src/image-viewer.vue'
+import { ViewData } from '@/data'
+import { Num, checkUrl } from '@/utils/rules'
+import UploadImg from '@/components/UploadImg'
+import { setAd } from '@/api/business/BannerService';
+
 export default {
+  components: {
+    UploadImg
+  },
   data () {
     return {
+      fileObjec: [],
       row: {
-        fileObjec: []
+        appType: '0',
+        imgUrl: null,
+        accTarget: null,
+        tm: 5
       },
+      //得到数据 APP类型
+      appArr: ViewData.operateAppScreen.appTypeList,
       fullscreenLoading: false,
+      finishUpload: true,
       uploadConfig: {
-        sizeInvalid: false,
+        notice: '建议比例和分辨率：1080*1920',
+        label: '广告页图片',
         sizeLimit: 2,
         numLimt: 1
       },
-      finishUpload: true,
       rules: {
-        name: [
+        tm: [
           { required: true, message: '必填', trigger: 'change' },
-          { validator: checkString, trigger: 'change' },
-          { max: 3, message: '输入长度不可超过3', trigger: 'change' }
-        ]
+          { validator: Num, trigger: 'change' }
+        ],
+        appType: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
+        accTarget: [
+          { validator: checkUrl, trigger: 'change' }
+        ],
       },
       bannerStatus: [{ key: '1', value: '上线' }, { key: '0', value: '下线' }],
     }
   },
   methods: {
-    handleRemove (file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview (file) {
-      console.log(file)
-    },
-    handleExceed (files, fileList) {
-      this.$message.warning('当前限制选择 ' + this.uploadConfig.numLimt + ' 个文件，本次选择了' + files.length + '个文件，共选择了' + (files.length + fileList.length) + '个文件')
-    },
-    beforeRemove (file, fileList) {
-      if (this.uploadConfig.sizeInvalid) {
-        this.uploadConfig.sizeInvalid = false;
-        return
-      }
-      return this.$confirm('确定移除' + file.name + '？')
-    },
     reset () {
       if (this.endDate === '0') {
         this.row.activityEndDate = ''
       }
     },
-    progress () {
-      this.finishUpload = false
+    uploadSuccess (res) {
+      this.fileObjec = res;
     },
-    uploadSucHousePic (res) {
-      this.finishUpload = true
-      this.fullscreenLoading = false
-      if (res.status === 200) {
-        this.row.fileObjec.push({
-          filePath: res.data[1].fullPath,
-          fileName: res.data[1].fileName,
-          fileType: res.data[1].ext_name
-        })
-      } else {
-        this.$message.error('网络服务异常，文件上传失败')
+    handleRemove (res) {
+      if (this.fileObjec[0].filePath === res.response.data[1].fullPath) {
+        this.fileObjec = [];
       }
     },
-    beforeUploadFile (file) {
-      const size = file.size / 1024 / 1024
-      const limit = this.uploadConfig.sizeLimit
-      if (size > limit) {
-        this.$notify.warning({
-          title: '警告',
-          message: `文件大小不得超过${limit}M`
-        });
-        this.uploadConfig.sizeInvalid = true;
-        this.fullscreenLoading = true;
+    async add (query) {
+      const params = query;
+      if (this.fileObjec && this.fileObjec[0] && this.fileObjec[0].filePath) {
+        params.imgUrl = this.fileObjec[0].filePath
+      } else {
+        this.$message.warning('请上传图片')
         return false
       }
+      this.fullscreenLoading = true
+      await setAd(params);
+      this.$message.success('操作成功')
+      this.fullscreenLoading = false
     },
     submit (formName) {
       this.$refs[formName].validate((valid, obj) => {
@@ -145,13 +120,15 @@ export default {
             this.$message.error('请等待图片上传完成')
             return
           }
-          const arg = this.row
-          console.log(arg)
+          this.add(this.row)
         } else {
-          this.$refs[Object.keys(obj)[0]].focus()
+          return false
         }
       })
     },
+    init () {
+      this.getData();
+    }
   }
 }
 </script>
