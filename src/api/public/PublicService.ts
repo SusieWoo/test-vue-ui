@@ -17,22 +17,3 @@ export const uploadImageAndCrtThumbImage = (data: any) =>
     method: 'post',
     data
   });
-
-/* 车型车系排放 */
-export const querySeriesList = () =>
-  request({
-    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/yiqioperate/common/querySeriesList',
-    method: 'get'
-  });
-export const queryCarTypeList = (params: { carSeries: String }) =>
-  request({
-    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/yiqioperate/common/queryCarTypeList',
-    method: 'get',
-    params
-  });
-export const queryEmissionList = (params: { carSeries: String; carType: String }) =>
-  request({
-    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/yiqioperate/common/queryEmissionList',
-    method: 'get',
-    params
-  });

@@ -42,7 +42,7 @@ export default class Pageination extends Vue {
   private modelList: Array<propList> = [];
   private async getModelList(): Promise<any> {
     const res = await querySeriesList();
-    this.modelList = this.arrOpen(res.data.seriesList);
+    this.modelList = this.arrOpen(res.data);
     return res;
   }
 
@@ -54,7 +54,7 @@ export default class Pageination extends Vue {
       return false;
     }
     const res = await queryCarTypeList({ carSeries: val });
-    this.vehicleList = this.arrOpen(res.data.carTypeList);
+    this.vehicleList = this.arrOpen(res.data);
     return res;
   }
 
@@ -68,7 +68,7 @@ export default class Pageination extends Vue {
       carSeries: this.chexing,
       carType: val
     });
-    this.dischargeList = this.arrOpen(res.data.emissionList);
+    this.dischargeList = this.arrOpen(res.data);
     return res;
   }
 

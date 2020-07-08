@@ -2,7 +2,7 @@
   <div class="home">
     <HelloWorld msg="from home.vue" />
     <car-linkage :model.sync="chexing" :vehicle.sync="chexi" :discharge.sync="paifang"></car-linkage>
-    <multiple-select :width="160" :data="qqqqqList" v-model="qqqqq" @input="output"></multiple-select>
+
     <el-slider v-model="value2" />
   </div>
 </template>
@@ -13,11 +13,6 @@ import HelloWorld from "@/components/HelloWorld.vue";
 import Bus from "@/common/bus.ts";
 import carLinkage from "@/components/carLinkage/carLinkage.vue";
 
-import {
-  querySeriesList,
-  queryCarTypeList,
-  queryEmissionList
-} from "@/api/public/PublicService";
 
 import multipleSelect from "@/components/multipleSelect";
 
@@ -61,9 +56,6 @@ export default {
       });
     }, 1000);
 
-    querySeriesList({}).then(res => {
-      this.qqqqqList = this.arrOpen(res.data.seriesList);
-    });
   },
   destroyed() {}
 };
