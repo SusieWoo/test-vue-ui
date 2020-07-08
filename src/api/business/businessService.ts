@@ -23,7 +23,7 @@ export const carBindList = (data: any) => {
     return Mock.carBindList();
   }
   return request({
-    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/review/carBindList',
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/review/carBindList',
     method: 'post',
     data: data
   });
@@ -33,7 +33,7 @@ export const carBindDetail = (data: any) => {
   //   return Mock.carBindList();
   // }
   return request({
-    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/review/carBindDetail',
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/review/carBindDetail',
     method: 'post',
     data: data
   });
@@ -43,7 +43,7 @@ export const carUnBind = (data: any) => {
   //   return Mock.carBindList();
   // }
   return request({
-    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/review/carUnBind',
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/review/carUnBind',
     method: 'post',
     data: data
   });
@@ -53,7 +53,7 @@ export const carTeamList = (data: any) => {
     return Mock.carTeamList();
   }
   return request({
-    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/carTeam/carTeamList',
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/carTeam/carTeamList',
     method: 'post',
     data: data
   });

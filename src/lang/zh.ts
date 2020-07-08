@@ -74,7 +74,9 @@ export default {
     netError: '网络服务异常',
     fileUploadFail: '文件上传失败',
     fileSizeFail: '文件大小不得超过',
-    warning: '警告'
+    warning: '警告',
+    title: '标题',
+    type: '类型'
 
   },
   business: {
@@ -98,6 +100,7 @@ export default {
       appType: 'App类型',
       accTarget: '跳转页面',
       tm: '停留时间',
+      bannerLink: '链接url'
     }
   },
   basicInfo: {

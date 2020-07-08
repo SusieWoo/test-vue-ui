@@ -39,3 +39,9 @@ export const setAd = (data: any) =>
     method: 'post',
     data
   });
+export const UpdateBannerOnline = (params: any) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/BannerInfo/UpdateBannerOnline',
+    method: 'get',
+    params
+  });
