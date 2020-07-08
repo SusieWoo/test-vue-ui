@@ -68,7 +68,7 @@ export const asyncRoutes: RouteConfig[] = [
   //   children: [
   //     {
   //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/pdf/index.vue'),
+  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/example/pdf/index.vue'),
   //       name: 'PDF',
   //       meta: {
   //         title: 'pdf',
@@ -79,7 +79,7 @@ export const asyncRoutes: RouteConfig[] = [
   // },
   // {
   //   path: '/pdf-download-example',
-  //   component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
+  //   component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/example/pdf/download.vue'),
   //   meta: { hidden: true }
   // },
   {
@@ -88,7 +88,7 @@ export const asyncRoutes: RouteConfig[] = [
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "i18n-demo" */ '@/views/i18n-demo/index.vue'),
+        component: () => import(/* webpackChunkName: "i18n-demo" */ '@/views/example/i18n-demo/index.vue'),
         name: 'I18n',
         meta: {
           title: 'i18n',
