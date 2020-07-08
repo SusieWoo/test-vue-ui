@@ -74,3 +74,15 @@ getGoToPath(item) {
 
 ## loading 写到对应div
  v-loading.fullscreen.lock="fullscreenLoading"
+
+ ## 关于路由：
+
+ ### 隐藏路由菜单
+ meta: { hidden: true }
+
+ ### 关闭当前页面，并回退history
+ import { TagsViewModule } from '@/store/modules/tags-view'; //引入
+ TagsViewModule.delView(this.$route); //删除tab标签
+ this.$router.go(-1); //返回
+
+ 

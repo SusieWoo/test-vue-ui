@@ -52,7 +52,7 @@ const businessRoutes: RouteConfig = {
     {
       path: 'pushMessageAdd',
       name: 'pushMessageAdd',
-      meta: { title: 'pushMessageAdd' },
+      meta: { title: 'pushMessageAdd', hidden: true },
       component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/pushMessageAdd.vue')
     },
   ]
