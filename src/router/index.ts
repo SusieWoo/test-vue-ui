@@ -43,44 +43,44 @@ export const constantRoutes: RouteConfig[] = [
 ]
 
 export const asyncRoutes: RouteConfig[] = [
-  {
-    path: '/about',
-    component: Layout,
-    redirect: '/about/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "about" */ '@/views/about/index.vue'),
-        name: 'About',
-        meta: {
-          title: 'about',
-          icon: 'link'
-        }
-      }
-    ]
-  },
+  // {
+  //   path: '/about',
+  //   component: Layout,
+  //   redirect: '/about/index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "about" */ '@/views/about/index.vue'),
+  //       name: 'About',
+  //       meta: {
+  //         title: 'about',
+  //         icon: 'link'
+  //       }
+  //     }
+  //   ]
+  // },
   nestedRouter,
-  {
-    path: '/pdf',
-    component: Layout,
-    redirect: '/pdf/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "pdf" */ '@/views/pdf/index.vue'),
-        name: 'PDF',
-        meta: {
-          title: 'pdf',
-          icon: 'example'
-        }
-      }
-    ]
-  },
-  {
-    path: '/pdf-download-example',
-    component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
-    meta: { hidden: true }
-  },
+  // {
+  //   path: '/pdf',
+  //   component: Layout,
+  //   redirect: '/pdf/index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/pdf/index.vue'),
+  //       name: 'PDF',
+  //       meta: {
+  //         title: 'pdf',
+  //         icon: 'example'
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/pdf-download-example',
+  //   component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
+  //   meta: { hidden: true }
+  // },
   {
     path: '/i18n',
     component: Layout,
