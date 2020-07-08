@@ -1,14 +1,32 @@
 import request from '@/utils/request';
 import Mock from './mock'
 const isMock = true;
-export const queryCarPropertyForMaintains = () =>
+export const querySeriesList = () =>
   request({
     url: 'http://sy.aerozhonghuan.com:81/dev/qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
-    data: {
+    data:{
       propertyName: '1'
     }
   });
+export const queryCarTypeList = (data: { carSeries: String }) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    method: 'post',
+    data: Object.assign({
+      propertyName: '2'
+    },data)
+  });
+export const queryEmissionList = (data: { carSeries: String, carType: String }) =>
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/dev/qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    method: 'post',
+    data: Object.assign({
+      propertyName: '3'
+    },data)
+  });
+
+
 export const queryArea = (id: any) => {
   return request({
     url: 'http://sy.aerozhonghuan.com:81/dev/qdfaw/api/qingqi/servicestation/activity/queryArea',
