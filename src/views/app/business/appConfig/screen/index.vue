@@ -125,9 +125,6 @@ export default {
           return false
         }
       })
-    },
-    init () {
-      this.getData();
     }
   }
 }

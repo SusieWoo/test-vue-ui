@@ -19,7 +19,9 @@
               </el-select>
             </el-form-item>
             <el-form-item label="类型">
-              <el-select v-model="query.bannerSetting">
+              <el-select v-model="query.bannerType"
+                         clearable
+                         placeholder="请选择">
                 <el-option v-for="item in bannerTypeList"
                            :key="item.value"
                            :label="item.name"
@@ -32,11 +34,11 @@
             <el-col :span="24">
               <el-form-item class="fr">
                 <el-button type="primary"
-                           @click="getDriver">
+                           @click="getList">
                   查询
                 </el-button>
                 <el-button type="primary"
-                           @click="edit">
+                           @click="onEdit(false)">
                   新建
                 </el-button>
               </el-form-item>
@@ -86,11 +88,11 @@
               下移
             </el-button>
             <el-button type="text"
-                       @click="on(scope)">
+                       @click="onlineNot(scope.row)">
               {{scope.row.bannerStatus==='0'?'上线':'下线'}}
             </el-button>
             <el-button type="text"
-                       @click="edit(scope)">
+                       @click="onEdit(true,scope.row)">
               编辑
             </el-button>
             <el-button type="text"
@@ -111,6 +113,7 @@
                      @current-change="handleCurrentChange" />
     </el-row>
     <Edit :id="editId"
+          ref="editDialog"
           :open="showModal"
           :type="type"
           @confirm="closeModal" />
@@ -118,7 +121,7 @@
 </template>
 
 <script>
-import { QueryBannerInfo, MoveBannerInfo, DelBannerInfo } from '@/api/business/BannerService';
+import { QueryBannerInfo, MoveBannerInfo, DelBannerInfo, UpdateBannerOnline } from '@/api/business/BannerService';
 import { basedata } from '@/api/public/PublicService';
 import Edit from './edit';
 
@@ -132,6 +135,7 @@ export default {
       Data: [],
       type: 1,
       editId: 1,
+      isEdit: false,
       total: 0,
       showModal: false,
       query: {
@@ -149,18 +153,19 @@ export default {
   methods: {
     handleCurrentChange (currentPage) {
       this.query.page_number = currentPage;
-      this.getDriver();
+      this.getList();
     },
     handleSizeChange (pageSize) {
       this.query.page_size = pageSize;
-      this.getDriver();
+      this.getList();
     },
     closeModal (pageSize) {
       this.showModal = false;
+      this.getList();
     },
     async getSortInsurance (Sort) {
       await MoveBannerInfo(Sort)
-      this.getDriver();
+      this.getList();
     },
     async up (obj, s) {
       const Id = obj.id;
@@ -194,16 +199,40 @@ export default {
       };
       this.getSortInsurance(SortInsurance);
     },
-    async on (row) {
-      const res = await QueryBannerInfo(this.query)
-      console.log(row, res)
+    async upOrDown (id, status) {
+      await UpdateBannerOnline({
+        id: id,
+        banner_status: status
+      })
+      this.getList();
+      this.$message({
+        type: 'success',
+        message: '操作成功!'
+      });
     },
-    edit (row) {
+    onlineNot (row) {
+      let status = '1';
+      let word = '上线';
+      if (row.bannerStatus === '1') {
+        status = '0';
+        word = '下线'
+      }
+      this.$confirm('确定' + word + ' ' + row.bannerName + ' 吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.upOrDown(row.id, status)
+      }).catch(() => {
+      });
+    },
+    onEdit (isEdit, row) {
       this.showModal = true
+      this.$refs.editDialog.toOpen(isEdit);
     },
     async delBannerInfo (id) {
       await DelBannerInfo(id)
-      this.getDriver();
+      this.getList();
       this.$message({
         type: 'success',
         message: '删除成功!'
@@ -219,7 +248,7 @@ export default {
       }).catch(() => {
       });
     },
-    async getDriver () {
+    async getList () {
       const params = this.query;
       if (this.query.type === 2 && params.bannerType && params.bannerType === 1) {
         params.bannerType = 6;
@@ -248,11 +277,11 @@ export default {
     handleTag (type) {
       this.type = type
       this.query.type = this.type
-      this.getDriver()
+      this.getList()
       this.getStyle()
     },
     init () {
-      this.getDriver();
+      this.getList();
       this.getStyle();
     }
   },
