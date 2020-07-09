@@ -1,9 +1,15 @@
 <template>
-  <div class="message-add">
+  <div class="message-push">
     <el-form ref="dataForm"
              :rules="rules"
              label-width="120px"
              :model="row">
+      <el-form-item v-if="this.addFlag === '0'" :label="$t('message.createUser')">
+        <el-input v-model="row.userName" :disabled="true"/>
+      </el-form-item>
+      <el-form-item v-if="this.addFlag === '0'" :label="$t('message.createTime')">
+        <el-input v-model="row.createTime" :disabled="true"/>
+      </el-form-item>
       <el-form-item :label="$t('message.describe')"
                     prop="describe">
         <el-input v-model="row.describe" />
@@ -30,7 +36,7 @@
         </el-radio-group>
       </el-form-item>
       <div v-if="row.targetUser === 1"
-           style="display: flex; flex-direction: row; padding-left:50px;">
+           style="display:flex; flex-direction:row; padding-left:50px;">
         <el-form-item :label="$t('message.carSeries')"
                       prop="seriseId">
           <el-select v-model="seriseId"
@@ -105,14 +111,10 @@
       </el-form-item>
 
       <el-form-item :label="$t('message.validityTime')">
-        <el-radio v-model="row.validity"
-                  :label='0'>
-          {{$t('message.noSave')}}
-        </el-radio>
-        <el-radio v-model="row.validity"
-                  :label='1'>
-          {{$t('message.yesSave')}}
-        </el-radio>
+        <el-radio-group v-model="row.validity">
+          <el-radio :label="0">{{$t('message.noSave')}}</el-radio>
+          <el-radio :label="1">{{$t('message.yesSave')}}</el-radio>
+        </el-radio-group>
       </el-form-item>
       <el-form-item v-if="row.validity === 1">
         <el-select v-model="row.saveDays"
@@ -150,7 +152,8 @@ import {
   newNotice,
   resendNotice
 } from '@/api/business/messageService';
-import { checkString, checkUrl } from '@/utils/rules'
+import { checkString, checkUrl } from '@/utils/rules';
+import { TagsViewModule } from '@/store/modules/tags-view';
 //import { basedata } from '@/api/public/PublicService';
 //import comSearch from '@/components/comSearch';
 
@@ -190,7 +193,7 @@ export default {
           { max: 500, message: '最多500个字', trigger: 'change' }
         ],
         targetUrl: [
-          { validator: checkUrl, trigger: 'change' }
+          { validator: checkString, trigger: 'change' }
         ],
         seriseId: [
           { required: true, message: '必填', trigger: ['blur', 'change'] }
@@ -288,6 +291,9 @@ export default {
         if (valid) {
           newNotice(this.row).then(() => {
             this.$message.success('消息新建成功！');
+            //删除tab标签
+            TagsViewModule.delView(this.$route);
+            //返回
             this.$router.go(-1);
           }).catch(err => {
             console.error(err)
@@ -317,7 +323,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.message-add {
+.message-push {
   .collapse-select {
     padding: 0 20px;
   }
