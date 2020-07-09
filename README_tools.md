@@ -1,8 +1,8 @@
 # 笔记
 
 ## todo：
-sass -》 less；用户信息存储；页面刷新 信息保留;websockt;时间范围；分模块引用；导入excel；下载；打印；富文本编辑器；图片上传;
-here地图。在线客服。表单。
+sass -》 less；用户信息存储； 信息保留;websockt;时间范围；分模块引用；导入excel；下载；打印；富文本编辑器；
+here地图。在线客服。表单。面包屑 里面跳转不好用
 
 ## 代码规范
 所有命名用驼峰形式
@@ -80,9 +80,9 @@ getGoToPath(item) {
  ### 隐藏路由菜单
  meta: { hidden: true }
 
- ### 关闭当前页面，并回退history
+ ### 关闭当前页面，并回退
  import { TagsViewModule } from '@/store/modules/tags-view'; //引入
- TagsViewModule.delView(this.$route); //删除tab标签
+ TagsViewModule.delView(this.$route); //删除导航tab标签
  this.$router.go(-1); //返回
 
  
