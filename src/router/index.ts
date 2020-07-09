@@ -47,6 +47,7 @@ export const asyncRoutes: RouteConfig[] = [
     path: '/about',
     component: Layout,
     redirect: '/about/index',
+    meta: { hidden: true },
     children: [
       {
         path: 'index',
@@ -60,34 +61,34 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   nestedRouter,
-  {
-    path: '/pdf',
-    component: Layout,
-    redirect: '/pdf/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import(/* webpackChunkName: "pdf" */ '@/views/pdf/index.vue'),
-        name: 'PDF',
-        meta: {
-          title: 'pdf',
-          icon: 'example'
-        }
-      }
-    ]
-  },
-  {
-    path: '/pdf-download-example',
-    component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/pdf/download.vue'),
-    meta: { hidden: true }
-  },
+  // {
+  //   path: '/pdf',
+  //   component: Layout,
+  //   redirect: '/pdf/index',
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/example/pdf/index.vue'),
+  //       name: 'PDF',
+  //       meta: {
+  //         title: 'pdf',
+  //         icon: 'example'
+  //       }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/pdf-download-example',
+  //   component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/example/pdf/download.vue'),
+  //   meta: { hidden: true }
+  // },
   {
     path: '/i18n',
     component: Layout,
     children: [
       {
         path: 'index',
-        component: () => import(/* webpackChunkName: "i18n-demo" */ '@/views/i18n-demo/index.vue'),
+        component: () => import(/* webpackChunkName: "i18n-demo" */ '@/views/example/i18n-demo/index.vue'),
         name: 'I18n',
         meta: {
           title: 'i18n',

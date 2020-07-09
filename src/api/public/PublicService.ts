@@ -6,7 +6,7 @@ import request from '@/utils/request';
 * */
 export const basedata = (params: any) =>
   request({
-    url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/common/basedata',
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/common/basedata',
     method: 'get',
     params
   });

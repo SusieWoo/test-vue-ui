@@ -35,6 +35,10 @@
                        @click="submit('form')">
               立即创建
             </el-button>
+            <el-button type="primary"
+                       @click="goBack()">
+              取消
+            </el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -47,6 +51,7 @@ import { ViewData } from '@/data'
 import { Num, checkUrl } from '@/utils/rules'
 import UploadImg from '@/components/UploadImg'
 import { setAd } from '@/api/business/BannerService';
+import { TagsViewModule } from '@/store/modules/tags-view';
 
 export default {
   components: {
@@ -112,6 +117,10 @@ export default {
       await setAd(params);
       this.$message.success('操作成功')
       this.fullscreenLoading = false
+    },
+    goBack () {
+      TagsViewModule.delView(this.$route);
+      this.$router.go(-1);
     },
     submit (formName) {
       this.$refs[formName].validate((valid, obj) => {
