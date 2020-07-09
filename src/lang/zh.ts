@@ -16,6 +16,7 @@ export default {
     i18n: '国际化',
     business: '业务支撑',
     carGroup: '车队管理',
+    carGroupBuild: '新建车队',
     appConfig: 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',
@@ -23,7 +24,9 @@ export default {
     basicInfo: '基础信息',
     carManage: '车辆管理',
     messageManage: '消息管理',
-    pushMessageAdd: '推送消息-新增',
+    messagePush: '推送消息',
+    messageSms: '短消息',
+    messageStatistics: '短信统计',
   },
   navbar: {
     logOut: '退出登录',
@@ -151,9 +154,6 @@ export default {
     operation: '操作'
   },
   message: {
-    pushMessage: '推送消息',
-    smsMessage: '短消息',
-    statisticsMessage: '短信统计',
     title: '标题',
     createUser: '创建人',
     targetUser: '目标用户',

@@ -57,9 +57,9 @@ export const carBindDetail = (data: any) => {
   });
 }
 export const carUnBind = (data: any) => {
-  // if (isMock){
-  //   return Mock.carBindList();
-  // }
+  if (isMock){
+    return Mock.carBindList();
+  }
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/review/carUnBind',
     method: 'post',
@@ -67,16 +67,22 @@ export const carUnBind = (data: any) => {
   });
 }
 export const carTeamList = (data: any) => {
-  if (isMock) {
-    return Mock.carTeamList();
-  }
+  // if (isMock) {
+  //   return Mock.carTeamList();
+  // }
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamList',
     method: 'post',
     data: data
   });
 }
-
-
-
-
+export const getManagerData = (params: any) =>{
+  if (isMock){
+    return Mock.getManagerData();
+  }
+  request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/queryCarTeamByPhone',
+    method: 'get',
+    params
+  });
+}

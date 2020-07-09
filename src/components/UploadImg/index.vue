@@ -23,7 +23,8 @@
                  type="primary">
         {{$t('common.clickUpload')}}
       </el-button>
-      <div slot="tip"
+      <div v-if="uploadConfig.notice"
+           slot="tip"
            class="el-upload__tip">
         {{$t('common.notice')}}：{{uploadConfig.notice}}
       </div>

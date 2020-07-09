@@ -9,7 +9,7 @@ const service = axios.create({
   timeout: 50000
 });
 
-let cansubmit = true;  //防止重复提交变量
+let cansubmit = true; //防止重复提交变量
 
 // const CancelToken = axios.CancelToken
 // const source = CancelToken.source()
@@ -17,7 +17,8 @@ let cansubmit = true;  //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '85b17c5b5a964770aef1d7f7062bdd31';
+    // let token: string | undefined = '85b17c5b5a964770aef1d7f7062bdd31';
+    let token: string | undefined = 'd09e6b4571c84ea5b8a325acdb68646f';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
@@ -32,7 +33,6 @@ service.interceptors.request.use(
 
     /*这里解决调用接口问题，get的入参*/
     if (config.method === 'post') {
-
       config.data = config.data || {};
       Object.assign(config.data, base);
     }
@@ -49,7 +49,6 @@ service.interceptors.request.use(
     } else {
       Promise.reject(error);
     }
-
   }
 );
 

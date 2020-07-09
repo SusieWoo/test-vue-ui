@@ -18,6 +18,12 @@ const businessRoutes: RouteConfig = {
       component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/carGroup/index.vue'),
     },
     {
+      path: 'carGroupBuild',
+      name: 'CarGroupBuild',
+      meta: { title: 'carGroupBuild', hidden: true },
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/carGroup/build.vue'),
+    },
+    {
       path: 'appConfig',
       name: 'AppConfig',
       meta: { title: 'appConfig' },
@@ -47,13 +53,13 @@ const businessRoutes: RouteConfig = {
       path: 'messageManage',
       name: 'MessageManage',
       meta: { title: 'messageManage' },
-      component: () => import(/* webpackChunkName: "messageManage" */ '@/views/businessSupport/message/pushMessage.vue')
+      component: () => import(/* webpackChunkName: "messageManage" */ '@/views/businessSupport/message/messageManage.vue')
     },
     {
-      path: 'pushMessageAdd',
-      name: 'pushMessageAdd',
-      meta: { title: 'pushMessageAdd', hidden: true },
-      component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/pushMessageAdd.vue')
+      path: 'messagePush',
+      name: 'MessagePush',
+      meta: { title: 'messagePush', hidden: true },
+      component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/messagePush.vue')
     },
   ]
 }

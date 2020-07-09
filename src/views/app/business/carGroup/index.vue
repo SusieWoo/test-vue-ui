@@ -4,7 +4,7 @@
       <el-form :inline="true" :model="query" label-position="left">
         <el-row>
           <el-col :span="12" :offset="1">
-            <el-form-item :label="$t('carGroup.groupName')" label-width="120px">
+            <el-form-item :label="$t('carGroup.groupName')+'：'" label-width="120px">
               <el-input v-model="query.keyWord" :placeholder="$t('carGroup.groupNamePlaceholder')" style="width: 220px"/>
             </el-form-item>
           </el-col>
@@ -13,7 +13,7 @@
               <el-button type="primary" icon="el-icon-search" @click="getList">{{$t('common.search')}}</el-button>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="">{{$t('carGroup.build')}}</el-button>
+              <el-button type="primary" @click="build">{{$t('carGroup.build')}}</el-button>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="">{{$t('carGroup.setVip')}}</el-button>
@@ -26,25 +26,25 @@
             <template>
               <span slot="item">
                 <el-form-item :label="$t('carGroup.isCompany')+'：'" label-width="120px">
-                  <el-select v-model="query.isCompany" :placeholder="$t('carGroup.all')">
+                  <el-select v-model="query.isCompany" :placeholder="$t('carGroup.all')" clearable>
                     <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
                     <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item :label="$t('carGroup.isGroup')+'：'" label-width="120px">
-                  <el-select v-model="query.isGroup" :placeholder="$t('carGroup.all')">
+                  <el-select v-model="query.isGroup" :placeholder="$t('carGroup.all')" clearable>
                     <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
                     <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item :label="$t('carGroup.isVip')+'：'" label-width="120px">
-                  <el-select v-model="query.isVip" :placeholder="$t('carGroup.all')">
+                  <el-select v-model="query.isVip" :placeholder="$t('carGroup.all')" clearable>
                     <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
                     <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
                 <el-form-item :label="$t('carGroup.createType')+'：'" label-width="120px">
-                  <el-select v-model="query.createType" :placeholder="$t('carGroup.all')">
+                  <el-select v-model="query.createType" :placeholder="$t('carGroup.all')" clearable>
                     <el-option :label="$t('carGroup.yes')" :value="1"></el-option>
                     <el-option :label="$t('carGroup.no')" :value="0"></el-option>
                   </el-select>
@@ -168,12 +168,21 @@ export default {
     },
     methods: {
       async getList() {
-        const re = await carTeamList(this.query);
+        let params = {}
+        for(let key in this.query){
+          if(this.query[key]){
+            params[key] = this.query[key]
+          }
+        }
+        const re = await carTeamList(params);
         this.tableData = re.data.list
         this.total = re.data.total
       },
       handleSelectionChange () {
 
+      },
+      build () {
+        this.$router.push('/business/carGroupBuild')
       }
     }
 }
