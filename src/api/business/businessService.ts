@@ -57,26 +57,28 @@ export const carBindDetail = (data: any) => {
   });
 }
 export const carUnBind = (data: any) => {
-  // if (isMock){
-  //   return Mock.carBindList();
-  // }
+  if (isMock){
+    return Mock.carBindList();
+  }
   return request({
     url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/review/carUnBind',
     method: 'post',
     data: data
   });
 }
-export const carTeamList = (data: any) => {
-  if (isMock) {
-    return Mock.carTeamList();
-  }
-  return request({
+export const carTeamList = (params: any) =>
+  request({
     url: 'http://sy.aerozhonghuan.com:81/dev/yiqi/app/api/faw/operate/carTeam/carTeamList',
-    method: 'post',
-    data: data
+    method: 'get',
+    params
+  });
+export const getManagerData = (params: any) =>{
+  if (isMock){
+    return Mock.getManagerData();
+  }
+  request({
+    url: 'http://sy.aerozhonghuan.com:81/test/yiqi/app/api/faw/operate/userManage/queryCarTeamByPhone',
+    method: 'get',
+    params
   });
 }
-
-
-
-
