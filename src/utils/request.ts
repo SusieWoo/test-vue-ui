@@ -17,7 +17,7 @@ let cansubmit = true;  //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '7b06a6fc09f74aeea8a753b247eaf4ba';
+    let token: string | undefined = '85b17c5b5a964770aef1d7f7062bdd31';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
@@ -116,37 +116,37 @@ service.interceptors.response.use(
 
 
 
-// /** 
-//  * post方法，对应post请求 
-//  * @param {String} url [请求的url地址] 
-//  * @param {Object} params [请求时携带的参数] 
-//  * @param {bool} isLazy [防止重复提交]
-//  */
-// export function post(url: string, params: object, isLazy: boolean) {
-//   // let cansubmit = true;
-//   return new Promise((resolve, reject) => {
-//     if (!cansubmit) {
-//       return reject({ message: '不可重复提交' })
-//     }
-//     if (isLazy) {
-//       cansubmit = false;
-//       let timer = setTimeout(() => {
-//         cansubmit = true;
-//         clearTimeout(timer);
-//       }, 2000);
-//     }
-//     axios.post(url, QS.stringify(params))
-//       .then(res => {
-
-//         resolve(res.data);
-//       })
-//       .catch(err => {
-
-//         console.log("post error ", err)
-//         reject(err)
-//       })
-//   });
-// }
+/** 
+ * post方法，对应post请求 
+ * @param {String} url [请求的url地址] 
+ * @param {Object} params [请求时携带的参数] 
+ * @param {bool} isLazy [防止重复提交]
+ */
+export function post(url: string, params: object, isLazy: boolean) {
+  // let cansubmit = true;
+  return new Promise((resolve, reject) => {
+    if (!cansubmit) {
+      return reject({ message: '不可重复提交' })
+    }
+    if (isLazy) {
+      cansubmit = false;
+      let timer = setTimeout(() => {
+        cansubmit = true;
+        clearTimeout(timer);
+      }, 2000);
+    }
+    service.request({
+      url: url,
+      method: 'post',
+      data: params,
+    }).then(res => {
+      resolve(res);
+    }).catch(err => {
+      console.log("post error ", err)
+      reject(err)
+    })
+  });
+}
 
 
 
