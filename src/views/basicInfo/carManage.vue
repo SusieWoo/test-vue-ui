@@ -34,7 +34,7 @@
       </el-form>
     </el-card>
     <!-- 查询条件end -->
-
+    <el-card></el-card>
     <!-- 表格start -->
     <el-table  v-loading="loading" class="t-table" stripe :data="tableData" style="width: 100%">
       <el-table-column fixed="left" align="center" label="操作" width="120">
@@ -82,46 +82,46 @@
       ></el-table-column>
       <el-table-column fixed="left" prop="car.chassisNum" align="center" label="底盘号" width="90"></el-table-column>
       <el-table-column prop="car.car_TYPE_VALUE" align="center" label="车辆类型" width="120"></el-table-column>
-      <el-table-column prop="car.carModelCode" align="center" label="车型码" width="120"></el-table-column>
+      <el-table-column prop="car.carModelCode" align="center" label="车型码" width="180"></el-table-column>
       <el-table-column prop="" align="center" label="归属" width="120"></el-table-column>
-      <el-table-column prop="car.dealerCode" align="center" label="经销商代码" width="80"></el-table-column>
-      <el-table-column prop="car.companyName" align="center" label="所属经销商" width="120"></el-table-column>
-      <el-table-column prop="car.qrCode" align="center" label="二维码" width="80"></el-table-column>
-      <el-table-column prop="car.simNo" align="center" label="FK控制器SIM卡" width="80"></el-table-column>
-      <el-table-column prop="car.vfactory" align="center" label="工厂代码" width="80"></el-table-column>
-      <el-table-column prop="car.fuelValue" align="center" label="动力类型" width="80"></el-table-column>
+      <el-table-column prop="car.dealerCode" align="center" label="经销商代码" width="160"></el-table-column>
+      <el-table-column prop="car.companyName" align="center" label="所属经销商" width="290"></el-table-column>
+      <el-table-column prop="car.qrCode" align="center" label="二维码" width="160"></el-table-column>
+      <el-table-column prop="car.simNo" align="center" label="FK控制器SIM卡" width="160"></el-table-column>
+      <el-table-column prop="car.vfactory" align="center" label="工厂代码" width="160"></el-table-column>
+      <el-table-column prop="car.fuelValue" align="center" label="动力类型" width="160"></el-table-column>
       <el-table-column prop="car.onlineTime" align="center" label="下线(制造日期)" width="160"></el-table-column>
-      <el-table-column prop="car.autoFlagStr" align="center" label="录入方式" width="80"></el-table-column>
-      <el-table-column prop="car.carDate" align="center" label="录入平台时间/安装时间" width="160"></el-table-column>
-      <el-table-column prop="car.tmFkName" align="center" label="终端型号" width="80"></el-table-column>
-      <el-table-column prop="car.fkCode" align="center" label="FK控制器ID" width="80"></el-table-column>
-      <el-table-column prop="car.salesStatusValue" align="center" label="STD销售状态" width="80"></el-table-column>
+      <el-table-column prop="car.autoFlagStr" align="center" label="录入方式" width="160"></el-table-column>
+      <el-table-column prop="car.carDate" align="center" label="录入平台时间/安装时间" width="180"></el-table-column>
+      <el-table-column prop="car.tmFkName" align="center" label="终端型号" width="160"></el-table-column>
+      <el-table-column prop="car.fkCode" align="center" label="FK控制器ID" width="160"></el-table-column>
+      <el-table-column prop="car.salesStatusValue" align="center" label="STD销售状态" width="160"></el-table-column>
       <el-table-column prop="sale.salesDateStr" align="center" label="STD销售日期" width="160"></el-table-column>
-      <el-table-column prop="car.aakStatusValue" align="center" label="AAK销售状态" width="80"></el-table-column>
+      <el-table-column prop="car.aakStatusValue" align="center" label="AAK销售状态" width="160"></el-table-column>
       <el-table-column prop="car.mbSaleTime" align="center" label="AAK销售日期" width="160"></el-table-column>
-      <el-table-column prop="car.cph" align="center" label="车牌号" width="80"></el-table-column>
+      <el-table-column prop="car.cph" align="center" label="车牌号" width="160"></el-table-column>
       <el-table-column prop="car.removalTimeStr" align="center" label="出库日期" width="160"></el-table-column>
-      <el-table-column prop="detail.engineTypeRear" align="center" label="发动机型号" width="80"></el-table-column>
-      <el-table-column prop="car.engine_TYPE_VALUE" align="center" label="发动机类型" width="80"></el-table-column>
-      <el-table-column prop="car.engineNumber" align="center" label="发动机号" width="80"></el-table-column>
-      <el-table-column prop="car.bsx" align="center" label="变速箱" width="80"></el-table-column>
-      <el-table-column prop="car.hq" align="center" label="后桥" width="80"></el-table-column>
-      <el-table-column prop="car.qt" align="center" label="长换油" width="80"></el-table-column>
-      <el-table-column prop="car.moniterCarType" align="center" label="是否监控车" width="80"></el-table-column>
+      <el-table-column prop="detail.engineTypeRear" align="center" label="发动机型号" width="160"></el-table-column>
+      <el-table-column prop="car.engine_TYPE_VALUE" align="center" label="发动机类型" width="160"></el-table-column>
+      <el-table-column prop="car.engineNumber" align="center" label="发动机号" width="160"></el-table-column>
+      <el-table-column prop="car.bsx" align="center" label="变速箱" width="160"></el-table-column>
+      <el-table-column prop="car.hq" align="center" label="后桥" width="160"></el-table-column>
+      <el-table-column prop="car.qt" align="center" label="长换油" width="160"></el-table-column>
+      <el-table-column prop="car.moniterCarType" align="center" label="是否监控车" width="160"></el-table-column>
       <el-table-column prop="car.firstGpsTimeStr" align="center" label="首次有效位置时间" width="160"></el-table-column>
-      <el-table-column prop="car.firstAvalidPosition" align="center" label="首次有效位置" width="80"></el-table-column>
+      <el-table-column prop="car.firstAvalidPosition" align="center" label="首次有效位置" width="160"></el-table-column>
       <el-table-column prop="car.lastGpsDate" align="center" label="末次有效位置时间" width="160"></el-table-column>
-      <el-table-column prop="car.addressDetail" align="center" label="末次有效位置" width="80"></el-table-column>
-      <el-table-column prop="detail.frontAxleFactoryOne" align="center" label="前桥1厂家" width="80"></el-table-column>
-      <el-table-column prop="detail.frontAxleTypeOne" align="center" label="前桥1型号" width="80"></el-table-column>
-      <el-table-column prop="detail.frontAxleFactoryTwo" align="center" label="前桥2厂家" width="80"></el-table-column>
-      <el-table-column prop="detail.frontAxleTypeTwo" align="center" label="前桥2型号" width="80"></el-table-column>
-      <el-table-column prop="detail.rearAxleFactoryOne" align="center" label="后桥1厂家" width="80"></el-table-column>
-      <el-table-column prop="detail.rearAxleTypeOne" align="center" label="后桥1型号" width="80"></el-table-column>
-      <el-table-column prop="detail.rearAxleFactoryTwo" align="center" label="后桥2厂家" width="80"></el-table-column>
-      <el-table-column prop="detail.rearAxleTypeTwo" align="center" label="后桥2型号" width="80"></el-table-column>
-      <el-table-column prop="controller.lockCarSupportStr" align="center" label="终端支持锁车" width="80"></el-table-column>
-      <el-table-column prop="car.isOpenStr" align="center" label="锁车功能状态" width="80"></el-table-column>
+      <el-table-column prop="car.addressDetail" align="center" label="末次有效位置" width="160"></el-table-column>
+      <el-table-column prop="detail.frontAxleFactoryOne" align="center" label="前桥1厂家" width="160"></el-table-column>
+      <el-table-column prop="detail.frontAxleTypeOne" align="center" label="前桥1型号" width="160"></el-table-column>
+      <el-table-column prop="detail.frontAxleFactoryTwo" align="center" label="前桥2厂家" width="160"></el-table-column>
+      <el-table-column prop="detail.frontAxleTypeTwo" align="center" label="前桥2型号" width="160"></el-table-column>
+      <el-table-column prop="detail.rearAxleFactoryOne" align="center" label="后桥1厂家" width="160"></el-table-column>
+      <el-table-column prop="detail.rearAxleTypeOne" align="center" label="后桥1型号" width="160"></el-table-column>
+      <el-table-column prop="detail.rearAxleFactoryTwo" align="center" label="后桥2厂家" width="160"></el-table-column>
+      <el-table-column prop="detail.rearAxleTypeTwo" align="center" label="后桥2型号" width="160"></el-table-column>
+      <el-table-column prop="controller.lockCarSupportStr" align="center" label="终端支持锁车" width="160"></el-table-column>
+      <el-table-column prop="car.isOpenStr" align="center" label="锁车功能状态" width="160"></el-table-column>
       <el-table-column prop="car.remark" align="center" label="备注" width="160"></el-table-column>
       <el-table-column prop="car.lastupdatetime" align="center" label="锁车状态更新时间" width="160"></el-table-column>
     </el-table>

@@ -281,7 +281,7 @@ export default {
         tbossUserName: "lianxue"
       };
       const re = await carUnBind(params);
-      if (re.data.resultCode === 200) {
+      if (re.resultCode === 200) {
         this.$message.success("解绑成功");
         this.getList();
       }
