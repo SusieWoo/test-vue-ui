@@ -23,6 +23,7 @@ export default {
     basicInfo: '基础信息',
     carManage: '车辆管理',
     messageManage: '消息管理',
+    pushMessageAdd: '推送消息-新增',
   },
   navbar: {
     logOut: '退出登录',
@@ -74,7 +75,10 @@ export default {
     netError: '网络服务异常',
     fileUploadFail: '文件上传失败',
     fileSizeFail: '文件大小不得超过',
-    warning: '警告'
+    warning: '警告',
+    title: '标题',
+    type: '类型',
+    selectDate: '请选择日期'
 
   },
   business: {
@@ -98,6 +102,7 @@ export default {
       appType: 'App类型',
       accTarget: '跳转页面',
       tm: '停留时间',
+      bannerLink: '链接url'
     }
   },
   basicInfo: {
@@ -143,13 +148,27 @@ export default {
     noticeType: '通知方式',
     msgType: '消息类型',
 
+
+    yes: '是',
+    no: '否',
+    describe: '消息描述',
+    content: '内容',
+    targetUrl: '消息跳转链接',
+    allUser: '全部用户',
+    partUser: '部分用户',
+    specialUser: '特定用户',
     pKeyWord: '请输入标题关键字',
     carType: '车型',
     carSeries: '车系',
-    discharge: '排放',
-    arStatus: '当前车辆状态',
-    province: '所属省',
-    city: '所属市',
-    reasonAlert: '请输入解绑原因'
+    role: '角色',
+    appMsg: 'APP消息',
+    sendTime: '推送时间',
+    pushNow: '立即推送',
+    pushTiming: '定时推送',
+    validityTime: '有效期',
+    noSave: '不保存，终端离线时消息被忽略',
+    yesSave: '保存',
+    saveMsg: '终端上线后可收到消息',
+    sendMsg: '发送',
   }
 }

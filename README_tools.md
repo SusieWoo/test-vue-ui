@@ -1,11 +1,14 @@
 # 笔记
 
 ## todo：
-sass -》 less；用户信息存储；页面刷新 信息保留;websockt;时间范围；table和分页；分模块引用；导入excel；下载；打印；富文本编辑器；图片上传;
-here地图。在线客服。表单。解决Vue-cli3.0下scss文件编译过慢、卡顿问题
+sass -》 less；用户信息存储；页面刷新 信息保留;websockt;时间范围；分模块引用；导入excel；下载；打印；富文本编辑器；图片上传;
+here地图。在线客服。表单。
 
 ## 代码规范
 所有命名用驼峰形式
+所有tboss请求接口用dev环境
+所有页面，写到app文件下
+
 
 ## 分环境打包
 
@@ -71,3 +74,15 @@ getGoToPath(item) {
 
 ## loading 写到对应div
  v-loading.fullscreen.lock="fullscreenLoading"
+
+ ## 关于路由：
+
+ ### 隐藏路由菜单
+ meta: { hidden: true }
+
+ ### 关闭当前页面，并回退history
+ import { TagsViewModule } from '@/store/modules/tags-view'; //引入
+ TagsViewModule.delView(this.$route); //删除tab标签
+ this.$router.go(-1); //返回
+
+ 

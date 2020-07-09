@@ -43,6 +43,18 @@ const businessRoutes: RouteConfig = {
       meta: { title: 'vehicleManage' },
       component: () => import(/* webpackChunkName: "banner" */ '@/views/businessSupport/vehicleManage.vue')
     },
+    {
+      path: 'messageManage',
+      name: 'MessageManage',
+      meta: { title: 'messageManage' },
+      component: () => import(/* webpackChunkName: "messageManage" */ '@/views/businessSupport/message/pushMessage.vue')
+    },
+    {
+      path: 'pushMessageAdd',
+      name: 'pushMessageAdd',
+      meta: { title: 'pushMessageAdd', hidden: true },
+      component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/pushMessageAdd.vue')
+    },
   ]
 }
 
