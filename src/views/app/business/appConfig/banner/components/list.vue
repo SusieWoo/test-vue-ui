@@ -228,7 +228,7 @@ export default {
     },
     onEdit (isEdit, row) {
       this.showModal = true
-      this.$refs.editDialog.toOpen(isEdit);
+      this.$refs.editDialog.toOpen(isEdit, row);
     },
     async delBannerInfo (id) {
       await DelBannerInfo(id)

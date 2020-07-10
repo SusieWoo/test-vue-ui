@@ -9,7 +9,7 @@ const service = axios.create({
   timeout: 50000
 });
 
-let cansubmit = true;  //防止重复提交变量
+let cansubmit = true; //防止重复提交变量
 
 // const CancelToken = axios.CancelToken
 // const source = CancelToken.source()
@@ -32,7 +32,6 @@ service.interceptors.request.use(
 
     /*这里解决调用接口问题，get的入参*/
     if (config.method === 'post') {
-
       config.data = config.data || {};
       Object.assign(config.data, base);
     }
@@ -49,7 +48,6 @@ service.interceptors.request.use(
     } else {
       Promise.reject(error);
     }
-
   }
 );
 
@@ -116,10 +114,10 @@ service.interceptors.response.use(
 
 
 
-// /** 
-//  * post方法，对应post请求 
-//  * @param {String} url [请求的url地址] 
-//  * @param {Object} params [请求时携带的参数] 
+// /**
+//  * post方法，对应post请求
+//  * @param {String} url [请求的url地址]
+//  * @param {Object} params [请求时携带的参数]
 //  * @param {bool} isLazy [防止重复提交]
 //  */
 // export function post(url: string, params: object, isLazy: boolean) {
