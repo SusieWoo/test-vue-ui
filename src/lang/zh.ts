@@ -25,8 +25,8 @@ export default {
     carManage: '车辆管理',
     messageManage: '消息管理',
     messagePush: '推送消息',
-    messageSms: '短消息',
-    messageStatistics: '短信统计',
+    messageSms: '短信息',
+    messageStatistics: '消息统计',
   },
   navbar: {
     logOut: '退出登录',
@@ -81,7 +81,10 @@ export default {
     warning: '警告',
     title: '标题',
     type: '类型',
-    selectDate: '请选择日期'
+    selectDate: '请选择日期',
+    detail: '详情',
+    addTo: '添加',
+    import: '导入'
 
   },
   business: {
@@ -148,7 +151,6 @@ export default {
     noticeType: '通知方式',
     msgType: '消息类型',
 
-
     yes: '是',
     no: '否',
     describe: '消息描述',
@@ -170,5 +172,13 @@ export default {
     yesSave: '保存',
     saveMsg: '终端上线后可收到消息',
     sendMsg: '发送',
+    addMessage: '新建消息',
+    reSendMsg: '消息重发',
+    dateRange: '统计日期范围',
+    sendMsgType: '发送端',
+    type: '类型',
+    sendCnt: '发送总数',
+    sendSuccessCnt: '发送成功条数',
+    sendLinkCnt: '链接点击条数',
   }
 }

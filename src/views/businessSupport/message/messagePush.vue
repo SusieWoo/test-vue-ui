@@ -1,5 +1,7 @@
 <template>
   <div class="message-push">
+    <div style="height: 40px;background-color:#97a8be;" v-if="this.addFlag === '1'">{{$t('message.addMessage')}}</div>
+    <div style="height: 40px;background-color:#97a8be;" v-if="this.addFlag === '0'">{{$t('message.reSendMsg')}}</div>
     <el-form ref="dataForm"
              :rules="rules"
              label-width="120px"
@@ -193,7 +195,7 @@ export default {
           { max: 500, message: '最多500个字', trigger: 'change' }
         ],
         targetUrl: [
-          { validator: checkString, trigger: 'change' }
+          { validator: checkUrl, trigger: 'change' }
         ],
         seriseId: [
           { required: true, message: '必填', trigger: ['blur', 'change'] }
