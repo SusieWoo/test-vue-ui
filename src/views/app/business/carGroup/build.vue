@@ -1,6 +1,6 @@
 <template>
 	<div class="app-container">
-    <el-card class="card-panel">
+    <el-card>
       <center>
         <el-form
           :inline="true"
@@ -9,38 +9,8 @@
           :rules="ruless"
         >
           <el-row>
-            <el-form-item :label="'车队名称'" label-width="150px" prop="teamName" align="left">
+            <el-form-item :label="'车队名称'" label-width="150px" prop="teamName">
               <el-input v-model="buildForm.teamName" class="formItem"/>
-            </el-form-item>
-          </el-row>
-
-          <el-row>
-            <el-form-item :label="'是否企业客户'" label-width="150px" align="left">
-              <el-checkbox v-model="buildForm.isCompany" align="left" class="formItem">是</el-checkbox>
-            </el-form-item>
-          </el-row>
-
-          <el-row v-if="buildForm.isCompany">
-            <el-form-item :label="'企业名称'" label-width="150px" prop="companyName" align="left">
-              <el-input v-model="buildForm.companyName" class="formItem"/>
-            </el-form-item>
-          </el-row>
-
-          <el-row v-if="buildForm.isCompany">
-            <el-form-item :label="'统一社会信用代码'" label-width="150px" prop="creditCode" align="left">
-              <el-input v-model="buildForm.creditCode" class="formItem"/>
-            </el-form-item>
-          </el-row>
-
-          <el-row>
-            <el-form-item :label="'是否集团客户'" label-width="150px" align="left">
-              <el-checkbox v-model="buildForm.isGroup" align="left" class="formItem">是</el-checkbox>
-            </el-form-item>
-          </el-row>
-
-          <el-row>
-            <el-form-item :label="'是否VIP'" label-width="150px" align="left">
-              <el-checkbox v-model="buildForm.isVip" align="left" class="formItem">是</el-checkbox>
             </el-form-item>
           </el-row>
 
@@ -57,17 +27,66 @@
               >
                 <el-option
                   v-for="item in managers"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
+                  :key="item.id"
+                  :label="(item.name && item.name!=''?item.name:'无姓名') + '（' + (item.phone && item.phone!=''?item.phone:'无手机号') + '，' + (item.accountName&&item.accountName!=''?item.accountName:'无账号') + '）'"
+                  :value="item.name">
                 </el-option>
               </el-select>
+              <br/>
+              <el-button type="text" size="small" @click="buildManager">新建管理员</el-button>
+              <el-button type="text" size="small" @click="buildManager">查看新建</el-button>
             </el-form-item>
           </el-row>
 
         </el-form>
       </center>
     </el-card>
+    <el-dialog
+      :close-on-click-modal="false"
+      :visible.sync="buildManagerDialogVis"
+      top="20vh"
+      width="50%"
+      title="新建管理员"
+      @close="close"
+    >
+      <el-card>
+        <center>
+          <el-form
+            :inline="true"
+            :model="dialogForm"
+            label-position="left"
+            :rules="dialogRuless"
+            ref="dialogForm"
+          >
+            <el-row>
+              <el-form-item :label="'管理员名称：'" label-width="150px" prop="name">
+                <el-input v-model="dialogForm.name" class="dialogFormItem"/>
+              </el-form-item>
+            </el-row>
+
+            <el-row>
+              <el-form-item :label="'管理员账号：'" label-width="150px" prop="accountName">
+                <el-input v-model="dialogForm.accountName" class="dialogFormItem"/>
+              </el-form-item>
+            </el-row>
+
+            <el-row>
+              <el-form-item :label="'管理员密码：'" label-width="150px" prop="passWord">
+                <el-input auto-complete="new-password" v-model="dialogForm.passWord" class="dialogFormItem"/>
+              </el-form-item>
+            </el-row>
+
+            <el-row>
+              <el-form-item>
+                <el-button type="warning" @click="cancel">取消</el-button>
+                <el-button type="primary" @click="add">添加</el-button>
+              </el-form-item>
+            </el-row>
+
+          </el-form>
+        </center>
+      </el-card>
+    </el-dialog>
 	</div>
 </template>
 
@@ -81,30 +100,40 @@ export default {
   },
   data () {
     return {
+      isLook: fasle,
       loading: false,
       managers: [],
       buildForm: {
-        isCompany: true,
-        isGroup: false,
-        isVip: false
+
+      },
+      dialogForm: {
+        name: '',
+        accountName: '',
+        passWord: ''
       },
       ruless: {
         teamName: [
           { required: true, message: '请输入车队名称', trigger: 'blur' },
-        ],
-        companyName: [
-          { required: true, message: '请输入企业名称', trigger: 'blur' },
-        ],
-        creditCode: [
-          { required: true, message: '请输入统一社会信用代码', trigger: 'blur' },
-        ],
-      }
+        ]
+      },
+      dialogRuless: {
+
+      },
+      buildManagerDialogVis: false
     }
   },
   mounted() {
 
   },
   methods: {
+    cancel () {
+      this.$refs['dialogForm'].resetFields()
+      this.buildManagerDialogVis = false
+    },
+    add () {
+      this.$refs['dialogForm'].resetFields()
+      this.buildManagerDialogVis = false
+    },
     async remoteMethod(query) {
       if (query !== '') {
         let params = {
@@ -112,16 +141,14 @@ export default {
         }
         this.loading = true;
         const re = await getManagerData(params);
-        setTimeout(() => {
-          this.loading = false;
-          this.managers = this.list.filter(item => {
-            return item.label.toLowerCase()
-              .indexOf(query.toLowerCase()) > -1;
-          });
-        }, 200);
+        this.managers = re.data
+        this.loading = false;
       } else {
         this.managers = [];
       }
+    },
+    buildManager () {
+      this.buildManagerDialogVis = true
     }
   }
 }
@@ -129,7 +156,10 @@ export default {
 
 <style scoped>
   .formItem {
-    width: 800px
+    width: 600px
+  }
+  .dialogFormItem {
+    width: 300px
   }
   .el-form-item {
     margin-bottom: 25px !important;

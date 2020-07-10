@@ -77,10 +77,7 @@ export const carTeamList = (data: any) => {
   });
 }
 export const getManagerData = (params: any) =>{
-  if (isMock){
-    return Mock.getManagerData();
-  }
-  request({
+  return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/queryCarTeamByPhone',
     method: 'get',
     params
