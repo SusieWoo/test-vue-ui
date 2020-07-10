@@ -83,3 +83,10 @@ export const getManagerData = (params: any) =>{
     params
   });
 }
+export const newAccount = (params: any) =>{
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/newAccount',
+    method: 'get',
+    params
+  });
+}

@@ -24,6 +24,7 @@
                 :remote-method="remoteMethod"
                 :placeholder="'请输入管理员账号或姓名或手机号进行查询（没有找到管理员可以‘新建管理员’）'"
                 :loading="loading"
+                @change="handleChange"
               >
                 <el-option
                   v-for="item in managers"
@@ -34,7 +35,13 @@
               </el-select>
               <br/>
               <el-button type="text" size="small" @click="buildManager">新建管理员</el-button>
-              <el-button type="text" size="small" @click="buildManager">查看新建</el-button>
+              <el-button type="text" size="small" @click="buildManager(true)" v-if="this.dialogForm.name">查看新建</el-button>
+            </el-form-item>
+          </el-row>
+
+          <el-row>
+            <el-form-item>
+              <el-button type="primary" @click="save" size="midium" style="width: 100px">保存</el-button>
             </el-form-item>
           </el-row>
 
@@ -47,7 +54,6 @@
       top="20vh"
       width="50%"
       title="新建管理员"
-      @close="close"
     >
       <el-card>
         <center>
@@ -60,26 +66,26 @@
           >
             <el-row>
               <el-form-item :label="'管理员名称：'" label-width="150px" prop="name">
-                <el-input v-model="dialogForm.name" class="dialogFormItem"/>
+                <el-input v-model="dialogForm.name" class="dialogFormItem" :disabled="isLook"/>
               </el-form-item>
             </el-row>
 
             <el-row>
               <el-form-item :label="'管理员账号：'" label-width="150px" prop="accountName">
-                <el-input v-model="dialogForm.accountName" class="dialogFormItem"/>
+                <el-input v-model="dialogForm.accountName" class="dialogFormItem" :disabled="isLook"/>
               </el-form-item>
             </el-row>
 
             <el-row>
               <el-form-item :label="'管理员密码：'" label-width="150px" prop="passWord">
-                <el-input auto-complete="new-password" v-model="dialogForm.passWord" class="dialogFormItem"/>
+                <el-input auto-complete="new-password" v-model="dialogForm.passWord" class="dialogFormItem" :disabled="isLook"/>
               </el-form-item>
             </el-row>
 
             <el-row>
               <el-form-item>
-                <el-button type="warning" @click="cancel">取消</el-button>
-                <el-button type="primary" @click="add">添加</el-button>
+                <el-button type="warning" @click="cancel" v-if="!isLook">取消</el-button>
+                <el-button type="primary" @click="add" v-if="!isLook">添加</el-button>
               </el-form-item>
             </el-row>
 
@@ -87,11 +93,37 @@
         </center>
       </el-card>
     </el-dialog>
+    <el-dialog
+      :close-on-click-modal="false"
+      :visible.sync="batchAddCarVis"
+      top="20vh"
+      width="50%"
+      title="是否需要批量加车？"
+    >
+      <el-upload
+        :limit="1"
+        ref="upload"
+        action="https://jsonplaceholder.typicode.com/posts/"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :file-list="fileList"
+        :auto-upload="false">
+        <el-button slot="trigger" size="small" type="primary" style="width: 100px">选取文件</el-button>
+      </el-upload>
+
+      <el-row style="margin: 50px 0">
+        <el-button size="small" type="success" @click="submitUpload" style="width: 100px">EXCEL导入</el-button>
+        <el-link href="http://sy.aerozhonghuan.com:81/test/yiqi/web/qdfaw/tboss/assets/import/addCarList.xlsx" target="_blank">
+          <el-button size="small" type="info" style="width: 100px">模板下载</el-button>
+        </el-link>
+      </el-row>
+    </el-dialog>
 	</div>
 </template>
 
 <script>
-import { getManagerData } from "@/api/business/businessService";
+import { getManagerData , newAccount } from "@/api/business/businessService";
+import { getUserInfo } from '@/api/users'
 
 export default {
   name: 'CarGroupBuild',
@@ -100,11 +132,14 @@ export default {
   },
   data () {
     return {
-      isLook: fasle,
+      batchAddCarVis: false,
+      isLook: false,
       loading: false,
       managers: [],
+      managersCopy: [],
       buildForm: {
-
+        createType:'tboss',
+        type: 2
       },
       dialogForm: {
         name: '',
@@ -119,20 +154,62 @@ export default {
       dialogRuless: {
 
       },
-      buildManagerDialogVis: false
+      buildManagerDialogVis: false,
+      fileList: []
     }
   },
   mounted() {
 
   },
   methods: {
+    submitUpload() {
+      this.$refs.upload.submit();
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleChange () {
+      if(this.$refs['dialogForm']){
+        this.$refs['dialogForm'].resetFields()
+      }
+    },
+    async save () {
+      let param = {}
+      param.teamName = this.buildForm.teamName
+      param.name = this.buildForm.name
+      param.createType = 'tboss'
+      param.type = '2'
+      const user = await getUserInfo()
+      param.tbossName = user.data.accountName
+      // param.tbossName = 'guowang'
+      param.isCompany = 0
+      param.isGroup = 0
+      param.isVip = 0
+      if(this.managers.length){
+        let fil = this.managersCopy.filter(item => {
+          return item.name === this.buildForm.name
+        })
+        param.managerId = fil[0].id
+      }
+      if (this.dialogForm.accountName) param.accountName = this.dialogForm.accountName
+      if (this.dialogForm.passWord) param.passWord = this.dialogForm.passWord
+      const re = await newAccount(param);
+      if(re.message == 'OK'){
+        this.batchAddCarVis = true
+      }
+    },
     cancel () {
       this.$refs['dialogForm'].resetFields()
       this.buildManagerDialogVis = false
     },
     add () {
-      this.$refs['dialogForm'].resetFields()
       this.buildManagerDialogVis = false
+      this.buildForm.name = this.dialogForm.name
+      this.managers = []
+      this.managersCopy = []
     },
     async remoteMethod(query) {
       if (query !== '') {
@@ -141,14 +218,23 @@ export default {
         }
         this.loading = true;
         const re = await getManagerData(params);
-        this.managers = re.data
+        this.managers = JSON.parse(JSON.stringify(re.data))
+        this.managersCopy = JSON.parse(JSON.stringify(re.data))
         this.loading = false;
       } else {
         this.managers = [];
       }
     },
-    buildManager () {
+    buildManager (flag) {
       this.buildManagerDialogVis = true
+      if(flag===true){
+        this.isLook = true
+      }else{
+        if(this.$refs['dialogForm']){
+          this.$refs['dialogForm'].resetFields()
+        }
+        this.isLook = false
+      }
     }
   }
 }
@@ -162,6 +248,6 @@ export default {
     width: 300px
   }
   .el-form-item {
-    margin-bottom: 25px !important;
+    margin-top: 100px !important;
   }
 </style>
