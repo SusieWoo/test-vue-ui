@@ -1,23 +1,27 @@
 <template>
-  <el-dialog :title="edit?'编辑':'新建' + 'banner'"
+  <el-dialog :title="(isEdit?'编辑':'新建') + 'banner'"
              :visible.sync="open"
              :before-close="cancel"
              append-to-body>
     <el-form ref="form"
+             v-loading.fullscreen.lock="fullscreenLoading"
              :rules="rules"
-             label-width="100px"
+             label-width="120px"
              :model="row">
       <el-row :gutter="20">
         <el-col :span="20"
                 :offset="1">
-          {{row.test1}}{{row.test2}}
           <el-form-item label="APP端">
-            <el-checkbox v-model="row.from0"
-                         label="司机端"
-                         name="type" />
-            <el-checkbox v-model="row.from1"
-                         label="车队端"
-                         name="type" />
+            <el-checkbox v-model="from0"
+                         label="车队版"
+                         name="fromApp"
+                         :disabled="isEdit"
+                         @change="getStyle" />
+            <el-checkbox v-model="from1"
+                         label="司机版"
+                         name="fromApp"
+                         :disabled="isEdit"
+                         @change="getStyle" />
           </el-form-item>
           <el-form-item :label="$t('common.title')"
                         prop="name">
@@ -25,31 +29,52 @@
           </el-form-item>
           <el-form-item :label="$t('common.type')"
                         prop="bannerType">
-            <el-select v-model="row.bannerType"
+            <el-select v-if="!isEdit"
+                       v-model="row.bannerType"
                        clearable
-                       placeholder="请选择">
+                       placeholder="请选择"
+                       @change="change">
               <el-option v-for="item in style"
                          :key="item.value"
                          :label="item.name"
                          :value="item.value" />
             </el-select>
+            <el-input v-if="isEdit"
+                      v-model="row.bannerTypeName"
+                      disabled />
           </el-form-item>
-          <UploadImg :upload-config="uploadConfig"
+          <UploadImg ref='uploadImg'
+                     :upload-config="uploadConfig"
                      :upload-finish="finishUpload"
                      @on-upload-success="uploadSuccess"
                      @on-handle-remove="handleRemove" />
-          <p v-if="noticeTxt !== ''"
-             style="margin-left:100px">
+          <p style="margin-left:100px">
             {{noticeTxt }}
           </p>
-          <el-form-item :label="$t('business.appConfig.bannerLink')"
+          <el-form-item v-if="row.bannerType===1||row.bannerType===2||row.bannerType===5||row.bannerType===6"
+                        :label="$t('business.appConfig.bannerLink')"
                         prop="bannerLink">
+            <el-input v-model="row.bannerLink" />
+          </el-form-item>
+          <el-form-item v-if="row.bannerType===4||row.bannerType===5"
+                        :label="$t('business.appConfig.color')"
+                        prop="color">
+            <el-input v-model="row.color" />
+          </el-form-item>
+          <el-form-item v-if="row.bannerType===3"
+                        :label="$t('business.appConfig.appLink')"
+                        prop="appLink">
+            <el-input v-model="row.appLink" />
+          </el-form-item>
+          <el-form-item v-if="row.bannerType===7||row.bannerType===8"
+                        :label="$t('business.appConfig.bannerLink')"
+                        prop="bannerLink2">
             <el-input v-model="row.bannerLink" />
           </el-form-item>
           <el-form-item>
             <el-button type="primary"
                        @click="submit('form')">
-              立即创建
+              保存
             </el-button>
             <el-button type="primary"
                        @click="cancel()">
@@ -64,10 +89,26 @@
 
 <script>
 import { basedata } from '@/api/public/PublicService';
-import { ViewData } from '@/data'
-import { checkUrl } from '@/utils/rules'
+import { checkUrl, checkColor } from '@/utils/rules'
 import UploadImg from '@/components/UploadImg'
-import { setAd } from '@/api/business/BannerService';
+import { AddBannerInfo, UpdateBannerInfo } from '@/api/business/BannerService';
+/*
+   *  v2.26修改。已于孟高洁确认，当车队和司机都选择的时候，下拉没有1,7,8。
+   *  所有下拉都不会返回type是6的。mengqs在新建司机首页bannar，库里会插入6，这时仅当编辑时，详情返回type=6的情况
+   *  {1:"首页banner"},{2:"福利社页banner"},{3:"福利社页福利区图片"},{4:"推荐购车背景"},{5:"被推荐购车背景"},{7:"首页浮标"},{8:"首页推荐位"}]
+   *  /basedata 下拉筛选规则：7浮标，8推荐位
+   *  type：A （车队搜索下拉，车队新建，1~5，没7，没8）
+   *  type：B （司机搜索下拉，1~8，都要有）（前端特殊处理，选1传6）
+   *  type：C （司机新建，1~7，有7，没8）
+   *  type：D （司机和车队新建，只有2，3，4，5）
+   *
+   *  建议分辨率
+   *  车队-新建-1080*640
+   *  司机-新建-1080*360
+   *  车队-编辑-bannerType=1
+   *  司机-编辑-bannerType=6
+   *
+   * */
 export default {
   components: {
     UploadImg
@@ -80,42 +121,51 @@ export default {
     id: {
       type: Number,
       default: 0
-    },
-    type: {
-      type: Number,
-      default: 1
     }
   },
 
   data () {
     return {
       noticeTxt: '',
-      fileObjec: [],
       style: '',
-      edit: false,
+      isEdit: false,
       bannerTypeList: [],
       params: {},
+      from0: false,
+      from1: false,
       row: {
       },
-      //得到数据 APP类型
-      appArr: ViewData.operateAppScreen.appTypeList,
       fullscreenLoading: false,
       finishUpload: true,
       uploadConfig: {
         label: '图片',
         sizeLimit: 2,
-        numLimt: 1,
+        numLimt: 1
       },
       rules: {
+        from: [
+          { required: true, message: '必填', trigger: 'change' }
+        ],
         name: [
           { required: true, message: '必填', trigger: 'change' },
-          { max: 5, trigger: 'change' }
+          { max: 50, trigger: 'change' }
         ],
         bannerType: [
           { required: true, message: '必填', trigger: 'change' }
         ],
         bannerLink: [
+          { required: true, message: '必填', trigger: 'change' },
           { validator: checkUrl, trigger: 'change' }
+        ],
+        bannerLink2: [
+          { max: 500, trigger: 'change' }
+        ],
+        color: [
+          { required: true, message: '必填', trigger: 'change' },
+          { validator: checkColor, trigger: 'change' }
+        ],
+        appLink: [
+          { required: true, message: '必填', trigger: 'change' },
         ],
       },
       bannerStatus: [{ key: '1', value: '上线' }, { key: '0', value: '下线' }],
@@ -125,11 +175,17 @@ export default {
 
   },
   methods: {
+    getStyle () {
+      this.row.bannerType = '';
+      this.getBannerTypeList();
+      this.resetSize();
+    },
     reset () {
       if (this.endDate === '0') {
         this.row.activityEndDate = ''
       }
     },
+    /*类型修改*/
     change () {
       this.resetSize();
       this.resetData();
@@ -169,21 +225,18 @@ export default {
           size = '';
       }
       this.noticeTxt = size ? '建议比例和分辨率：' + size : '';
-      console.log(this.noticeTxt)
     },
     uploadSuccess (res) {
-      this.fileObjec = res;
+      this.row.imgPath = res.filePath;
     },
     handleRemove (res) {
-      if (this.fileObjec[0].filePath === res.response.data[1].fullPath) {
-        this.fileObjec = [];
-      }
+      this.row.imgPath = ''
     },
     async getBannerTypeList () {
       let type = 'A';
-      if (this.row.from0 && !this.row.from1) { //仅车队
+      if (this.from0 && !this.from1) { //仅车队
         type = 'A';
-      } else if (!this.row.from0 && this.row.from1) { //仅司机(submit的时候bannerType传的是1时候，由后端处理成6再存)
+      } else if (!this.from0 && this.from1) { //仅司机(submit的时候bannerType传的是1时候，由后端处理成6再存)
         type = 'C';
       } else { //车队和司机 同时选中与同时不选中时
         type = 'D';
@@ -193,16 +246,23 @@ export default {
     },
     async add (query) {
       const params = query;
-      if (this.fileObjec && this.fileObjec[0] && this.fileObjec[0].filePath) {
-        params.imgUrl = this.fileObjec[0].filePath
-      } else {
+      if (!params.imgPath) {
         this.$message.warning('请上传图片')
         return false
       }
       this.fullscreenLoading = true
-      await setAd(params);
+      if (!(this.row.bannerType === 4 || this.row.bannerType === 5)) {
+        this.row.color = ''
+      }
+      let type = [];
+      if (this.form0) type.push('1')
+      if (this.form1) type.push('2')
+      this.row.type = type.join(',');
+
+      this.isEdit ? await UpdateBannerInfo(params) : await AddBannerInfo(params);
       this.$message.success('操作成功')
       this.fullscreenLoading = false
+      this.cancel()
     },
     submit (formName) {
       this.$refs[formName].validate((valid, obj) => {
@@ -217,10 +277,16 @@ export default {
         }
       })
     },
-    toOpen (isEdit, params) {
-      this.edit = isEdit
+    toOpen (isEdit, params, type) {
+      this.isEdit = isEdit
       this.params = params
-      if (this.edit) {
+      this.type = type
+      if (this.type === 1) {
+        this.from0 = true;
+      } else {
+        this.from1 = true
+      }
+      if (this.isEdit) {
         this.row = {
           bannerType: parseInt(this.params.bannerType),
           bannerTypeName: this.params.bannerTypeName,
@@ -232,12 +298,17 @@ export default {
           color: this.params.color,
           id: this.params.id
         }
+        this.$nextTick(() => {
+          this.$refs.uploadImg.changePath([{ url: this.params.imgPath }]);
+        })
       } else {
         this.row = {
           type: this.type
         };
+        this.$nextTick(() => {
+          this.$refs.uploadImg.changePath([]);
+        })
       }
-      console.log(this.row)
       this.init()
     },
     init () {

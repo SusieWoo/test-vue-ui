@@ -11,7 +11,8 @@
                         placeholder="搜索标题关键字" />
             </el-form-item>
             <el-form-item label="状态">
-              <el-select v-model="query.bannerStatus">
+              <el-select v-model="query.bannerStatus"
+                         clearable>
                 <el-option v-for="item in bannerStatus"
                            :key="item.key"
                            :label="item.value"
@@ -228,7 +229,7 @@ export default {
     },
     onEdit (isEdit, row) {
       this.showModal = true
-      this.$refs.editDialog.toOpen(isEdit, row);
+      this.$refs.editDialog.toOpen(isEdit, row, this.type);
     },
     async delBannerInfo (id) {
       await DelBannerInfo(id)

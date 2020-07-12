@@ -1,12 +1,21 @@
 import request from '@/utils/request';
 
+type makeUrl = { (url: string): string };
+let makeUrl = (url: string) => {
+  let base: any = process.env.VUE_APP_TBOSS_API
+  if (base === 'http://uat-iov-ec.fawjiefang.com.cn/') {
+    return process.env.VUE_APP_TBOSS_API + 'app/api/faw/' + url
+  } else {
+    return process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/' + url
+  }
+}
 /* *
 * https://10.30.50.150:8443/svn/青汽车联网项目/数据结构设计/云端数据库数据字典表/云端数据库字典表.xlsx
 * 数据字典 获得服务类型 se01 type一般是传"A"
 * */
 export const basedata = (params: any) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/common/basedata',
+    url: makeUrl('operate/common/basedata'),
     method: 'get',
     params
   });

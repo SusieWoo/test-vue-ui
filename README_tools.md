@@ -85,4 +85,33 @@ getGoToPath(item) {
  TagsViewModule.delView(this.$route); //删除导航tab标签
  this.$router.go(-1); //返回
 
+## 坑
+
+<el-checkbox v-model="row.from1" label="车队端" name="type" @change="func" />
+触发推荐用 @change="func"
+若@click.native="func($event)" 则会触发两次（原因：表面上el-checkbox是一个标签，其实它是label和input两个标签 第一个事件在label上触发第二个在input上触发）。
+修改办法@click.native坑的方法，用$event判断：
+func(e){
+        if (e.target.tagName === 'INPUT') return 
+      },
  
+
+ ## 图片上传
+ <UploadImg :upload-config="uploadConfig8"
+            :upload-finish="finishUpload"
+            @on-upload-success="uploadSuccess"
+            @on-handle-remove="handleRemove" />
+ 
+ uploadConfig: {
+        label: '图片',
+        sizeLimit: 2,
+        numLimt: 1,
+        ruleName: 'needImg'
+      }
+  
+  file-list 格式[{url:''}] 或者 [{name:'',url:''}]
+
+//父组件赋值图片地址
+  this.$nextTick(() => {
+    this.$refs.uploadImg.changePath([{ url: this.params.imgPath }]);
+  })

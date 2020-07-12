@@ -7,7 +7,22 @@ import { getToken } from '@/utils/cookies';
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 50000
-});
+})
+interface props {
+  [proppName: string]: any
+}
+let dealParams = (params: props, token: string | undefined, method: string): props => {
+  //get 方法，去掉空值
+  if (method === 'get') {
+    Object.keys(params).forEach(item => {
+      if (!params[item]) {
+        delete params[item]
+      }
+    });
+  }
+  Object.assign(params, { 'token': token, '__r': Math.random() });
+  return params || {}
+}
 
 let cansubmit = true; //防止重复提交变量
 
@@ -17,7 +32,7 @@ let cansubmit = true; //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = 'fef27c219ec14775a2f07ba863b4edca';
+    let token: string | undefined = 'b647a16648754e9f9c8af98cb58c5975';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
@@ -33,11 +48,11 @@ service.interceptors.request.use(
     /*这里解决调用接口问题，get的入参*/
     if (config.method === 'post') {
       config.data = config.data || {};
-      Object.assign(config.data, base);
+      dealParams(config.data, token, 'post')
     }
     if (config.method === 'get') {
       config.params = config.params || {};
-      Object.assign(config.params, base);
+      dealParams(config.params, token, 'get')
     }
 
     return config;

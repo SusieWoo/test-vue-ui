@@ -28,3 +28,13 @@ export const Num = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
+
+//6位颜色色号(实际是十六进制数)
+export const checkColor = (rule: any, value: any, callback: any) => {
+  const reg = /^[0-9a-fA-F]{6}$/
+  if (!reg.test(value)) {
+    return callback(new Error('请输入6位a-f字母和数字的任意组合'))
+  } else {
+    callback()
+  }
+}

@@ -25,8 +25,10 @@ export default {
     carManage: '车辆管理',
     messageManage: '消息管理',
     messagePush: '推送消息',
-    messageSms: '短信息',
-    messageStatistics: '消息统计',
+    messageSms: '短消息',
+    messageStatistics: '短信统计',
+    competition: '节油大赛',
+    oilSet: '奖项配置'
   },
   navbar: {
     logOut: '退出登录',
@@ -50,6 +52,11 @@ export default {
     close: '关闭',
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
+  },
+  data: {
+    appTypeList: {
+      1: '车队app'
+    }
   },
   common: {
     confirm: '确定',
@@ -108,6 +115,8 @@ export default {
       appType: 'App类型',
       accTarget: '跳转页面',
       tm: '停留时间',
+      color: '色号',
+      appLink: 'APP页面地址',
       bannerLink: '链接url'
     }
   },
