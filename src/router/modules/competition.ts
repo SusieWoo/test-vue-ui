@@ -12,13 +12,13 @@ const competitionRoutes: RouteConfig = {
   children: [
     {
       path: 'oil',
-      name: 'oil',
+      name: 'Oil',
       meta: { title: 'competition' },
       component: () => import(/* webpackChunkName: "oil" */ '@/views/app/competition/oil/index.vue'),
     }, {
-      path: 'oil',
-      name: 'oil',
-      meta: { title: 'competition' },
+      path: 'oilSet',
+      name: 'OilSet',
+      meta: { title: 'oilSet' },
       component: () => import(/* webpackChunkName: "oil" */ '@/views/app/competition/oil/index.vue'),
     },
   ]

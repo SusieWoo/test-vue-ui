@@ -13,19 +13,20 @@
                 :offset="1">
           <el-form-item label="APP端">
             <el-checkbox v-model="from0"
-                         label="车队版"
+                         :label="$t('business.appConfig.ownType')"
                          name="fromApp"
                          :disabled="isEdit"
                          @change="getStyle" />
             <el-checkbox v-model="from1"
-                         label="司机版"
+                         :label="$t('business.appConfig.driverType')"
                          name="fromApp"
                          :disabled="isEdit"
                          @change="getStyle" />
           </el-form-item>
           <el-form-item :label="$t('common.title')"
                         prop="name">
-            <el-input v-model="row.name" />
+            <el-input v-model="row.name"
+                      clearable />
           </el-form-item>
           <el-form-item :label="$t('common.type')"
                         prop="bannerType">
@@ -54,22 +55,26 @@
           <el-form-item v-if="row.bannerType===1||row.bannerType===2||row.bannerType===5||row.bannerType===6"
                         :label="$t('business.appConfig.bannerLink')"
                         prop="bannerLink">
-            <el-input v-model="row.bannerLink" />
+            <el-input v-model="row.bannerLink"
+                      clearable />
           </el-form-item>
           <el-form-item v-if="row.bannerType===4||row.bannerType===5"
                         :label="$t('business.appConfig.color')"
                         prop="color">
-            <el-input v-model="row.color" />
+            <el-input v-model="row.color"
+                      clearable />
           </el-form-item>
           <el-form-item v-if="row.bannerType===3"
                         :label="$t('business.appConfig.appLink')"
                         prop="appLink">
-            <el-input v-model="row.appLink" />
+            <el-input v-model="row.appLink"
+                      clearable />
           </el-form-item>
           <el-form-item v-if="row.bannerType===7||row.bannerType===8"
                         :label="$t('business.appConfig.bannerLink')"
                         prop="bannerLink2">
-            <el-input v-model="row.bannerLink" />
+            <el-input v-model="row.bannerLink"
+                      clearable />
           </el-form-item>
           <el-form-item>
             <el-button type="primary"

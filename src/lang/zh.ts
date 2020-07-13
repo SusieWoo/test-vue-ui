@@ -82,16 +82,25 @@ export default {
     clickUpload: '点击上传',
     notice: '提示',
     toDel: '确定删除',
+    del: '删除',
     netError: '网络服务异常',
     fileUploadFail: '文件上传失败',
     fileSizeFail: '文件大小不得超过',
     warning: '警告',
     title: '标题',
+    name: '名称',
     type: '类型',
+    image: '图片',
     selectDate: '请选择日期',
     detail: '详情',
     addTo: '添加',
-    import: '导入'
+    import: '导入',
+    status: '状态',
+    placeSelect: '请选择',
+    research: '查询',
+    create: '新建',
+    online: '上线',
+    offline: '下线',
 
   },
   business: {
@@ -112,12 +121,19 @@ export default {
     city: '所属市',
     reasonAlert: '请输入解绑原因',
     appConfig: {
+      ownType: '车主版',
+      driverType: '司机版',
       appType: 'App类型',
       accTarget: '跳转页面',
       tm: '停留时间',
       color: '色号',
       appLink: 'APP页面地址',
-      bannerLink: '链接url'
+      bannerLink: '链接url',
+      titleKeyword: '标题关键字',
+      searchTitleKeyword: '搜索标题关键字',
+      index: '位置',
+      moveUp: '上移',
+      moveDown: '下移',
     }
   },
   basicInfo: {

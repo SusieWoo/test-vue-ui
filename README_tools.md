@@ -115,3 +115,31 @@ func(e){
   this.$nextTick(() => {
     this.$refs.uploadImg.changePath([{ url: this.params.imgPath }]);
   })
+
+
+## @type
+  types声明文件，在使用之前需要在typesearch里面查看一下相关的类库是否有声明文件，https://microsoft.github.io/TypeSearch/
+
+
+## 查看大图
+<el-image :src="scope.row.imgPath" :preview-src-list="[scope.row.imgPath]" fit="contain" />
+
+## 导出
+
+import Export from '@/components/Export'
+
+<Export :iframe-filter="iframeFilter"
+            @exportMethod="emailExcel" />
+
+ handleDownExcel () {
+      this.iframeFilter = {
+        data: {
+          isEmail: true
+        }
+      }
+    },
+    
+async emailExcel (email) {
+  await exportCarBindList(Object.assign({ email: email }, this.querys))
+  this.$message.success('后台正在导出，稍后请查收邮件');
+},            

@@ -33,7 +33,6 @@ Vue.use(ElementUI, {
   i18n: (key: string, value: string) => i18n.t(key, value)
 })
 
-
 new Vue({
   router,
   store,

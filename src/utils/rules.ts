@@ -38,3 +38,12 @@ export const checkColor = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
+//邮箱格式
+export const validateEmail = (rule: any, value: any, callback: any) => {
+  const reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/
+  if (!reg.test(value)) {
+    return callback(new Error('邮箱格式不正确'))
+  } else {
+    callback()
+  }
+}

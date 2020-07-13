@@ -6,23 +6,25 @@
         <el-form :inline="true"
                  :model="query">
           <el-col :span="18">
-            <el-form-item label="标题关键字">
+            <el-form-item :label="$t('business.appConfig.titleKeyword')">
               <el-input v-model="query.name"
-                        placeholder="搜索标题关键字" />
+                        clearable
+                        :placeholder="$t('business.appConfig.searchTitleKeyword')" />
             </el-form-item>
-            <el-form-item label="状态">
+            <el-form-item :label="$t('common.status')">
               <el-select v-model="query.bannerStatus"
-                         clearable>
+                         clearable
+                         :placeholder="$t('common.placeSelect')">
                 <el-option v-for="item in bannerStatus"
                            :key="item.key"
                            :label="item.value"
                            :value="item.key" />
               </el-select>
             </el-form-item>
-            <el-form-item label="类型">
+            <el-form-item :label="$t('common.type')">
               <el-select v-model="query.bannerType"
                          clearable
-                         placeholder="请选择">
+                         :placeholder="$t('common.placeSelect')">
                 <el-option v-for="item in bannerTypeList"
                            :key="item.value"
                            :label="item.name"
@@ -36,11 +38,11 @@
               <el-form-item class="fr">
                 <el-button type="primary"
                            @click="getList">
-                  查询
+                  {{$t('common.research')}}
                 </el-button>
                 <el-button type="primary"
                            @click="onEdit(false)">
-                  新建
+                  {{$t('common.create')}}
                 </el-button>
               </el-form-item>
             </el-col>
@@ -54,51 +56,49 @@
                 :cell-style="{paddingTop: '2px', paddingBottom: '2px'}"
                 border>
         <el-table-column prop="bannerIndex"
-                         label="位置" />
+                         :label="$t('business.appConfig.index')" />
         <el-table-column prop="bannerStatus"
-                         label="状态">
+                         :label="$t('common.status')">
           <template slot-scope="scope">
-            {{scope.row.bannerStatus==='1'?'上线':'下线'}}
+            {{scope.row.bannerStatus==='1'?$t('common.online'):$t('common.offline')}}
           </template>
         </el-table-column>
         <el-table-column prop="bannerName"
-                         label="名称" />
+                         :label="$t('common.name')" />
         <el-table-column prop="bannerTypeName"
-                         label="类型" />
-        <el-table-column label="图片"
-                         class="img">
+                         :label="$t('common.type')" />
+        <el-table-column :label="$t('common.image')">
           <template slot-scope="scope">
-            <img :src="scope.row.imgPath"
-                 :alt="scope.row.name"
-                 style="height:40px;" />
+            <el-image :src="scope.row.imgPath"
+                      :preview-src-list="[scope.row.imgPath]"
+                      fit="contain" />
           </template>
         </el-table-column>
         <el-table-column fixed="right"
-                         label="操作">
+                         :label="$t('common.operate')">
           <template slot-scope="scope">
-            <!--   -->
             <el-button v-if="!(scope.$index ===0) && (Data[(scope.$index-1)].bannerType === scope.row.bannerType)"
                        type="text"
                        @click="up(scope.row,scope.$index)">
-              上移
+              {{$t('business.appConfig.moveUp')}}
             </el-button>
             <!-- -->
             <el-button v-if="!(scope.$index === (Data.length-1)) && (Data[(scope.$index+1)].bannerType === scope.row.bannerType)"
                        type="text"
                        @click="down(scope.row,scope.$index)">
-              下移
+              {{$t('business.appConfig.moveDown')}}
             </el-button>
             <el-button type="text"
                        @click="onlineNot(scope.row)">
-              {{scope.row.bannerStatus==='0'?'上线':'下线'}}
+              {{scope.row.bannerStatus==='0'?$t('common.online'):$t('common.offline')}}
             </el-button>
             <el-button type="text"
                        @click="onEdit(true,scope.row)">
-              编辑
+              {{$t('common.edit')}}
             </el-button>
             <el-button type="text"
                        @click="del(scope.row)">
-              删除
+              {{$t('common.del')}}
             </el-button>
           </template>
         </el-table-column>
@@ -290,10 +290,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-el-table-column.img {
-  text-align: center;
-  image {
-    height: 50px;
-  }
+.el-image {
+  height: 40px;
 }
 </style>
