@@ -185,6 +185,8 @@ export default {
     partUser: '部分用户',
     specialUser: '特定用户',
     pKeyWord: '请输入标题关键字',
+    pKeyTitle: '请输入标题',
+    pKeySender: '请输入发送人',
     carType: '车型',
     carSeries: '车系',
     role: '角色',
@@ -202,8 +204,11 @@ export default {
     dateRange: '统计日期范围',
     sendMsgType: '发送端',
     type: '类型',
-    sendCnt: '发送总数',
+    sendTotalCount: '发送总数',
     sendSuccessCnt: '发送成功条数',
     sendLinkCnt: '链接点击条数',
+    sentTime: '发送时间',
+    sender: '发送人',
+    sendCnt: '发送条数',
   }
 }

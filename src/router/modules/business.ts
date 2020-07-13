@@ -67,6 +67,12 @@ const businessRoutes: RouteConfig = {
       meta: { title: 'messageSms', hidden: true },
       component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/messageSms.vue')
     },
+    {
+      path: 'messageStatistics',
+      name: 'MessageStatistics',
+      meta: { title: 'messageStatistics', hidden: true },
+      component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/messageStatistics.vue')
+    },
   ]
 }
 

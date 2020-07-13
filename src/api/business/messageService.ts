@@ -90,3 +90,12 @@ export const statisticsSmsList = (params: any) =>
         method: 'get',
         params
     });
+
+
+// 统计-详情
+export const statisticsSmsDetail = (params: any) =>
+    request({
+        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/msgStatisticsSMSDetailList',
+        method: 'get',
+        params
+    });
