@@ -12,7 +12,7 @@
                :on-remove="onHandleRemove"
                :before-remove="beforeRemove"
                accept="image/png,image/gif,image/jpg,image/jpeg"
-               list-type="picture-card"
+               list-type="picture"
                :multiple="multiple"
                :limit="uploadConfig.numLimt"
                :on-exceed="handleExceed"
@@ -80,7 +80,7 @@ export default class UploadImg extends Vue {
       this.sizeInvalid = false
       return
     }
-    return this.$confirm(this.$t('common.toDel') + file.name + '？')
+    return this.$confirm(this.$t('common.toDel') + '？')
   }
   private progress() {
     this.uploadFinish = false

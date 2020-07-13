@@ -232,7 +232,7 @@ export default {
       this.noticeTxt = size ? '建议比例和分辨率：' + size : '';
     },
     uploadSuccess (res) {
-      this.row.imgPath = res.filePath;
+      this.row.imgPath = res[0].filePath;
     },
     handleRemove (res) {
       this.row.imgPath = ''
@@ -249,8 +249,8 @@ export default {
       const res = await basedata({ type: type, code: 'BAN1' })
       this.style = res.data.list;
     },
-    async add (query) {
-      const params = query;
+    async add (row) {
+      const params = row;
       if (!params.imgPath) {
         this.$message.warning('请上传图片')
         return false
