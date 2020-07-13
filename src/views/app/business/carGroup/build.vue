@@ -109,8 +109,10 @@
         :file-list="fileList"
         :auto-upload="false">
         <el-button slot="trigger" size="small" type="primary" style="width: 100px">选取文件</el-button>
+        <br/>
+        <div slot="tip" class="el-upload__tip el-icon-info">每次批量导入最多支持1000条数据</div>
       </el-upload>
-
+      
       <el-row style="margin: 50px 0">
         <el-button size="small" type="success" @click="submitUpload" style="width: 100px">EXCEL导入</el-button>
         <el-link href="http://sy.aerozhonghuan.com:81/test/yiqi/web/qdfaw/tboss/assets/import/addCarList.xlsx" target="_blank">
