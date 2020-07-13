@@ -3,6 +3,7 @@ import Router, { RouteConfig } from 'vue-router'
 import Layout from '@/components/layout/index.vue';
 import nestedRouter from './modules/nested'
 import businessRoutes from './modules/business'
+import competitionRoutes from './modules/competition'
 import basicInfoRoutes from './modules/basicInfo'
 
 Vue.use(Router)
@@ -115,7 +116,8 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   businessRoutes,
-  basicInfoRoutes
+  competitionRoutes,
+  basicInfoRoutes,
 ]
 
 const createRouter = () => new Router({

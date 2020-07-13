@@ -22,11 +22,13 @@
           </el-form-item>
           <el-form-item :label="$t('business.appConfig.accTarget')"
                         prop="accTarget">
-            <el-input v-model="row.accTarget" />
+            <el-input v-model="row.accTarget"
+                      clearable />
           </el-form-item>
           <el-form-item :label="$t('business.appConfig.tm')"
                         prop="tm">
-            <el-input v-model="row.tm">
+            <el-input v-model="row.tm"
+                      clearable>
               <template slot="append">{{$t('common.seconds')}}</template>
             </el-input>
           </el-form-item>
