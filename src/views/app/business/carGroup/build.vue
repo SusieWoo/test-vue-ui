@@ -7,6 +7,7 @@
           :model="buildForm"
           label-position="left"
           :rules="ruless"
+          ref="buildForm"
         >
           <el-row>
             <el-form-item :label="'车队名称'" label-width="150px" prop="teamName">
@@ -103,28 +104,50 @@
       <el-upload
         :limit="1"
         ref="upload"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :on-preview="handlePreview"
-        :on-remove="handleRemove"
+        action="http://sy.aerozhonghuan.com:81/fsm/fsevice/uploadFile"
         :file-list="fileList"
-        :auto-upload="false">
+        :auto-upload="false"
+        accept=".xlsx,.xls"
+        :on-success="handleSuccess">
         <el-button slot="trigger" size="small" type="primary" style="width: 100px">选取文件</el-button>
         <br/>
         <div slot="tip" class="el-upload__tip el-icon-info">每次批量导入最多支持1000条数据</div>
       </el-upload>
       
-      <el-row style="margin: 50px 0">
-        <el-button size="small" type="success" @click="submitUpload" style="width: 100px">EXCEL导入</el-button>
+      <el-row style="margin: 5px 0">
+        <div style="display: inline-block; margin-right: 10px;">
+          <el-button size="small" type="success" @click="submitUpload" style="width: 200px">EXCEL导入</el-button>
+        </div>
         <el-link href="http://sy.aerozhonghuan.com:81/test/yiqi/web/qdfaw/tboss/assets/import/addCarList.xlsx" target="_blank">
-          <el-button size="small" type="info" style="width: 100px">模板下载</el-button>
+          <el-button size="small" type="info" style="width: 200px">模板下载</el-button>
         </el-link>
       </el-row>
+      
+      <el-row style="margin: 20px 0" v-if="batchAddInfo">
+        <center>
+          <div>导入<span>{{batchAddInfo.sum}}</span>条，其中：&nbsp;<span class="el-icon-success" style="color: #67C23A"></span>&nbsp;成功<span>{{batchAddInfo.trueNum}}</span>条，&nbsp;<span class="el-icon-warning" style="color: #E6A23C"></span>&nbsp;失败<span>{{batchAddInfo.sum-batchAddInfo.trueNum}}</span>条</div>
+          
+          <div class="margin" v-if="batchAddInfo.carTeamExistsNum"><span class="el-icon-thumb transform"></span>&nbsp;序号<span>{{batchAddInfo.carTeamExistsNum}}</span>，车队中已存在，请勿重复加车</div>
+          <div class="margin" v-if="batchAddInfo.systemExistsNum"><span class="el-icon-thumb transform"></span>&nbsp;序号<span>{{batchAddInfo.systemExistsNum}}</span>，车辆信息在系统中没有记录，无法添加</div>
+          <div class="margin" v-if="batchAddInfo.existsNum"><span class="el-icon-thumb transform"></span>&nbsp;序号<span>{{batchAddInfo.existsNum}}</span>，数据重复</div>
+          <div class="margin" v-if="batchAddInfo.errNum"><span class="el-icon-thumb transform"></span>&nbsp;序号<span>{{batchAddInfo.errNum}}</span>，数据格式不正确</div>
+        
+          <div v-if="batchAddInfo.sum-batchAddInfo.trueNum>0">请修改对应序号的车辆数据后再进行导入！</div>
+        </center>
+      </el-row>
+
+      <el-row style="margin-top: 40px;">
+        <center>
+          <el-button plain type="info" @click="cancelBatchAddCar" style="width: 100px">暂不添加</el-button>
+        </center>
+      </el-row>
+
     </el-dialog>
 	</div>
 </template>
 
 <script>
-import { getManagerData , newAccount } from "@/api/business/businessService";
+import { getManagerData , newAccount , batchAddCarList } from "@/api/business/businessService";
 import { getUserInfo } from '@/api/users'
 
 export default {
@@ -134,6 +157,9 @@ export default {
   },
   data () {
     return {
+      batchAddInfo: null,
+      accountName: '',
+      teamId: '',
       batchAddCarVis: false,
       isLook: false,
       loading: false,
@@ -161,17 +187,35 @@ export default {
     }
   },
   mounted() {
-
+    this.getAccountName ()
   },
   methods: {
+    cancelBatchAddCar () {
+      this.batchAddCarVis = false
+      if(this.$refs['buildForm']){
+        this.$refs['buildForm'].resetFields()
+      }
+      if(this.$refs['dialogForm']){
+        this.$refs['dialogForm'].resetFields()
+      }
+      this.$router.go(-1)
+    },
+    async handleSuccess (response) {
+      let params = {
+        uuid: response.data.fullPath,
+        fileType: response.data.ext_name,
+        reviewer: this.accountName,
+        teamId: this.teamId
+      }
+      const batchAdd = await batchAddCarList(params)
+      this.batchAddInfo = batchAdd.data
+    },
+    async getAccountName () {
+      const user = await getUserInfo()
+      this.accountName = user.data.accountName
+    },
     submitUpload() {
       this.$refs.upload.submit();
-    },
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePreview(file) {
-      console.log(file);
     },
     handleChange () {
       if(this.$refs['dialogForm']){
@@ -184,12 +228,7 @@ export default {
       param.name = this.buildForm.name
       param.createType = 'tboss'
       param.type = '2'
-      const user = await getUserInfo()
-      param.tbossName = user.data.accountName
-      // param.tbossName = 'guowang'
-      param.isCompany = 0
-      param.isGroup = 0
-      param.isVip = 0
+      param.tbossName = this.accountName    
       if(this.managers.length){
         let fil = this.managersCopy.filter(item => {
           return item.name === this.buildForm.name
@@ -198,9 +237,13 @@ export default {
       }
       if (this.dialogForm.accountName) param.accountName = this.dialogForm.accountName
       if (this.dialogForm.passWord) param.passWord = this.dialogForm.passWord
+      param.isCompany = 0
+      param.isGroup = 0
+      param.isVip = 0
       const re = await newAccount(param);
       if(re.message == 'OK'){
         this.batchAddCarVis = true
+        this.teamId = re.data
       }
     },
     cancel () {
@@ -251,5 +294,12 @@ export default {
   }
   .el-form-item {
     margin-top: 100px !important;
+  }
+  .margin {
+    margin: 15px 0;
+  }
+  .transform {
+    transform: rotate(90deg);
+    color: #E6A23C;
   }
 </style>

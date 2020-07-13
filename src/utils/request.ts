@@ -15,7 +15,7 @@ let dealParams = (params: props, token: string | undefined, method: string): pro
   //get 方法，去掉空值
   if (method === 'get') {
     Object.keys(params).forEach(item => {
-      if (!params[item]) {
+      if (!params[item] && params[item] !== 0) {
         delete params[item]
       }
     });
