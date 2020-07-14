@@ -66,14 +66,14 @@ export const carUnBind = (data: any) => {
     data: data
   });
 }
-export const carTeamList = (data: any) => {
-  // if (isMock) {
-  //   return Mock.carTeamList();
-  // }
+export const carTeamList = (params: any) => {
+  if (isMock){
+    return Mock.carTeamList();
+  }
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamList',
-    method: 'post',
-    data: data
+    method: 'get',
+    params
   });
 }
 export const getManagerData = (params: any) =>{
@@ -93,6 +93,13 @@ export const newAccount = (params: any) =>{
 export const batchAddCarList = (params: any) =>{
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/batchAddCarList',
+    method: 'get',
+    params
+  });
+}
+export const getAdminList = (params: any) =>{
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamAdmin',
     method: 'get',
     params
   });

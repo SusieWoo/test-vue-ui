@@ -17,6 +17,7 @@ export default {
     business: '业务支撑',
     carGroup: '车队管理',
     carGroupBuild: '新建车队',
+    carGroupDetail: '车队详情',
     appConfig: 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',

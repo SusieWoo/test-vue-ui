@@ -83,6 +83,7 @@
       stripe :data="tableData"
       style="width: 100%; text-align: center;"
       @selection-change="handleSelectionChange"
+      @sort-change="handleSortChange"
     >
       <el-table-column type="selection" width="50" align="center"></el-table-column>
       <el-table-column prop="carTeamid" align="center" :label="$t('carGroup.id')"></el-table-column>
@@ -103,10 +104,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="createUser" align="center" :label="$t('carGroup.creater')"></el-table-column>
-      <el-table-column prop="createTime" align="center" :label="$t('carGroup.createStartTime')"></el-table-column>
+      <el-table-column prop="createTime" align="center" :label="$t('carGroup.createStartTime')" sortable="custom"></el-table-column>
       <el-table-column fixed="right" align="center" :label="$t('carGroup.operation')" width="120">
-        <template>
-          <el-button type="text" size="small">{{$t('carGroup.look')}}</el-button>
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="look(scope.row)">{{$t('carGroup.look')}}</el-button>
           <el-button type="text" size="small">{{$t('carGroup.edit')}}</el-button>
         </template>
       </el-table-column>
@@ -163,14 +164,22 @@ export default {
         tableData: []
       }
     },
-    mounted() {
+    mounted () {
       this.getList()
     },
     methods: {
+      look (row) {
+        this.$router.push({
+          path: '/business/carGroupDetail',
+          query: {
+            basicinfo : row
+          }  
+        })
+      },
       async getList() {
         let params = {}
         for(let key in this.query){
-          if(this.query[key]){
+          if(this.query[key] || (this.query[key]==0)){
             params[key] = this.query[key]
           }
         }
@@ -183,6 +192,14 @@ export default {
       },
       build () {
         this.$router.push('/business/carGroupBuild')
+      },
+      handleSortChange (column) {
+        if(column.order == 'descending'){
+          this.query.sortType = 0
+        }else{
+          this.query.sortType = 1
+        }
+        this.getList()
       }
     }
 }

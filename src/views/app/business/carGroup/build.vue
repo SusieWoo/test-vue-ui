@@ -240,7 +240,7 @@ export default {
       fileList: []
     }
   },
-  mounted() {
+  activated() {
     this.getAccountName ()
   },
   methods: {
