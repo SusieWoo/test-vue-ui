@@ -32,6 +32,14 @@ export const carTypeList = (params: any) =>
     params
   });
 
+// 根据手机号或者底盘号获取用户
+export const userIdByPhoneAndVin = (params: any) =>
+    request({
+        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/getUserIdByPhoneAndVin',
+        method: 'get',
+        params
+    });
+
 // 新增推送消息
 export const newNotice = (data: any) => {
   return request({
