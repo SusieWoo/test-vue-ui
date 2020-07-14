@@ -24,3 +24,8 @@ export const queryCarBasicData = (params: any) =>
 
 //防止重复提交
   export const operateCar = (p:object) => post('http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/lockEnable/operat' , p, true);
+
+
+  
+
+  export const downloadCar = (p:object) => post('http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/car/downloadCar' , p, true);

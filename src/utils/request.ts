@@ -18,7 +18,7 @@ let cansubmit = true; //防止重复提交变量
 service.interceptors.request.use(
   (config) => {
     // let token: string | undefined = '85b17c5b5a964770aef1d7f7062bdd31';
-    let token: string | undefined = 'd09e6b4571c84ea5b8a325acdb68646f';
+    let token: string | undefined = '3642a7a072f84897ae8db5bf33d9e7d9';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
@@ -62,6 +62,7 @@ service.interceptors.response.use(
     // code == 507: invalid access token
     // code == 500: time out
     // code == 506: err
+    // code == 670205: 导出条数超过3000，选择发送到邮箱
     // You can change this part for your own usage.
     const res = response.data;
     if (res.resultCode !== 200) {
@@ -91,6 +92,8 @@ service.interceptors.response.use(
           UserModule.ResetToken()
           location.reload() // To prevent bugs from vue-router
         })
+      } else if (res.resultCode === 670205) {
+        return res;
       } else {
         Message({
           message: res.message || 'Error',
