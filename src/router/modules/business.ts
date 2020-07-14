@@ -72,6 +72,12 @@ const businessRoutes: RouteConfig = {
       meta: { title: 'telephone' },
       component: () => import(/* webpackChunkName: "telephone" */ '@/views/app/business/telephone/index.vue'),
     },
+    {
+      path: 'messageStatistics',
+      name: 'MessageStatistics',
+      meta: { title: 'messageStatistics', hidden: true },
+      component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/messageStatistics.vue')
+    },
   ]
 }
 

@@ -114,3 +114,12 @@ export const sortUrgentCall = (params: any) => {
     params
   });
 }
+
+export const batchAddCarList = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/batchAddCarList',
+    method: 'get',
+    params
+  });
+}
+

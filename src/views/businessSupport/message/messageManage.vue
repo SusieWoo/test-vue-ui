@@ -275,6 +275,7 @@
                       value-format="yyyy-MM-dd"
                       type="daterange"
                       unlink-panels
+                      :clearable=false
                       :range-separator="$t('common.to')"
                       :picker-options="pickerOptions"
                       :start-placeholder="$t('common.beginDate')"
@@ -313,7 +314,7 @@
           <el-table-column prop="sendTotalCount"
                            sortable
                            align="center"
-                           :label="$t('message.sendCnt')" />
+                           :label="$t('message.sendTotalCount')" />
           <el-table-column prop="sendSuccessCount"
                            align="center"
                            :label="$t('message.sendSuccessCnt')">
@@ -370,6 +371,7 @@ export default {
   props: {},
   data () {
     return {
+      activeType: 0,
       pushTotal: 0,
       smsTotal: 0,
       statisticsTotal: 0,
@@ -380,12 +382,12 @@ export default {
       smsQuerys: {
         page_number: 1,
         page_size: 10,
-        sortType: 0
+        sortType: '0'
       },
       statisticsQuerys: {
         page_number: 1,
         page_size: 10,
-        sendTotalOrder: 0,
+        sendTotalOrder: '0',
         msgType: null,
         startTime: '',
         endTime: ''
@@ -523,11 +525,11 @@ export default {
       console.log(column);
       const sortingType = column.order;
       //按照降序排序
-      if (sortingType === 'descending') {
-        this.smsQuerys.sortType = 0;
+      if (!sortingType || sortingType === 'descending') {
+        this.smsQuerys.sortType = '0';
       } else {
         //按照升序排序
-        this.smsQuerys.sortType = 1;
+        this.smsQuerys.sortType = '1';
       }
       this.getSmsMessageList();
     },
@@ -539,6 +541,7 @@ export default {
     async smsMessageResend (id) {
       await this.$router.push({ name: 'MessageSms', params: { addFlag: '0', id: id } })
     },
+
     // 消息统计列表
     async getStatisticsSmsList () {
       this.statisticsQuerys.startTime = this.rangeDateTime[0];
@@ -551,16 +554,17 @@ export default {
     async sortStatisticsTable(column) {
       const sortingType = column.order;
       //按照降序排序
-      if (sortingType === 'descending') {
-        this.statisticsQuerys.sendTotalOrder = 0;
+      if (!sortingType || sortingType === 'descending') {
+        this.statisticsQuerys.sendTotalOrder = '0';
       } else {
         //按照升序排序
-        this.statisticsQuerys.sendTotalOrder = 1;
+        this.statisticsQuerys.sendTotalOrder = '1';
       }
       this.getStatisticsSmsList();
     },
     // 消息统计详情
-    async statisticsSmsDetail() {
+    async statisticsSmsDetail(sendApp, msgType, rangeDateTime) {
+      await this.$router.push({ name: 'MessageStatistics', params: { sendType: sendApp, msgType: msgType , rangeDateTime: this.rangeDateTime } })
     }
   }
 };
