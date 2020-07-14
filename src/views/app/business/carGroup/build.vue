@@ -156,6 +156,48 @@ export default {
 
   },
   data () {
+    var checkTeamName = (rule, value, callback) => {
+      var reg = /^[a-zA-Z0-9!_\-\u4e00-\u9fa5]+$/;
+      if(!value) {
+        return callback(new Error('请输入车队名称'));
+      } else if (!reg.test(value)) {
+        return callback(new Error('仅支持汉字、字母、数字以及"_"或"-"组合'));
+      } else if (value.length>32) {
+        return callback(new Error('请最多输入32个字'));
+      } else {
+        callback();
+      }
+    };
+    var checkAccountName = (rule, value, callback) => {
+      var reg = /^[a-zA-Z0-9!_@#$%^&*\.\+\-=]+$/;
+      if(!value) {
+        return callback(new Error('请输入管理员账号'));
+      } else if (value.search(/[a-zA-Z]+/)==-1) {
+        return callback(new Error('账号至少包含一个字母'));
+      } else if (!reg.test(value)) {
+        return callback(new Error('仅支持字母、数字以及一般字符'));
+      } else if (value.length<6) {
+        return callback(new Error('请至少输入6个字符'));
+      } else if (value.length>20) {
+        return callback(new Error('请最多输入20个字符'));
+      } else {
+        callback();
+      }
+    };
+    var checkPassWord = (rule, value, callback) => {
+      var reg = /^[a-zA-Z0-9!_@#$%^&*\.\+\-=]+$/;
+      if(!value) {
+        return callback(new Error('请输入管理员密码'));
+      } else if (!reg.test(value)) {
+        return callback(new Error('仅支持字母、数字以及一般字符'));
+      } else if (value.length<6) {
+        return callback(new Error('请至少输入6个字符'));
+      } else if (value.length>20) {
+        return callback(new Error('请最多输入20个字符'));
+      } else {
+        callback();
+      }
+    };
     return {
       batchAddInfo: null,
       accountName: '',
@@ -176,11 +218,23 @@ export default {
       },
       ruless: {
         teamName: [
-          { required: true, message: '请输入车队名称', trigger: 'blur' },
+          { validator: checkTeamName, trigger: 'blur' }
+        ],
+        name: [
+          { required: true, message: '请选择车队管理员', trigger: 'change' }
         ]
       },
       dialogRuless: {
-
+        name: [
+          { required: true, message: '请输入管理员名称', trigger: 'blur' },
+          { min: 2, max: 20, message: '请输入 2 到 20 个字符', trigger: 'blur' }
+        ],
+        accountName: [
+          { validator: checkAccountName, trigger: 'blur' }
+        ],
+        passWord: [
+          { validator: checkPassWord, trigger: 'blur' }
+        ]
       },
       buildManagerDialogVis: false,
       fileList: []
@@ -222,39 +276,53 @@ export default {
         this.$refs['dialogForm'].resetFields()
       }
     },
-    async save () {
-      let param = {}
-      param.teamName = this.buildForm.teamName
-      param.name = this.buildForm.name
-      param.createType = 'tboss'
-      param.type = '2'
-      param.tbossName = this.accountName    
-      if(this.managers.length){
-        let fil = this.managersCopy.filter(item => {
-          return item.name === this.buildForm.name
-        })
-        param.managerId = fil[0].id
-      }
-      if (this.dialogForm.accountName) param.accountName = this.dialogForm.accountName
-      if (this.dialogForm.passWord) param.passWord = this.dialogForm.passWord
-      param.isCompany = 0
-      param.isGroup = 0
-      param.isVip = 0
-      const re = await newAccount(param);
-      if(re.message == 'OK'){
-        this.batchAddCarVis = true
-        this.teamId = re.data
-      }
+    save () {
+      this.$refs['buildForm'].validate(async (valid) => {
+        if (valid) {
+          let param = {}
+          param.teamName = this.buildForm.teamName
+          param.name = this.buildForm.name
+          param.createType = 'tboss'
+          param.type = '2'
+          param.tbossName = this.accountName    
+          if(this.managers.length){
+            let fil = this.managersCopy.filter(item => {
+              return item.name === this.buildForm.name
+            })
+            param.managerId = fil[0].id
+          }
+          if (this.dialogForm.accountName) param.accountName = this.dialogForm.accountName
+          if (this.dialogForm.passWord) param.passWord = this.dialogForm.passWord
+          param.isCompany = 0
+          param.isGroup = 0
+          param.isVip = 0
+          const re = await newAccount(param);
+          if(re.message == 'OK'){
+            this.batchAddCarVis = true
+            this.teamId = re.data
+          }
+        } else {
+          this.$message.error('提交失败')
+          return false
+        }
+      });
     },
     cancel () {
       this.$refs['dialogForm'].resetFields()
       this.buildManagerDialogVis = false
     },
     add () {
-      this.buildManagerDialogVis = false
-      this.buildForm.name = this.dialogForm.name
-      this.managers = []
-      this.managersCopy = []
+      this.$refs['dialogForm'].validate(async (valid) => {
+        if (valid) {
+          this.buildManagerDialogVis = false
+          this.buildForm.name = this.dialogForm.name
+          this.managers = []
+          this.managersCopy = []
+        } else {
+          this.$message.error('提交失败')
+          return false
+        }
+      });
     },
     async remoteMethod(query) {
       if (query !== '') {

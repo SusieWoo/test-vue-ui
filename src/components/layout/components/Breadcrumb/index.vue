@@ -41,14 +41,12 @@ export default class extends Vue {
     let matched = this.$route.matched.filter(
       item => item.meta && item.meta.title
     )
-    console.log(matched)
     const first = matched[0]
     if (!this.isDashboard(first)) {
       matched = [
         { path: '/dashboard', meta: { title: 'dashboard' } } as RouteRecord
       ].concat(matched)
     }
-    console.log(matched)
     this.breadcrumbs = matched.filter(item => {
       return item.meta && item.meta.title && item.meta.breadcrumb !== false
     })
