@@ -122,7 +122,6 @@ export const batchAddCarList = (params: any) => {
     params
   });
 }
-<<<<<<< HEAD
 export const getAdminList = (params: any) =>{
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamAdmin',
@@ -130,6 +129,3 @@ export const getAdminList = (params: any) =>{
     params
   });
 }
-=======
-
->>>>>>> 3d4800b1f24e95cdaa475be95bf16514d2a939dd
