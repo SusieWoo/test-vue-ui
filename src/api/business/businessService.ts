@@ -57,7 +57,7 @@ export const carBindDetail = (data: any) => {
   });
 }
 export const carUnBind = (data: any) => {
-  if (isMock){
+  if (isMock) {
     return Mock.carBindList();
   }
   return request({
@@ -76,27 +76,53 @@ export const carTeamList = (params: any) => {
     params
   });
 }
-export const getManagerData = (params: any) =>{
+export const getManagerData = (params: any) => {
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/queryCarTeamByPhone',
     method: 'get',
     params
   });
 }
-export const newAccount = (params: any) =>{
+export const newAccount = (params: any) => {
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/newAccount',
     method: 'get',
     params
   });
 }
-export const batchAddCarList = (params: any) =>{
+export const queryUrgentCall = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/queryUrgentCall',
+    method: 'get',
+    params
+  });
+}
+export const delUrgentCall = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/delUrgentCall',
+    method: 'get',
+    params: {
+      id: params
+    }
+  });
+}
+
+export const sortUrgentCall = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/sortUrgentCall',
+    method: 'get',
+    params
+  });
+}
+
+export const batchAddCarList = (params: any) => {
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/batchAddCarList',
     method: 'get',
     params
   });
 }
+<<<<<<< HEAD
 export const getAdminList = (params: any) =>{
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamAdmin',
@@ -104,3 +130,6 @@ export const getAdminList = (params: any) =>{
     params
   });
 }
+=======
+
+>>>>>>> 3d4800b1f24e95cdaa475be95bf16514d2a939dd

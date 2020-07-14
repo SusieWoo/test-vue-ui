@@ -29,7 +29,8 @@ export default {
     messageSms: '短消息',
     messageStatistics: '短信统计',
     competition: '节油大赛',
-    oilSet: '奖项配置'
+    oilSet: '奖项配置',
+    telephone: '紧急电话配置'
   },
   navbar: {
     logOut: '退出登录',
@@ -102,6 +103,10 @@ export default {
     create: '新建',
     online: '上线',
     offline: '下线',
+    tel: ' 联系方式',
+    carBand: ' 品牌',
+    carSeries: ' 车系',
+    carModel: ' 车型',
 
   },
   business: {
@@ -135,6 +140,14 @@ export default {
       index: '位置',
       moveUp: '上移',
       moveDown: '下移',
+    },
+    telephone: {
+      '常用': '常用',
+      '救援': '救援',
+      '保险公司': '保险公司',
+      titleKeyword: '请输入联系人名称',
+      carSeries: '系列'
+
     }
   },
   basicInfo: {

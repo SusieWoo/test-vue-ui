@@ -32,7 +32,11 @@ let cansubmit = true; //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
+<<<<<<< HEAD
     let token: string | undefined = '4644206537a74516b06e0ee02e10e330';
+=======
+    let token: string | undefined = '77da0edde1884ff785054b927dc43d2f';
+>>>>>>> 3d4800b1f24e95cdaa475be95bf16514d2a939dd
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
@@ -160,7 +164,5 @@ service.interceptors.response.use(
 //       })
 //   });
 // }
-
-
 
 export default service;
