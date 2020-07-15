@@ -28,7 +28,8 @@ export default {
     messageSms: '短消息',
     messageStatistics: '短信统计',
     competition: '节油大赛',
-    oilSet: '奖项配置'
+    oilSet: '奖项配置',
+    editCar:'编辑车辆'
   },
   navbar: {
     logOut: '退出登录',

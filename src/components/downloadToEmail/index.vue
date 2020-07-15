@@ -1,17 +1,19 @@
 <template>
   <div>
     <el-dialog title="导出说明" :visible.sync="visible" width="30%">
-      <span class="message" v-html="message"></span>
+      <div class="message">
+        <span v-html="message"></span>
+      </div>
 
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
+      <el-form v-if="showbtn" ref="form" :model="form" :rules="rules" label-width="80px">
         <el-form-item prop="email" label="邮箱帐号">
           <el-input type="email" clearable v-model="form.email" placeholder="请输入正确的邮箱"></el-input>
         </el-form-item>
       </el-form>
 
-      <span slot="footer" class="dialog-footer">
+      <span v-if="showbtn" slot="footer" class="dialog-footer">
         <el-button @click="visible = false">取 消</el-button>
-        <el-button type="primary" @click="commit">提 交</el-button>
+        <el-button type="primary" :loading="loading" @click="commit">提 交</el-button>
       </span>
     </el-dialog>
   </div>
@@ -22,14 +24,13 @@ export default {
   // 发送到邮箱，弹出框输入邮箱地址，发送邮件。
   name: "downloadToEmail",
   props: {
-    // 输入宽度
-    width: String,
-    // 是否可用
+    // 展示dialog
     show: {
       type: Boolean,
       default: false
     },
-    showBtn: {
+    //显示
+    showbtn: {
       type: Boolean,
       default: true
     },
@@ -48,6 +49,7 @@ export default {
       isCommit: false,
       email: "",
       visible: false,
+      loading: false,
       form: {
         email: ""
       },
@@ -63,8 +65,8 @@ export default {
       }
     };
   },
-  watch:{
-    show:function(){
+  watch: {
+    show: function() {
       this.visible = this.show;
     }
   },
@@ -74,8 +76,10 @@ export default {
   methods: {
     commit() {
       let t = this;
+
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.loading = true;
           t.commitFn();
         } else {
           console.log("error submit!!");
@@ -84,21 +88,17 @@ export default {
       });
     },
 
-    async commitFn() {
+    commitFn() {
       this.$emit("email", this.form.email);
-      const re = await this.fn();
-      if (re) {
-        this.isCommit = true;
-      }
+      this.fn();
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-
-.message{
+.message {
   margin-bottom: 10px;
-  margin-left: 5px;;
+  margin-left: 5px;
 }
 </style>

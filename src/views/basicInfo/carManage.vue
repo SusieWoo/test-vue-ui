@@ -190,7 +190,7 @@
     </el-card>
     <!-- 查询条件end -->
     <el-card>
-      <el-button type="primary" icon="el-icon-plus">新增</el-button>
+      <el-button type="primary" @click="goToEdit(0)" icon="el-icon-plus">新增</el-button>
       <el-button type="primary" @click="lock(1)" icon="el-icon-check">开启锁车功能</el-button>
       <el-button type="primary" @click="lock(0)" icon="el-icon-close">关闭锁车功能</el-button>
       <el-button type="primary" @click="downloadSome" icon="el-icon-download">导出本页</el-button>
@@ -527,7 +527,7 @@
         <el-button :loading="btnLoading" @click="downloadSave" type="primary">确 定</el-button>
       </span>
     </el-dialog>
-    <download-toemail :show="showEmail" :message="message" @email="getEmail" :fn="sendMail"></download-toemail>
+    <download-toemail :show="showEmail" :showbtn="showEmailBtn" :message="message" @email="getEmail" :fn="sendMail"></download-toemail>
   </div>
 </template>
 
@@ -589,7 +589,8 @@ export default {
       isIndeterminate: null,
       columnList: [],
       message: "",
-      showEmail: false
+      showEmail: false,
+      showEmailBtn:true
     };
   },
   watch: {},
@@ -598,6 +599,12 @@ export default {
     this.getBasic();
   },
   methods: {
+    goToEdit(id){
+     
+      this.$router.push({
+        path:`carManage/${id}`,
+      })
+    },
     getEmail(val) {
       this.querys.email = val;
     },
@@ -607,7 +614,7 @@ export default {
         return;
       }
 
-      this.downloadSave();
+      this.downloadEmails();
     },
     initDialog() {
       this.isIndeterminate = null;
@@ -650,6 +657,20 @@ export default {
         }
       }
     },
+    downloadEmails() {
+      let t = this;
+      downloadCar(this.querys)
+        .then(re => {
+          if (re.resultCode === 200) {
+            this.message = re.message;
+            this.showEmailBtn = false
+
+          }
+        })
+        .catch(() => {})
+        .finally(() => {});
+    },
+
     downloadSave() {
       let t = this;
       //构建数据结构
