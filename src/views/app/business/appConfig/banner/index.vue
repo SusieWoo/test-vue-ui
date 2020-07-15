@@ -4,11 +4,11 @@
            @tab-click="handleClick">
     <el-tab-pane :label="$t('business.appConfig.ownType')"
                  name="first">
-      <List ref="list" />
+      <List ref="list1" />
     </el-tab-pane>
     <el-tab-pane :label="$t('business.appConfig.driverType')"
                  name="second">
-      <List ref="list" />
+      <List ref="list2" />
     </el-tab-pane>
   </el-tabs>
 </template>
@@ -26,9 +26,9 @@ export default {
   methods: {
     handleClick (tab, event) {
       if (tab.name === 'first') {
-        this.$refs.list.handleTag(1)
+        this.$refs.list1.handleTag(1)
       } else {
-        this.$refs.list.handleTag(2)
+        this.$refs.list2.handleTag(2)
       }
     }
   }

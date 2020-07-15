@@ -15,7 +15,7 @@ let dealParams = (params: props, token: string | undefined, method: string): pro
   //get 方法，去掉空值
   if (method === 'get') {
     Object.keys(params).forEach(item => {
-      if (!params[item]) {
+      if (!params[item] && params[item] !== 0) {
         delete params[item]
       }
     });
@@ -32,7 +32,7 @@ let cansubmit = true; //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '7e62a2dfbb3f48de876099d7b6dc3cf1';
+    let token: string | undefined = '77da0edde1884ff785054b927dc43d2f';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
@@ -163,7 +163,5 @@ export function post(url: string, params: object, isLazy: boolean) {
     })
   });
 }
-
-
 
 export default service;
