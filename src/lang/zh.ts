@@ -146,8 +146,10 @@ export default {
       '救援': '救援',
       '保险公司': '保险公司',
       titleKeyword: '请输入联系人名称',
-      carSeries: '系列'
-
+      carSeries: '系列',
+      联系人名称: '联系人名称',
+      车系选择: '车系选择',
+      联系方式: '联系方式'
     }
   },
   basicInfo: {
