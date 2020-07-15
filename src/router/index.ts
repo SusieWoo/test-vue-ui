@@ -116,6 +116,21 @@ export const asyncRoutes: RouteConfig[] = [
     ]
   },
   businessRoutes,
+  {
+    path: '/im',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import(/* webpackChunkName: "im" */ '@/views/app/im/index.vue'),
+        name: 'Im',
+        meta: {
+          title: 'im',
+          icon: 'tree'
+        }
+      }
+    ]
+  },
   competitionRoutes,
   basicInfoRoutes,
 ]

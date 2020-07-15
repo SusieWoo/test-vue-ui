@@ -12,9 +12,9 @@ interface ISettings {
 const settings: ISettings = {
   title: 'Test VUE fish',
   showSettings: true,
-  showTagsView: true,//是否用tags标签打开路由 todo
-  fixedHeader: true,//是否固定头部 todo
-  showSidebarLogo: false,//是否显示左上方logo todo
+  showTagsView: true,//是否用tags标签打开路由 TODO
+  fixedHeader: true,//是否固定头部 TODO
+  showSidebarLogo: false,//是否显示左上方logo TODO
   errorLog: ['production'],
   sidebarTextTheme: true,
 }

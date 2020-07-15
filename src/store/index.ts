@@ -5,6 +5,8 @@ import { IUserState } from './modules/user';
 import { ITagsViewState } from './modules/tags-view'
 import { IPermissionState } from './modules/permission'
 import { ISettingsState } from './modules/settings'
+import { IImState } from './modules/im'
+
 Vue.use(Vuex);
 
 export interface IRootState {
@@ -13,6 +15,7 @@ export interface IRootState {
   tagsView: ITagsViewState
   permission: IPermissionState
   settings: ISettingsState
+  im: IImState
 }
 
 export default new Vuex.Store<IRootState>({});

@@ -29,6 +29,7 @@ export default {
     messageStatistics: '短信统计',
     competition: '节油大赛',
     oilSet: '奖项配置',
+    im: '在线客服',
     telephone: '紧急电话配置'
   },
   navbar: {
