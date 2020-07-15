@@ -106,6 +106,20 @@ export const delUrgentCall = (params: any) => {
     }
   });
 }
+export const addTelephoneBaseList = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/add/urgentCall',
+    method: 'get',
+    params
+  });
+}
+export const updTelephoneList = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/updUrgentCall',
+    method: 'get',
+    params
+  });
+}
 
 export const sortUrgentCall = (params: any) => {
   return request({

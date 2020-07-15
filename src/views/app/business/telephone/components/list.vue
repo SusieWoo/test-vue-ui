@@ -21,7 +21,7 @@
                   {{$t('common.research')}}
                 </el-button>
                 <el-button type="primary"
-                           @click="onEdit(false)">
+                           @click="onEdit()">
                   {{$t('common.create')}}
                 </el-button>
               </el-form-item>
@@ -70,7 +70,7 @@
             </el-button>
 
             <el-button type="text"
-                       @click="onEdit(true,scope.row)">
+                       @click="onEdit(scope.row)">
               {{$t('common.edit')}}
             </el-button>
             <el-button type="text"
@@ -90,8 +90,7 @@
                      @size-change="handleSizeChange"
                      @current-change="handleCurrentChange" />
     </el-row>
-    <Edit :id="editId"
-          ref="editDialog"
+    <Edit ref="editDialog"
           :open="showModal"
           :type="type"
           @confirm="closeModal" />
@@ -116,7 +115,6 @@ export default {
   data () {
     return {
       list: [],
-      editId: 1,
       isEdit: false,
       total: 0,
       showModal: false,
@@ -178,9 +176,9 @@ export default {
       };
       this.getSortInsurance(SortInsurance);
     },
-    onEdit (isEdit, row) {
+    onEdit (row) {
       this.showModal = true
-      this.$refs.editDialog.toOpen(isEdit, row, this.type);
+      this.$refs.editDialog.toOpen(row);
     },
     async delUrgentCall (id) {
       await delUrgentCall(id)
