@@ -32,10 +32,7 @@ let cansubmit = true; //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '86dee18d8cd445a2880df7247210a80a';
-    if (config.url === '/getUserInfo') {
-      token = getToken();
-    }
+    let token = getToken();
     let base = {
       token: token,
       appType: 3
@@ -105,6 +102,13 @@ service.interceptors.response.use(
           UserModule.ResetToken()
           location.reload() // To prevent bugs from vue-router
         })
+      } else if (res.resultCode === 610191) {
+          Message({
+              message: res.message || 'Error',
+              type: 'error',
+              duration: 5 * 1000
+          });
+          return response.data;
       } else {
         Message({
           message: res.message || 'Error',
