@@ -1,8 +1,8 @@
 # 笔记
 
 ## todo：
-sass -》 less；用户信息存储；页面刷新 信息保留;websockt;时间范围；分模块引用；导入excel；下载；打印；富文本编辑器；图片上传;
-here地图。在线客服。表单。
+sass -》 less；用户信息存储； 信息保留;websockt;时间范围；分模块引用；导入excel；下载；打印；富文本编辑器；
+here地图。在线客服。表单。面包屑 里面跳转不好用
 
 ## 代码规范
 所有命名用驼峰形式
@@ -80,9 +80,66 @@ getGoToPath(item) {
  ### 隐藏路由菜单
  meta: { hidden: true }
 
- ### 关闭当前页面，并回退history
+ ### 关闭当前页面，并回退
  import { TagsViewModule } from '@/store/modules/tags-view'; //引入
- TagsViewModule.delView(this.$route); //删除tab标签
+ TagsViewModule.delView(this.$route); //删除导航tab标签
  this.$router.go(-1); //返回
 
+## 坑
+
+<el-checkbox v-model="row.from1" label="车队端" name="type" @change="func" />
+触发推荐用 @change="func"
+若@click.native="func($event)" 则会触发两次（原因：表面上el-checkbox是一个标签，其实它是label和input两个标签 第一个事件在label上触发第二个在input上触发）。
+修改办法@click.native坑的方法，用$event判断：
+func(e){
+        if (e.target.tagName === 'INPUT') return 
+      },
  
+
+ ## 图片上传
+ <UploadImg :upload-config="uploadConfig8"
+            :upload-finish="finishUpload"
+            @on-upload-success="uploadSuccess"
+            @on-handle-remove="handleRemove" />
+ 
+ uploadConfig: {
+        label: '图片',
+        sizeLimit: 2,
+        numLimt: 1,
+        ruleName: 'needImg'
+      }
+  
+  file-list 格式[{url:''}] 或者 [{name:'',url:''}]
+
+//父组件赋值图片地址
+  this.$nextTick(() => {
+    this.$refs.uploadImg.changePath([{ url: this.params.imgPath }]);
+  })
+
+
+## @type
+  types声明文件，在使用之前需要在typesearch里面查看一下相关的类库是否有声明文件，https://microsoft.github.io/TypeSearch/
+
+
+## 查看大图
+<el-image :src="scope.row.imgPath" :preview-src-list="[scope.row.imgPath]" fit="contain" />
+
+## 导出
+
+import Export from '@/components/Export'
+
+<Export :iframe-filter="iframeFilter"
+            @exportMethod="emailExcel" />
+
+ handleDownExcel () {
+      this.iframeFilter = {
+        data: {
+          isEmail: true
+        }
+      }
+    },
+    
+async emailExcel (email) {
+  await exportCarBindList(Object.assign({ email: email }, this.querys))
+  this.$message.success('后台正在导出，稍后请查收邮件');
+},            

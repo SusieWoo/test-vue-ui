@@ -1,6 +1,6 @@
 <template>
   <el-form-item :label="uploadConfig.label"
-                prop="img">
+                :prop="uploadConfig.ruleName?uploadConfig.ruleName:'img'">
     <el-upload ref="uploadImg"
                :show-file-list="true"
                name="file"
@@ -12,7 +12,7 @@
                :on-remove="onHandleRemove"
                :before-remove="beforeRemove"
                accept="image/png,image/gif,image/jpg,image/jpeg"
-               list-type="picture-card"
+               list-type="picture"
                :multiple="multiple"
                :limit="uploadConfig.numLimt"
                :on-exceed="handleExceed"
@@ -23,7 +23,8 @@
                  type="primary">
         {{$t('common.clickUpload')}}
       </el-button>
-      <div slot="tip"
+      <div v-if="uploadConfig.notice"
+           slot="tip"
            class="el-upload__tip">
         {{$t('common.notice')}}：{{uploadConfig.notice}}
       </div>
@@ -32,32 +33,37 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Emit } from 'vue-property-decorator'
+import { Component, Prop, Vue, Emit, Watch } from 'vue-property-decorator'
 
 interface iFileImg {
   filePath: string
   fileName: string
   fileType: string
 }
+interface iFileStract {
+  url: string
+}
 interface iUploadParams {
   notice: string
   label: string
   sizeLimit: number
   numLimt: number
+  ruleName?: string
 }
 
 @Component
 export default class UploadImg extends Vue {
   @Prop() private uploadConfig!: iUploadParams
+  @Prop() private uploadPath!: Array<iFileStract>
   private sizeInvalid: boolean = false
   private multiple: boolean = false
   private fileObjec: Array<iFileImg> = []
-  private fileList: number[] = []
+  private fileList: iFileStract[] = []
   private actionUp: string = this.$UPLOAD_API
   private uploadFinish!: boolean
 
   private handlePreview(file: any) {}
-  private handleExceed(files: any, fileList: number[]) {
+  private handleExceed(files: any, fileList: iFileStract[]) {
     this.$message.warning(
       '当前限制选择 ' +
         this.uploadConfig.numLimt +
@@ -68,20 +74,20 @@ export default class UploadImg extends Vue {
         '个文件'
     )
   }
-  private beforeRemove(file: any, fileList: number[]) {
+  private beforeRemove(file: any, fileList: iFileStract[]) {
     // 由于设置了限制图片上传大小，当超过限制大小，组件会触发beforeRemove，这时无需询问是否移除
     if (this.sizeInvalid) {
       this.sizeInvalid = false
       return
     }
-    return this.$confirm(this.$t('common.toDel') + file.name + '？')
+    return this.$confirm(this.$t('common.toDel') + '？')
   }
   private progress() {
     this.uploadFinish = false
   }
 
   @Emit()
-  private onHandleRemove(file: any, fileList: number[]) {
+  private onHandleRemove(file: any, fileList: iFileStract[]) {
     return file
   }
 
@@ -113,6 +119,9 @@ export default class UploadImg extends Vue {
       this.sizeInvalid = true
       return false
     }
+  }
+  public changePath(p: Array<iFileStract>) {
+    this.fileList = p
   }
 }
 </script>

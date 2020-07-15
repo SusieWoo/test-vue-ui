@@ -27,6 +27,9 @@ export default {
     messagePush: '推送消息',
     messageSms: '短消息',
     messageStatistics: '短信统计',
+    competition: '节油大赛',
+    oilSet: '奖项配置',
+    telephone: '紧急电话配置'
   },
   navbar: {
     logOut: '退出登录',
@@ -50,6 +53,11 @@ export default {
     close: '关闭',
     closeOthers: '关闭其它',
     closeAll: '关闭所有'
+  },
+  data: {
+    appTypeList: {
+      1: '车队app'
+    }
   },
   common: {
     confirm: '确定',
@@ -75,13 +83,29 @@ export default {
     clickUpload: '点击上传',
     notice: '提示',
     toDel: '确定删除',
+    del: '删除',
     netError: '网络服务异常',
     fileUploadFail: '文件上传失败',
     fileSizeFail: '文件大小不得超过',
     warning: '警告',
     title: '标题',
+    name: '名称',
     type: '类型',
-    selectDate: '请选择日期'
+    image: '图片',
+    selectDate: '请选择日期',
+    detail: '详情',
+    addTo: '添加',
+    import: '导入',
+    status: '状态',
+    placeSelect: '请选择',
+    research: '查询',
+    create: '新建',
+    online: '上线',
+    offline: '下线',
+    tel: ' 联系方式',
+    carBand: ' 品牌',
+    carSeries: ' 车系',
+    carModel: ' 车型',
 
   },
   business: {
@@ -102,10 +126,29 @@ export default {
     city: '所属市',
     reasonAlert: '请输入解绑原因',
     appConfig: {
+      ownType: '车主版',
+      driverType: '司机版',
       appType: 'App类型',
       accTarget: '跳转页面',
       tm: '停留时间',
-      bannerLink: '链接url'
+      color: '色号',
+      appLink: 'APP页面地址',
+      bannerLink: '链接url',
+      titleKeyword: '标题关键字',
+      searchTitleKeyword: '搜索标题关键字',
+      index: '位置',
+      moveUp: '上移',
+      moveDown: '下移',
+    },
+    telephone: {
+      '常用': '常用',
+      '救援': '救援',
+      '保险公司': '保险公司',
+      titleKeyword: '请输入联系人名称',
+      carSeries: '系列',
+      联系人名称: '联系人名称',
+      车系选择: '车系选择',
+      联系方式: '联系方式'
     }
   },
   basicInfo: {
@@ -148,7 +191,6 @@ export default {
     noticeType: '通知方式',
     msgType: '消息类型',
 
-
     yes: '是',
     no: '否',
     describe: '消息描述',
@@ -158,6 +200,8 @@ export default {
     partUser: '部分用户',
     specialUser: '特定用户',
     pKeyWord: '请输入标题关键字',
+    pKeyTitle: '请输入标题',
+    pKeySender: '请输入发送人',
     carType: '车型',
     carSeries: '车系',
     role: '角色',
@@ -170,5 +214,16 @@ export default {
     yesSave: '保存',
     saveMsg: '终端上线后可收到消息',
     sendMsg: '发送',
+    addMessage: '新建消息',
+    reSendMsg: '消息重发',
+    dateRange: '统计日期范围',
+    sendMsgType: '发送端',
+    type: '类型',
+    sendTotalCount: '发送总数',
+    sendSuccessCnt: '发送成功条数',
+    sendLinkCnt: '链接点击条数',
+    sentTime: '发送时间',
+    sender: '发送人',
+    sendCnt: '发送条数',
   }
 }

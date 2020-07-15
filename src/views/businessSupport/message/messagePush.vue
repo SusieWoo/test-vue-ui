@@ -1,5 +1,7 @@
 <template>
   <div class="message-push">
+    <div style="height: 40px;background-color:#97a8be;" v-if="this.addFlag === '1'">{{$t('message.addMessage')}}</div>
+    <div style="height: 40px;background-color:#97a8be;" v-if="this.addFlag === '0'">{{$t('message.reSendMsg')}}</div>
     <el-form ref="dataForm"
              :rules="rules"
              label-width="120px"
@@ -74,20 +76,38 @@
       </div>
       <!-- TODO 左右移动选择框-->
       <div v-if="row.targetUser === 2"
-           style="display: flex; flex-direction: row; padding-left:50px;">
-        <el-form-item :label="$t('message.carSeries')"
-                      prop="requiredYes">
-          <el-select v-model="row.userInfo"
-                     class="search-item"
-                     :placeholder="$t('common.select')"
-                     @change="getCarTypeList">
-            <el-option v-for="item in carSeriesList"
-                       :key="item.seriseId"
-                       :label="item.seriseName"
-                       :value="item.seriseId" />
-          </el-select>
+           style="display: flex; flex-direction: row; ">
+        <el-form-item>
+          <el-input size="medium" v-model="keyWord" placeholder="请输入手机号/VIN码"/>
         </el-form-item>
+        <el-form-item>
+          <el-button :disabled="!keyWord" type="primary" @click.native="searchUsers(keyWord)">
+            {{$t('common.search')}}
+          </el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click.native="importFile()">
+            {{$t('common.import')}}
+          </el-button>
+        </el-form-item>
+
       </div>
+      <el-transfer
+              v-model="appUserValue"
+              style="text-align: left; display: inline-block"
+              :titles="['Source', 'Target']"
+              :format="{
+                        noChecked: '${total}',
+                        hasChecked: '${checked}/${total}'
+                      }"
+              :data="appUserData"
+              :props="{
+                        key: 'id',
+                        label: 'name'
+                      }"
+        >
+<!--        <span slot-scope="{ option }">{{ option.name }} - {{ option.phone }}</span>-->
+      </el-transfer>
       <el-form-item :label="$t('message.noticeType')">
         <el-radio v-model="row.noticeType"
                   :label="0">
@@ -173,7 +193,8 @@ export default {
         validity: 0,
         saveDays: 6,
         saveHours: 24,
-        msgObject: [],
+        userIds: '',
+        userInfo: [],
       },
 
       rules: {
@@ -193,7 +214,7 @@ export default {
           { max: 500, message: '最多500个字', trigger: 'change' }
         ],
         targetUrl: [
-          { validator: checkString, trigger: 'change' }
+          { validator: checkUrl, trigger: 'change' }
         ],
         seriseId: [
           { required: true, message: '必填', trigger: ['blur', 'change'] }
@@ -214,6 +235,10 @@ export default {
       carTypeList: [],
       addFlag: '',
       msgId: '',
+
+      keyWord: '',
+      appUserData: [],
+      appUserValue: [],
 
       roleList: [
         { label: '车主', role: 0 },

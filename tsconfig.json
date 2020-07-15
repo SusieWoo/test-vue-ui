@@ -22,9 +22,10 @@
       ]
     },
     "lib": [
+      "es2018",
       "esnext",
       "dom",
-      "dom.iterable",
+      "es5", "es6", "dom.iterable",
       "scripthost"
     ]
   },
