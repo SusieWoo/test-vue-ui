@@ -17,10 +17,7 @@ let cansubmit = true;  //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '7b06a6fc09f74aeea8a753b247eaf4ba';
-    if (config.url === '/getUserInfo') {
-      token = getToken();
-    }
+    let token = getToken();
     let base = {
       token: token,
       appType: 3
@@ -49,7 +46,6 @@ service.interceptors.request.use(
     } else {
       Promise.reject(error);
     }
-
   }
 );
 
@@ -92,6 +88,13 @@ service.interceptors.response.use(
           UserModule.ResetToken()
           location.reload() // To prevent bugs from vue-router
         })
+      } else if (res.resultCode === 610191) {
+          Message({
+              message: res.message || 'Error',
+              type: 'error',
+              duration: 5 * 1000
+          });
+          return response.data;
       } else {
         Message({
           message: res.message || 'Error',
@@ -116,10 +119,10 @@ service.interceptors.response.use(
 
 
 
-// /** 
-//  * post方法，对应post请求 
-//  * @param {String} url [请求的url地址] 
-//  * @param {Object} params [请求时携带的参数] 
+// /**
+//  * post方法，对应post请求
+//  * @param {String} url [请求的url地址]
+//  * @param {Object} params [请求时携带的参数]
 //  * @param {bool} isLazy [防止重复提交]
 //  */
 // export function post(url: string, params: object, isLazy: boolean) {
