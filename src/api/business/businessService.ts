@@ -137,3 +137,19 @@ export const batchAddCarList = (params: any) => {
   });
 }
 
+export const callCenter = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/customerCare/callCenter',
+    method: 'get',
+    params
+  });
+}
+
+export const QueryRealTimeCondition = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/customerCare/QueryRealTimeCondition',
+    method: 'get',
+    params
+  });
+}
+

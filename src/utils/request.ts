@@ -32,7 +32,7 @@ let cansubmit = true; //防止重复提交变量
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '77da0edde1884ff785054b927dc43d2f';
+    let token: string | undefined = '86dee18d8cd445a2880df7247210a80a';
     if (config.url === '/getUserInfo') {
       token = getToken();
     }
