@@ -17,6 +17,7 @@ export default {
     business: '业务支撑',
     carGroup: '车队管理',
     carGroupBuild: '新建车队',
+    carGroupDetail: '车队详情',
     appConfig: 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',
@@ -30,7 +31,8 @@ export default {
     competition: '节油大赛',
     oilSet: '奖项配置',
     editCar:'编辑车辆',
-    telephone: '紧急电话配置'
+    telephone: '紧急电话配置',
+    care:'一键呼救'
   },
   navbar: {
     logOut: '退出登录',
@@ -107,7 +109,7 @@ export default {
     carBand: ' 品牌',
     carSeries: ' 车系',
     carModel: ' 车型',
-
+    discharge: ' 排放',
   },
   business: {
     bindTeam: '绑定车队',
@@ -147,9 +149,16 @@ export default {
       '保险公司': '保险公司',
       titleKeyword: '请输入联系人名称',
       carSeries: '系列',
-      联系人名称: '联系人名称',
-      车系选择: '车系选择',
-      联系方式: '联系方式'
+      '联系人名称': '联系人名称',
+      '车系选择': '车系选择',
+      '联系方式': '联系方式'
+    },
+    care: {
+      userTel: '手机号',
+      userTelPla: '请输入手机号',
+      uploadTime:'上报时间'
+
+      
     }
   },
   basicInfo: {

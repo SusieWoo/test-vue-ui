@@ -58,3 +58,27 @@ div:focus {
 .t-table{
   padding:0 5px;
 }
+
+.title-item {
+  background-color: #d6def0;
+  text-align: left;
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+  color: #666666;
+  font: 16px;
+  margin: 10px 0;
+}
+
+.info-row {
+  margin: 5px 0;
+  color: #9E9E9E;
+  font-size: 14px;
+}
+.basicinfo {
+  text-indent: 10px;
+  color: #666;
+  font-size: 14px;
+  display: inline-block;
+  margin-left: 10px;
+}

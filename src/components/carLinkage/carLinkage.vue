@@ -1,16 +1,22 @@
 <template>
   <div class="carLinkageBox">
-    <div>车型：</div>
-    <div>
-      <multiple-select :width="160" :data="modelList" v-model="chexing" @input="getVehicleList"></multiple-select>
+    <div class="el-form-item">
+      <div class="el-form-item__label">{{$t('common.carSeries')}}：</div>
+      <div>
+        <multiple-select :width="160" :data="modelList" v-model="chexing" @input="getVehicleList"></multiple-select>
+      </div>
     </div>
-    <div>车系：</div>
-    <div>
-      <multiple-select :width="160" :data="vehicleList" v-model="chexi" @input="getDischargeList"></multiple-select>
+    <div class="el-form-item">
+      <div class="el-form-item__label">{{$t('common.carModel')}}：</div>
+      <div>
+        <multiple-select :width="160" :data="vehicleList" v-model="chexi" @input="getDischargeList"></multiple-select>
+      </div>
     </div>
-    <div>排放：</div>
-    <div>
-      <multiple-select :width="160" :data="dischargeList" v-model="paifang"></multiple-select>
+    <div class="el-form-item">
+      <div class="el-form-item__label">{{$t('common.discharge')}}：</div>
+      <div>
+        <multiple-select :width="160" :data="dischargeList" v-model="paifang"></multiple-select>
+      </div>
     </div>
   </div>
 </template>
@@ -92,6 +98,9 @@ export default class Pageination extends Vue {
   div {
     line-height: 36px;
     height: 36px;
+  }
+  .el-form-item{
+    display: flex;
   }
 }
 </style>

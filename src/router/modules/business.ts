@@ -24,6 +24,12 @@ const businessRoutes: RouteConfig = {
       component: () => import(/* webpackChunkName: "carGroupBuild" */ '@/views/app/business/carGroup/build.vue'),
     },
     {
+      path: 'carGroupDetail',
+      name: 'CarGroupDetail',
+      meta: { title: 'carGroupDetail', hidden: true },
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/carGroup/detail.vue'),
+    },
+    {
       path: 'appConfig',
       name: 'AppConfig',
       meta: { title: 'appConfig' },
@@ -77,6 +83,18 @@ const businessRoutes: RouteConfig = {
       name: 'MessageStatistics',
       meta: { title: 'messageStatistics', hidden: true },
       component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/messageStatistics.vue')
+    },
+    {
+      path: 'care',
+      name: 'care',
+      meta: { title: 'care' },
+      component: () => import(/* webpackChunkName: "carGroup" */ '@/views/app/business/care/index.vue'),
+    },
+    {
+      path: 'careInfo',
+      name: 'careInfo',
+      meta: { title: 'careInfo', hidden: true },
+      component: () => import(/* webpackChunkName: "carGroupBuild" */ '@/views/app/business/care/info.vue'),
     },
   ]
 }
