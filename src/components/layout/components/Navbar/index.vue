@@ -66,8 +66,8 @@ export default class extends Vue {
 
   private async logout() {
     // todo 此处先关闭
-    // await UserModule.LogOut();
-    // this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    await UserModule.LogOut();
+    this.$router.push(`/login?redirect=${this.$route.fullPath}`)
   }
 }
 </script>

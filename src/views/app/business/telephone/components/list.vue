@@ -90,22 +90,14 @@
                      @size-change="handleSizeChange"
                      @current-change="handleCurrentChange" />
     </el-row>
-    <Edit ref="editDialog"
-          :open="showModal"
-          :type="type"
-          @confirm="closeModal" />
   </div>
 </template>
 
 <script>
 import { queryUrgentCall, delUrgentCall, sortUrgentCall } from '@/api/business/businessService';
-import Edit from './edit';
 
 export default {
   name: 'List',
-  components: {
-    Edit
-  },
   props: {
     type: {
       type: String,

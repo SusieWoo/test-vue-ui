@@ -143,9 +143,23 @@ export const getAdminList = (params: any) =>{
     params
   });
 }
+export const callCenter = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/customerCare/callCenter',
+    method: 'get',
+    params
+  });
+}
 export const getCarList = (params: any) =>{
   return request({
     url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carList',
+    method: 'get',
+    params
+  });
+}
+export const QueryRealTimeCondition = (params: any) => {
+  return request({
+    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/customerCare/QueryRealTimeCondition',
     method: 'get',
     params
   });

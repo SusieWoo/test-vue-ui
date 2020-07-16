@@ -1,12 +1,5 @@
 <template>
   <div class="login-container">
-    <router-link to="/dashboard">
-      登陆进主页面
-    </router-link> |
-    <router-link to="/about">
-      关于我们
-    </router-link> |
-
     <div class="login-container">
       <el-form ref="loginForm"
                :model="loginForm"
@@ -20,16 +13,17 @@
           </h3>
         </div>
 
-        <el-form-item prop="username">
+        <el-form-item prop="userName">
           <span class="svg-container">
             <svg-icon name="user" />
           </span>
-          <el-input ref="username"
-                    v-model="loginForm.username"
-                    name="username"
+          <el-input ref="userName"
+                    v-model="loginForm.userName"
+                    name="userName"
                     type="text"
                     autocomplete="on"
-                    placeholder="username" />
+                    placeholder="用户名"
+                    @change="checkUser" />
         </el-form-item>
 
         <el-form-item prop="password">
@@ -40,7 +34,7 @@
                     ref="password"
                     v-model="loginForm.password"
                     :type="passwordType"
-                    placeholder="password"
+                    placeholder="密码"
                     name="password"
                     autocomplete="on"
                     @keyup.enter.native="handleLogin" />
@@ -50,25 +44,46 @@
           </span>
         </el-form-item>
 
+        <el-form-item v-if="showVerifyImg" prop="verifyCode">
+          <span class="svg-container">
+            <svg-icon name="user" />
+          </span>
+          <el-input ref="verifyCode"
+                    v-model="loginForm.verifyCode"
+                    name="verifyCode"
+                    type="text"
+                    autocomplete="off"
+                    style="width: 54%"
+                    placeholder="图形验证码" />
+          <img v-if="verifyImg" :src="verifyImg" class="verifyImg" title="验证码" @click="changeVerify" />
+          <el-button class="smscodeBtn verifyCode" type="primary" @click.native.prevent="changeVerify">看不清</el-button>
+        </el-form-item>
+
+        <el-form-item v-if="showMsgCode" prop="msgCode">
+          <span class="svg-container">
+            <svg-icon name="user" />
+          </span>
+          <el-input ref="msgCode"
+                    v-model="loginForm.msgCode"
+                    name="msgCode"
+                    type="text"
+                    autocomplete="off"
+                    style="width: 67%"
+                    placeholder="手机验证码" />
+          <el-button class="smscodeBtn" type="primary" :disabled="disableMsgCode" @click="sendMsgCode">{{msgTitle}}</el-button>
+        </el-form-item>
+        <p v-if="showUserTelephone" style="font-size: 14px">{{userTelephone}}</p>
+
         <el-button :loading="loading"
                    type="primary"
                    style="width:100%; margin-bottom:30px;"
                    @click.native.prevent="handleLogin">
-          Sign in
+          登陆
         </el-button>
-
-        <div style="position:relative">
-          <div class="tips">
-            <span> username1: 15040123214 </span>
-            <span> password1: 123456 </span>
-          </div>
-          <div class="tips">
-            <span> username2: 18602476630 </span>
-            <span> password2: 654321 </span>
-          </div>
-        </div>
       </el-form>
     </div>
+    <!-- 首次登陆弹窗 -->
+    <FirstLogin :dialog-visible="firstLoginDialogVisible" :data="loginForm.password" @DialogClose="showFirstLoginDialog" @DialogReturn="FirstLoginDialogReturn" />
   </div>
 </template>
 
@@ -80,35 +95,49 @@ import { Form as ElForm, Input } from 'element-ui'
 import { UserModule } from '@/store/modules/user'
 import { isValidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect/index.vue'
+import { getVerifyCode, isShowVerifyCode, getMsgCode, resetPassword } from '@/api/users'
+import FirstLogin from '@/components/firstLogin/index.vue';
 @Component({
   name: 'Login',
   components: {
-    LangSelect
+    LangSelect,
+    FirstLogin
   }
 })
 export default class extends Vue {
   private validateUsername = (rule: any, value: string, callback: Function) => {
     if (!value) {
-      callback(new Error('Please enter user name'))
+      callback(new Error('用户名不能为空'))
     } else {
       callback()
     }
   }
   private validatePassword = (rule: any, value: string, callback: Function) => {
-    if (value.length < 6) {
-      callback(new Error('The password can not be less than 6 digits'))
+    if (!value) {
+      callback(new Error('密码不能为空'))
     } else {
       callback()
     }
   }
-  private loginForm = {
-    username: '15040123214',
-    password: '123456'
-  }
   private loginRules = {
-    username: [{ validator: this.validateUsername, trigger: 'blur' }],
+    userName: [{ validator: this.validateUsername, trigger: 'blur' }],
     password: [{ validator: this.validatePassword, trigger: 'blur' }]
   }
+  private loginForm = {
+    userName: '',
+    password: '',
+    msgCode: null,
+    verifyCode: null,
+    verifyCodeId: '',
+    mobileVerifyCodeId: ''
+  }
+  private verifyImg = null
+  private showVerifyImg = false
+  private showMsgCode = false
+  private firstLoginDialogVisible = false
+
+  // 是否禁用获取验证码
+  private disableMsgCode = false
   private passwordType = 'password'
   private loading = false
   private showDialog = false
@@ -127,10 +156,13 @@ export default class extends Vue {
   }
 
   mounted() {
-    if (this.loginForm.username === '') {
-      ;(this.$refs.username as Input).focus()
+    this.loginForm.verifyCodeId = this.randomStr(16)
+    this.loginForm.mobileVerifyCodeId = this.randomStr(16)
+
+    if (this.loginForm.userName === '') {
+      (this.$refs.userName as Input).focus()
     } else if (this.loginForm.password === '') {
-      ;(this.$refs.password as Input).focus()
+      (this.$refs.password as Input).focus()
     }
   }
 
@@ -141,23 +173,116 @@ export default class extends Vue {
       this.passwordType = 'password'
     }
     this.$nextTick(() => {
-      ;(this.$refs.password as Input).focus()
+      (this.$refs.password as Input).focus()
+    })
+  }
+
+  private randomStr(range: any) {
+    let str = ''
+    let pos = null
+    let arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
+    arr.concat(['i', 'j', 'k', 'l', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'])
+    for (let i = 0; i < range; i++) {
+      pos = Math.round(Math.random() * (arr.length - 1))
+      str += arr[pos]
+    }
+    return str
+  }
+
+  private async changeVerify() {
+    const res = await getVerifyCode(this.loginForm.verifyCodeId)
+    this.verifyImg = res.data.fullPath
+  }
+
+  private async checkUser() {
+    const res = await isShowVerifyCode(this.loginForm.userName)
+    this.showMsgCode = !!res.data.flag
+    this.loginForm.msgCode = null
+    if (this.showVerifyImg) {
+      this.changeVerify()
+    }
+  }
+  // 首次登陆需要改密码
+  private showFirstLoginDialog() {
+    this.firstLoginDialogVisible = !this.firstLoginDialogVisible
+  }
+  private async FirstLoginDialogReturn(obj: any) {
+    this.firstLoginDialogVisible = !this.firstLoginDialogVisible
+    await resetPassword(obj)
+    await UserModule.LogOut()
+    location.reload()
+  }
+
+  private timePromise: NodeJS.Timer | null = null
+  private msgTitle = '获取验证码'
+  private showUserTelephone = false
+  private userTelephone: any
+  private async sendMsgCode() {
+    if (this.disableMsgCode) {
+      return false
+    }
+    let _this = this
+    await getMsgCode(this.loginForm).then(res => {
+      let second = 90
+      _this.timePromise = setInterval(function() {
+        if (second <= 0) {
+          clearInterval(Number(_this.timePromise))
+          _this.timePromise = null
+          _this.msgTitle = '重发验证码'
+          _this.disableMsgCode = false
+        } else {
+          _this.msgTitle = second + '秒后重发'
+          _this.disableMsgCode = true
+          second--
+        }
+      }, 1000, 100)
+      _this.$message({ message: '验证码发送成功，请注意接收', type: 'success', duration: 5 * 1000 })
+      _this.userTelephone = res.data || ''
+      this.showUserTelephone = !!res.data
     })
   }
 
   private handleLogin() {
-    ;(this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
+    (this.$refs.loginForm as ElForm).validate(async (valid: boolean) => {
       if (valid) {
         this.loading = true
-        await UserModule.Login(this.loginForm)
-        this.$router.push({
-          path: this.redirect || '/',
-          query: this.otherQuery
+        let params = {
+          userName: this.loginForm.userName,
+          password: this.loginForm.password,
+          verifyCodeId: this.loginForm.verifyCodeId,
+          mobileVerifyCodeId: this.loginForm.mobileVerifyCodeId
+        }
+        if (this.loginForm.verifyCode && this.loginForm.verifyCode !== '') {
+          params = Object.assign({
+            verifyCode: this.loginForm.verifyCode
+          }, params)
+        }
+        if (this.loginForm.msgCode && this.loginForm.msgCode !== '') {
+          params = Object.assign({
+            mobileVerifyCode: this.loginForm.msgCode
+          }, params)
+        }
+        await UserModule.Login(params).finally(() => {
+          setTimeout(() => {
+            this.loading = false
+          }, 0.5 * 1000)
         })
-        // Just to simulate the time of the request
-        setTimeout(() => {
-          this.loading = false
-        }, 0.5 * 1000)
+        if (UserModule.isFirstLogin === 1 || UserModule.isShowVerifyCode === true) {
+          if (UserModule.isFirstLogin === 1) {
+            this.showFirstLoginDialog()
+            return
+          }
+          if (UserModule.isShowVerifyCode === true) {
+            this.showVerifyImg = true
+            this.changeVerify()
+          }
+        } else {
+          this.$router.push({
+            path: this.redirect || '/',
+            query: this.otherQuery
+          })
+        }
+          // Just to simulate the time of the request
       } else {
         return false
       }
@@ -191,6 +316,13 @@ export default class extends Vue {
       -webkit-appearance: none;
       color: #fff;
     }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+      -webkit-transition-delay: 111111s;
+      -webkit-transition: color 11111s ease-out, background-color 111111s ease-out;
+    }
   }
 
   .el-form-item {
@@ -212,7 +344,7 @@ export default class extends Vue {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 140px 35px 0;
     margin: 0 auto;
     overflow: hidden;
     color: #fff;
@@ -258,6 +390,22 @@ export default class extends Vue {
     color: $darkGray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .verifyImg {
+    vertical-align: middle;
+    width: 80px;
+    height: 35px;
+    cursor: pointer;
+    margin-right: 5px;
+  }
+  .smscodeBtn {
+    vertical-align: middle;
+  }
+  .verifyCode{
+    position: absolute;
+    top: 6px;
+    right: 6px;
   }
 }
 </style>
