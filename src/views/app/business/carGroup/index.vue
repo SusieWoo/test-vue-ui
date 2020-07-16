@@ -108,7 +108,7 @@
       <el-table-column fixed="right" align="center" :label="$t('carGroup.operation')" width="120">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="look(scope.row)">{{$t('carGroup.look')}}</el-button>
-          <el-button type="text" size="small">{{$t('carGroup.edit')}}</el-button>
+          <el-button type="text" size="small" @click="edit(scope.row)">{{$t('carGroup.edit')}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -164,10 +164,22 @@ export default {
         tableData: []
       }
     },
+    activated () {
+      this.getList()
+    },
     mounted () {
       this.getList()
     },
     methods: {
+      edit (row) {
+        this.$router.push({
+          path: '/business/carGroupUpdate',
+          query: {
+            basicinfo : row,
+            isEdit: true
+          }  
+        })
+      },
       look (row) {
         this.$router.push({
           path: '/business/carGroupDetail',

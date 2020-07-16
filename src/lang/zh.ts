@@ -18,6 +18,7 @@ export default {
     carGroup: '车队管理',
     carGroupBuild: '新建车队',
     carGroupDetail: '车队详情',
+    carGroupUpdate: '编辑车队',
     appConfig: 'app页面配置',
     banner: '页面配置',
     screen: '开屏页配置',
