@@ -1,63 +1,33 @@
 <template>
   <div class="editCar">
     <el-tabs v-model="carTypeFlag" type="card" @tab-click="getBasicData">
-      <el-tab-pane label="前装车辆" name="1"></el-tab-pane>
-      <el-tab-pane label="后装车辆" name="0"></el-tab-pane>
+      <el-tab-pane label="青岛" name="1"></el-tab-pane>
+      <el-tab-pane label="长春" name="0"></el-tab-pane>
     </el-tabs>
     <div class="content">
-      <div v-if="carTypeFlag==='1'">
-        <div>
-          <span>车辆基本资料</span>
-          <el-divider></el-divider>
-        </div>
-        <div class="pd-10">
-          <el-form
-            ref="form"
-            :model="form"
-            :rules="rules"
-            label-width="130px"
-            label-position="right"
-          >
-            <el-form-item prop="row.car.chassisNum" label="底盘号">
-              <el-input clearable v-model="form.row.car.chassisNum" placeholder="请输入底盘号"></el-input>
-            </el-form-item>
-            <el-form-item label="车辆二维码">
-              <el-input clearable v-model="form.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
-            </el-form-item>
-            <el-form-item prop="row.car.carModelCode" label="车型码">
-              <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
-            </el-form-item>
-            <el-form-item prop="dealer.name" label="所属经销商">
-              <el-input
-                v-on:click.native="openDialog('所属经销商')"
-                v-model="form.dealer.name"
-                placeholder="请选择所属经销商"
-              ></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
+      <div>
+        <span>车辆基本资料</span>
+        <el-divider></el-divider>
       </div>
-
-      <div v-if="carTypeFlag==='0'">
-        <div class="pd-10">
-          <el-form
-            ref="formBack"
-            :model="formBack"
-            :rules="rulesBack"
-            label-width="130px"
-            label-position="right"
-          >
-            <el-form-item prop="chassisNum" label="底盘号">
-              <el-input clearable v-model="formBack.row.car.chassisNum" placeholder="请输入底盘号"></el-input>
-            </el-form-item>
-            <el-form-item label="车辆二维码">
-              <el-input clearable v-model="formBack.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
-            </el-form-item>
-            <el-form-item label="车辆二维码">
-              <el-input clearable v-model="formBack.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
-            </el-form-item>
-          </el-form>
-        </div>
+      <div class="pd-10">
+        <el-form ref="form" :model="form" :rules="rules" label-width="130px" label-position="right">
+          <el-form-item prop="row.car.chassisNum" label="底盘号">
+            <el-input clearable v-model="form.row.car.chassisNum" placeholder="请输入底盘号"></el-input>
+          </el-form-item>
+          <el-form-item label="车辆二维码">
+            <el-input clearable v-model="form.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
+          </el-form-item>
+          <el-form-item prop="row.car.carModelCode" label="车型码">
+            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
+          </el-form-item>
+          <el-form-item prop="dealer.name" label="所属经销商">
+            <el-input
+              v-on:click.native="openDialog('所属经销商')"
+              v-model="form.dealer.name"
+              placeholder="请选择所属经销商"
+            ></el-input>
+          </el-form-item>
+        </el-form>
       </div>
     </div>
 
