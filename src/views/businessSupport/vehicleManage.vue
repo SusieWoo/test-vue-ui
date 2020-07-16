@@ -121,8 +121,8 @@
       <el-table-column prop="provinceName" align="center" label="所属省" width="80"></el-table-column>
       <el-table-column prop="cityName" align="center" label="所属市" width="80"></el-table-column>
       <el-table-column prop="excutePerson" align="center" label="处理人" width="80"></el-table-column>
-      <el-table-column prop="excuteTime" align="center" label="处理时间" width="160"></el-table-column>
-      <el-table-column fixed="right" align="center" label="操作" width="120">
+      <el-table-column prop="excuteTime" align="center" label="处理时间" min-width="160"></el-table-column>
+      <el-table-column fixed="right" align="center" label="操作" min-width="120">
         <template slot-scope="scope">
           <el-popover placement="left" width="500" trigger="click">
             <div class="center">详情数据</div>
