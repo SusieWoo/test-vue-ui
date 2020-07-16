@@ -26,21 +26,21 @@ let dealParams = (params: props, token: string | undefined, method: string): pro
 
 let cansubmit = true; //防止重复提交变量
 
-// const CancelToken = axios.CancelToken
-// const source = CancelToken.source()
-
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
     let token = getToken();
+    console.log('config:', config.url)
+    console.log(config.url && config.url.indexOf("/pro/qdfaw/api/qingqi"))
+    if (config.url && config.url.indexOf("/pro/qdfaw/api/qingqi") == -1) {
+      //tboss假token
+      token = '935b0dd69b144e68bd4f6bb2cfd821a1'
+    }
+
     let base = {
       token: token,
       appType: 3
     };
-    // if (config.cancelToken) {
-    //   config.cancelToken = source.token
-    // }
-
 
     /*这里解决调用接口问题，get的入参*/
     if (config.method === 'post') {
@@ -62,8 +62,6 @@ service.interceptors.request.use(
     }
   }
 );
-
-// source.cancel('取消上次请求')
 
 // Response interceptors
 service.interceptors.response.use(
@@ -106,12 +104,12 @@ service.interceptors.response.use(
       } else if (res.resultCode === 670205) {
         return res;
       } else if (res.resultCode === 610191) {
-          Message({
-              message: res.message || 'Error',
-              type: 'error',
-              duration: 5 * 1000
-          });
-          return response.data;
+        Message({
+          message: res.message || 'Error',
+          type: 'error',
+          duration: 5 * 1000
+        });
+        return response.data;
       } else {
         Message({
           message: res.message || 'Error',

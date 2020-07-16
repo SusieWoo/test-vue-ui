@@ -1,33 +1,28 @@
 import request, { post } from '@/utils/request';
+const base = process.env.VUE_APP_TSP_API
 
 export const queryCar = (params: any) =>
   request({
-    url: 'http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/car/queryCar',
+    url: base + 'system/car/queryCar',
     method: 'get',
     params
   });
 
 export const queryCarBasicData = (params: any) =>
   request({
-    url: 'http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/car/queryBasicData',
+    url: base + 'system/car/queryBasicData',
     method: 'get',
     params
   });
 
-
-
 //防止重复提交
-export const operateCar = (p: object) => post('http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/lockEnable/operat', p, true);
+export const operateCar = (p: object) => post(base + 'system/lockEnable/operat', p, true);
 
-
-
-
-export const downloadCar = (p: object) => post('http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/car/downloadCar', p, true);
-
+export const downloadCar = (p: object) => post(base + 'system/car/downloadCar', p, true);
 
 export const queryDealer = (params: any) =>
   request({
-    url: 'http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/car/queryDealer',
+    url: base + 'system/car/queryDealer',
     method: 'get',
     params
   });

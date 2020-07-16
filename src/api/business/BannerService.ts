@@ -1,12 +1,7 @@
 import request from '@/utils/request';
 type makeUrl = { (url: string): string };
 let makeUrl = (url: string) => {
-  let base: any = process.env.VUE_APP_TBOSS_API
-  if (base === 'http://uat-iov-ec.fawjiefang.com.cn/') {
-    return process.env.VUE_APP_TBOSS_API + 'app/api/faw/' + url
-  } else {
-    return process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/' + url
-  }
+ return url;
 }
 
 export const QueryBannerInfo = (params: any) =>
