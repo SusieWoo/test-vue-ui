@@ -26,7 +26,7 @@ const businessRoutes: RouteConfig = {
     {
       path: 'carGroupDetail',
       name: 'CarGroupDetail',
-      meta: { title: 'carGroupDetail'},
+      meta: { title: 'carGroupDetail', hidden: true },
       component: () => import(/* webpackChunkName: "banner" */ '@/views/app/business/carGroup/detail.vue'),
     },
     {
