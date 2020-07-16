@@ -13,12 +13,7 @@ export const queryCarBasicData = (params: any) =>
     method: 'get',
     params
   });
-export const queryBasicData = (params: any) =>
-  request({
-    url: 'http://sy.aerozhonghuan.com:81/pro/qdfaw/api/qingqi/system/car/queryBasicData',
-    method: 'get',
-    params
-  });
+
 
 
 //防止重复提交

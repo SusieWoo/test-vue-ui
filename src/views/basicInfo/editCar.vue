@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import { queryBasicData, queryDealer } from "@/api/basicInfo/index";
+import { queryCarBasicData, queryDealer } from "@/api/basicInfo/index";
 import pagination from "@/components/pagination";
 export default {
   // 发送到邮箱，弹出框输入邮箱地址，发送邮件。
@@ -199,7 +199,7 @@ export default {
         serverVersion: 3,
         carTypeFlag: this.carTypeFlag
       };
-      const re = await queryBasicData(obj);
+      const re = await queryCarBasicData(obj);
       if (this.carTypeFlag === "1") {
         this.cacheDataFront = re.data;
       } else if (this.carTypeFlag === "0") {
