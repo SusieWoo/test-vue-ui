@@ -30,12 +30,19 @@ let cansubmit = true; //防止重复提交变量
 service.interceptors.request.use(
   (config) => {
     let token = getToken();
-    console.log('config:', config.url)
-    console.log(config.url && config.url.indexOf("/pro/qdfaw/api/qingqi"))
+
     if (config.url && config.url.indexOf("/pro/qdfaw/api/qingqi") == -1) {
-      //tboss假token
-      token = '935b0dd69b144e68bd4f6bb2cfd821a1'
+      //tboss -云端- 假token
+      if (config.url && config.url.indexOf("/dev/qdfaw/api/qingqi") > -1) {
+        //tboss -车场- 假token
+        token = 'babefaae2e114be28329fdb04f1e7c99'
+      } else {
+        token = '27d8a7efec1640c0945b5223f21ca70f'
+
+      }
+
     }
+
 
     let base = {
       token: token,

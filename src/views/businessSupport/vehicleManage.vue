@@ -61,23 +61,11 @@
                   :placeholder="$t('common.endDate')"
                 ></el-date-picker>
               </el-form-item>
-              <el-form-item :label="$t('business.carSeries')">
-                <multiple-select :width="160" isLabelData :data="treeData" v-model="querys.series"></multiple-select>
-              </el-form-item>
-              <el-form-item :label="$t('business.carType')">
-                <el-select v-model="querys.type" multiple class="search-item" placeholder="请选择车系">
-                  <el-option
-                    v-for="(item,index) in seriesList "
-                    :key="index"
-                    :label="item"
-                    :value="index"
-                  />
-                </el-select>
-              </el-form-item>
-              <el-form-item :label="$t('business.discharge')">
-                <el-input v-model="querys.dischargeId" placeholder="请选择排放" />
-              </el-form-item>
+              <car-linkage :model.sync="querys.series"
+                 :vehicle.sync="querys.type"
+                 :discharge.sync="querys.dischargeId" />
 
+              
               <el-form-item :label="$t('business.arStatus')">
                 <el-select v-model="querys.arStatus" class="search-item" placeholder="请选择当前车辆状态">
                   <el-option
@@ -189,31 +177,29 @@
         <el-button type="primary" @click="unbindData">{{$t('common.unbind')}}</el-button>
       </span>
     </el-dialog>
-
     <!-- 弹窗end -->
   </div>
 </template>
 
 <script>
 import {
-  queryCarPropertyForMaintains,
   queryArea,
   carBindList,
   carBindDetail,
   carUnBind
 } from "@/api/business/businessService";
-
+ 
 import pagination from "@/components/pagination";
 import areaSelect from "@/components/areaSelect";
-import multipleSelect from "@/components/multipleSelect";
+import carLinkage from "@/components/carLinkage/carLinkage";
 import comSearch from "@/components/comSearch";
 
 export default {
   components: {
-    multipleSelect,
     comSearch,
     pagination,
-    areaSelect
+    areaSelect,
+    carLinkage
   },
   data() {
     return {
@@ -262,7 +248,7 @@ export default {
   },
   watch: {},
   mounted() {
-    this.getSeriesList();
+    // this.getSeriesList();
     this.getProvinceList();
     this.getList();
   },
@@ -323,16 +309,16 @@ export default {
       this.tableData = re.data.list;
       this.total = re.data.total;
     },
-    async getSeriesList() {
-      const re = await queryCarPropertyForMaintains();
-      this.seriesList = re.data;
-      this.treeData = this.seriesList.map((item, index, arr) => {
-        return {
-          id: index.toString(),
-          label: item
-        };
-      });
-    },
+    // async getSeriesList() {
+    //   const re = await queryCarPropertyForMaintains();
+    //   this.seriesList = re.data;
+    //   this.treeData = this.seriesList.map((item, index, arr) => {
+    //     return {
+    //       id: index.toString(),
+    //       label: item
+    //     };
+    //   });
+    // },
     changeArea() {
       this.querys.cityId = "";
       this.getProvinceList(this.querys.provinceId);

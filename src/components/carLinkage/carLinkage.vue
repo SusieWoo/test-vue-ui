@@ -1,5 +1,5 @@
 <template>
-  <div class="carLinkageBox">
+  <span class="carLinkageBox">
     <div class="el-form-item">
       <div class="el-form-item__label">{{$t('common.carSeries')}}：</div>
       <div>
@@ -18,7 +18,7 @@
         <multiple-select :width="160" :data="dischargeList" v-model="paifang"></multiple-select>
       </div>
     </div>
-  </div>
+  </span>
 </template>
 
 <script lang="ts">
