@@ -5,19 +5,19 @@
       <el-tab-pane label="长春" name="0"></el-tab-pane>
     </el-tabs>-->
     <div class="content">
-      <div>
-        <span>车辆基本资料</span>
-        <el-divider></el-divider>
-      </div>
-      <div class="pd-10">
-        <el-form
-          ref="form"
-          inline
-          :model="form"
-          :rules="rules"
-          label-width="130px"
-          label-position="right"
-        >
+      <el-form
+        ref="form"
+        inline
+        :model="form"
+        :rules="rules"
+        label-width="130px"
+        label-position="right"
+      >
+        <div>
+          <span>车辆基本资料</span>
+          <el-divider></el-divider>
+        </div>
+        <div class="pd-10">
           <el-form-item prop="row.detail.fuel" label="动力类型">
             <el-radio-group v-model="form.row.detail.fuel">
               <el-radio label="柴油车" value="1"></el-radio>
@@ -70,24 +70,16 @@
             @search="getTerminal"
             :total="total"
             v-model="form.row.controller.sim"
+            @obj="getSelectSim"
           ></select-table>
-        </el-form>
-      </div>
+        </div>
 
-      <div>
-        <span>车辆信息</span>
-        <el-divider></el-divider>
-      </div>
+        <div>
+          <span>车辆信息</span>
+          <el-divider></el-divider>
+        </div>
 
-      <div class="pd-10">
-        <el-form
-          ref="form"
-          inline
-          :model="form"
-          :rules="rules"
-          label-width="130px"
-          label-position="right"
-        >
+        <div class="pd-10">
           <el-form-item prop="row.car.chassisNum" label="车架号">
             <el-input clearable v-model="form.row.car.vechicleVin" placeholder="请输入车架号"></el-input>
           </el-form-item>
@@ -166,74 +158,132 @@
           <el-form-item label="后桥2型号">
             <el-input clearable v-model="form.row.detail.rearAxleTypeTwo" placeholder="请输入后桥2型号"></el-input>
           </el-form-item>
-        </el-form>
-      </div>
+        </div>
 
-      <div>
-        <span>售前转运信息</span>
-        <el-divider></el-divider>
-      </div>
-      <div class="pd-10">
-        <el-form
-          ref="form"
-          inline
-          :model="form"
-          :rules="rules"
-          label-width="130px"
-          label-position="right"
-        >
+        <div>
+          <span>售前转运信息</span>
+          <el-divider></el-divider>
+        </div>
+        <div class="pd-10">
           <el-form-item prop="row.car.online" label="下线日期">
-            <el-date-picker v-model="form.row.car.online" value-format="yyyy-MM-dd" type="date" placeholder="选择下线日期"></el-date-picker>
+            <el-date-picker
+              v-model="form.row.car.online"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择下线日期"
+            ></el-date-picker>
           </el-form-item>
           <el-form-item prop="row.car.removeTime" label="出库日期">
-            <el-date-picker v-model="form.row.car.removeTime" value-format="yyyy-MM-dd" type="date" placeholder="选择出库日期"></el-date-picker>
+            <el-date-picker
+              v-model="form.row.car.removeTime"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="选择出库日期"
+            ></el-date-picker>
           </el-form-item>
-          
-          <el-form-item label="车辆二维码">
-            <el-input clearable v-model="form.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
-          </el-form-item>
-          <el-form-item prop="row.car.carModelCode" label="车型码">
-            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
-          </el-form-item>
-          <el-form-item prop="row.car.carType" label="车辆类型">
-            <el-select v-model="form.row.car.carType" placeholder="请选择车辆类型">
-              <el-option
-                v-for="item in carList"
-                :key="item.id"
-                :label="item.dataValue"
-                :value="item.dataCode"
-              />
+          <el-form-item label="STD销售状态">
+            <el-select v-model="form.row.sale.saleStatus" :placeholder="$t('common.select')">
+              <el-option value="0" label="已售"></el-option>
+              <el-option value="1" label="未售"></el-option>
             </el-select>
           </el-form-item>
+          <el-form-item
+            v-if="form.row.sale.saleStatus==='0'"
+            prop="row.sale.saleDate"
+            label="STD销售日期"
+          >
+            <el-date-picker
+              v-model="form.row.sale.saleDate"
+              value-format="yyyy-MM-dd"
+              type="date"
+              placeholder="请选择STD销售日期"
+            ></el-date-picker>
+          </el-form-item>
+        </div>
 
-          <select-table
-            label="所属经销商"
-            placeholder="请选择所属经销商"
-            tableTitle="所属经销商"
-            prop="dealer.name"
-            searchName="fruzzy"
-            :columnList="columnList"
-            :tableList="tableList"
-            @search="getDealer"
-            :total="total"
-            v-model="form.dealer.name"
-            @obj="getSelectDealer"
-          ></select-table>
+        <div v-if="form.row.sale.saleStatus==='0'">
+          <span>分渠销售信息</span>
+          <el-divider></el-divider>
+        </div>
+        <div class="pd-10" v-if="form.row.sale.saleStatus==='0'">
+          <el-form-item label="AAK销售状态">
+            <el-select v-model="form.row.sale.mbSalesStatus" placeholder="请选择AAK销售状态">
+              <el-option value="0" label="已售"></el-option>
+              <el-option value="1" label="未售"></el-option>
+            </el-select>
+          </el-form-item>
+          <span v-if="form.row.sale.mbSalesStatus =='0'">
+            <el-form-item prop="row.sale.mbSalesDate" label="AAK销售日期">
+              <el-date-picker
+                v-model="form.row.car.mbSalesDate"
+                value-format="yyyy-MM-dd"
+                type="date"
+                placeholder="请选择AAK销售日期"
+              ></el-date-picker>
+            </el-form-item>
+            <el-form-item label="车牌号">
+              <el-input clearable v-model="form.row.car.carCph" placeholder="请输入底盘号"></el-input>
+            </el-form-item>
 
-          <select-table
-            v-if="form.dealer.id"
-            label="FK控制器"
-            placeholder="请选择FK控制器"
-            tableTitle="FK控制器"
-            prop="row.controller.sim"
-            searchName="fruzzy"
-            :columnList="columnList"
-            :tableList="tableList"
-            @search="getTerminal"
-            :total="total"
-            v-model="form.row.controller.sim"
-          ></select-table>
-        </el-form>
+            <el-form-item label="车牌颜色">
+              <el-select v-model="form.row.car.color" placeholder="请选择车牌颜色">
+                <el-option
+                  v-for="item in colorList"
+                  :key="item.id"
+                  :label="item.value"
+                  :value="item.id"
+                />
+              </el-select>
+            </el-form-item>
+
+            <select-table
+              label="所属客户"
+              placeholder="请选择所属客户"
+              tableTitle="所属客户"
+              searchName="fruzzy"
+              :columnList="columnList"
+              :tableList="tableList"
+              @search="getBusinesses"
+              :total="total"
+              v-model="form.row.business.businessName"
+              @obj="getSelectBusiness"
+            ></select-table>
+            <el-form-item label="证件号">
+              <!-- <span> {{businessCode}}</span> -->
+              <el-input clearable disabled v-model="businessCode"></el-input>
+            </el-form-item>
+            <el-form-item prop="row.sale.invoiceNumber" label="发票号">
+              <el-input clearable v-model="form.row.sale.invoiceNumber"></el-input>
+            </el-form-item>
+            <el-form-item label="购车总金额（万）">
+              <el-input clearable v-model="form.row.sale.carAmount"></el-input>
+            </el-form-item>
+            <el-form-item label="贷款总金额（万）">
+              <el-input clearable v-model="form.row.sale.loanAmount"></el-input>
+            </el-form-item>
+            <el-form-item label="未还总金额（万）">
+              <el-input clearable v-model="form.row.sale.surplus"></el-input>
+            </el-form-item>
+          </span>
+        </div>
+
+        <div>
+          <span>车辆图片</span>
+          <el-divider></el-divider>
+        </div>
+        <div class="pd-10">
+          <UploadImg
+            ref="uploadImg"
+            :upload-config="uploadConfig"
+            :upload-finish="finishUpload"
+            @on-upload-success="uploadSuccess"
+            @on-handle-remove="handleRemove"
+          />
+        </div>
+      </el-form>
+      <div class="pd-10 center">
+        <el-button type="primary" @click="submit" :loading="loading">确定</el-button>
+        <el-button type="primary">取消</el-button>
       </div>
     </div>
   </div>
@@ -243,26 +293,33 @@
 import {
   queryCarBasicData,
   queryDealer,
-  queryTerminal
+  queryTerminal,
+  getBaseData,
+  queryBusinesses
 } from "@/api/basicInfo/index";
 import pagination from "@/components/pagination";
 import selectTable from "@/components/selectTable";
+import UploadImg from "@/components/UploadImg";
 import { objToStringFy } from "@/utils/rules";
 export default {
   // 发送到邮箱，弹出框输入邮箱地址，发送邮件。
   name: "editCar",
   components: {
     pagination,
-    selectTable
+    selectTable,
+    UploadImg
   },
   data() {
     return {
       // carTypeFlag: "1",
       // cacheDataFront: [],
       // cacheDataBack: [],
+      loading: false,
+      businessCode: "",
       total: 0,
       engineList: [],
       carList: [],
+      colorList: [],
       tableList: [], //table渲染数据
       columnList: [], //table展示的列内容
       vfactoryList: [
@@ -276,11 +333,20 @@ export default {
         { label: "T重卡", value: "T" }
       ],
       title: "",
+      finishUpload: true,
+      uploadConfig: {
+        label: "图片上传",
+        sizeLimit: 2,
+        numLimt: 1,
+        ruleName: "rulename"
+      },
       form: {
         row: {
           car: { chassisNum: "", carModelCode: "", carType: "" },
-          controller: { sim: "" },
-          detail: { fuel: "", engineType: "" }
+          controller: { sim: "", id: "" },
+          detail: { fuel: "", engineType: "" },
+          sale: { saleStatus: "", carAmount: "", loanAmount: "", surplus: "" },
+          business: { businessName: "" }
         },
         dealer: { name: "" }
       },
@@ -333,10 +399,24 @@ export default {
 
   mounted() {
     this.getBasicData();
+    this.getBaseData();
   },
   methods: {
+    handleRemove(res) {
+      this.form.imgPath = "";
+    },
+    uploadSuccess(res) {
+      this.form.imgPath = res[0].filePath;
+    },
     getSelectDealer(obj) {
       this.form.dealer.id = obj.id;
+    },
+    getSelectSim(obj) {
+      this.form.controller.id = obj.id;
+    },
+    getSelectBusiness(obj) {
+      this.form.row.business.id = obj.cid;
+      this.businessCode = obj.businessCode;
     },
     clear() {
       this.querys = {
@@ -415,6 +495,40 @@ export default {
       this.tableList = re.data.list;
       this.total = re.data.total;
     },
+    async getBusinesses(querys) {
+      this.columnList = [
+        {
+          title: "序号",
+          prop: "index",
+          width: "80"
+        },
+        {
+          title: "客户名称",
+          prop: "businessName",
+          width: "260"
+        },
+        {
+          title: "所属省市",
+          prop: "addressName",
+          width: "160"
+        },
+        {
+          title: "联系方式",
+          prop: "linkTelpone",
+          width: "180"
+        }
+      ];
+      this.tableList = [];
+      querys.ctype = -1;
+
+      const re = await queryBusinesses(querys);
+      re.data.list.forEach((element, index) => {
+        element.value = element.businessName; //value必传
+        element.index = index + 1;
+      });
+      this.tableList = re.data.list;
+      this.total = re.data.total;
+    },
     async getBasicData() {
       //缓存数据，防止点击tab重复请求
       // if (this.carTypeFlag === "1") {
@@ -444,6 +558,26 @@ export default {
       // } else if (this.carTypeFlag === "0") {
       //   this.cacheDataBack = re.data;
       // }
+    },
+    async getBaseData() {
+      const obj = {
+        type: 1
+      };
+      const re = await getBaseData(obj);
+      this.colorList = re.data;
+    },
+    submit() {
+      this.$refs['form'].validate((valid, obj) => {
+        if (valid) {
+          if (!this.finishUpload) {
+            this.$message.error("请等待图片上传完成");
+            return;
+          }
+          this.add(this.form);
+        } else {
+          return false;
+        }
+      });
     }
   }
 };
@@ -451,6 +585,9 @@ export default {
 
 <style scoped lang="scss">
 .editCar {
+  .center {
+    text-align: center;
+  }
   .content {
     width: 800px;
     padding: 20px;

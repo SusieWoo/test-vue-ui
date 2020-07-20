@@ -14,9 +14,22 @@ export const queryCarBasicData = (params: any) =>
     method: 'get',
     params
   });
+export const getBaseData = (params: any) =>
+  request({
+    url: base + 'system/baseData',
+    method: 'get',
+    params
+  });
 export const queryTerminal = (params: any) =>
   request({
     url: base + 'system/car/queryTerminal',
+    method: 'get',
+    params
+  });
+
+export const queryBusinesses = (params: any) =>
+  request({
+    url: base + 'system/queryBusinesses',
     method: 'get',
     params
   });
