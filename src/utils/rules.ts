@@ -49,9 +49,11 @@ export const validateEmail = (rule: any, value: any, callback: any) => {
 }
 
 export const objToStringFy = (obj: any) => {
+
   for (let i in obj) {
     if (obj[i] instanceof Object) {
       obj[i] = JSON.stringify(obj[i]);
     }
   }
+  return obj
 }

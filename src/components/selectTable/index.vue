@@ -72,6 +72,11 @@ export default class SelectTable extends Vue {
   @Prop({ default: "" }) private value!: string;
   @Prop({ default: "" }) private searchName!: string;
 
+  @Watch("value")
+  getValue(newVal:string,oldVal:string) {
+    this.model = newVal
+  }
+
   private querys: Iquery = {
     page_number: 1,
     page_size: 10,

@@ -18,23 +18,23 @@
           <el-divider></el-divider>
         </div>
         <div class="pd-10">
-          <el-form-item prop="row.detail.fuel" label="动力类型">
-            <el-radio-group v-model="form.row.detail.fuel">
-              <el-radio label="柴油车" value="1"></el-radio>
-              <el-radio label="天然气车" value="0"></el-radio>
+          <el-form-item prop="detail.fuel" label="动力类型">
+            <el-radio-group v-model="form.detail.fuel">
+              <el-radio label="1">柴油车</el-radio>
+              <el-radio label="0">天然气车</el-radio>
             </el-radio-group>
           </el-form-item>
-          <el-form-item prop="row.car.chassisNum" label="底盘号">
-            <el-input clearable v-model="form.row.car.chassisNum" placeholder="请输入底盘号"></el-input>
+          <el-form-item prop="car.chassisNum" label="底盘号">
+            <el-input clearable v-model="form.car.chassisNum" placeholder="请输入底盘号"></el-input>
           </el-form-item>
           <el-form-item label="车辆二维码">
-            <el-input clearable v-model="form.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
+            <el-input clearable v-model="form.car.qrCode" placeholder="请输入车辆二维码"></el-input>
           </el-form-item>
-          <el-form-item prop="row.car.carModelCode" label="车型码">
-            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
+          <el-form-item prop="car.carModelCode" label="车型码">
+            <el-input clearable v-model="form.car.carModelCode" placeholder="请输入车型码"></el-input>
           </el-form-item>
-          <el-form-item prop="row.car.carType" label="车辆类型">
-            <el-select v-model="form.row.car.carType" placeholder="请选择车辆类型">
+          <el-form-item prop="car.carType" label="车辆类型">
+            <el-select v-model="form.car.carType" placeholder="请选择车辆类型">
               <el-option
                 v-for="item in carList"
                 :key="item.id"
@@ -63,13 +63,13 @@
             label="FK控制器"
             placeholder="请选择FK控制器"
             tableTitle="FK控制器"
-            prop="row.controller.sim"
+            prop="controller.sim"
             searchName="fruzzy"
             :columnList="columnList"
             :tableList="tableList"
             @search="getTerminal"
             :total="total"
-            v-model="form.row.controller.sim"
+            v-model="form.controller.sim"
             @obj="getSelectSim"
           ></select-table>
         </div>
@@ -80,11 +80,11 @@
         </div>
 
         <div class="pd-10">
-          <el-form-item prop="row.car.chassisNum" label="车架号">
-            <el-input clearable v-model="form.row.car.vechicleVin" placeholder="请输入车架号"></el-input>
+          <el-form-item prop="car.chassisNum" label="车架号">
+            <el-input clearable v-model="form.car.vechicleVin" placeholder="请输入车架号"></el-input>
           </el-form-item>
-          <el-form-item prop="row.detail.engineType" label="发动机类型">
-            <el-select v-model="form.row.detail.engineType" placeholder="请选择发动机类型">
+          <el-form-item prop="detail.engineType" label="发动机类型">
+            <el-select v-model="form.detail.engineType" placeholder="请选择发动机类型">
               <el-option
                 v-for="item in engineList"
                 :key="item.id"
@@ -94,16 +94,16 @@
             </el-select>
           </el-form-item>
           <el-form-item label="发动机型号">
-            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入发动机型号"></el-input>
+            <el-input clearable v-model="form.car.carModelCode" placeholder="请输入发动机型号"></el-input>
           </el-form-item>
           <el-form-item label="发动机号">
-            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入发动机号"></el-input>
+            <el-input clearable v-model="form.car.carModelCode" placeholder="请输入发动机号"></el-input>
           </el-form-item>
           <el-form-item label="油箱/天然气容量(L)">
-            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入油箱/天然气容量(L)"></el-input>
+            <el-input clearable v-model="form.car.carModelCode" placeholder="请输入油箱/天然气容量(L)"></el-input>
           </el-form-item>
-          <el-form-item prop="row.car.vfactory" label="工厂代码">
-            <el-select v-model="form.row.car.vfactory" placeholder="请选择工厂代码">
+          <el-form-item prop="car.vfactory" label="工厂代码">
+            <el-select v-model="form.car.vfactory" placeholder="请选择工厂代码">
               <el-option
                 v-for="item in vfactoryList"
                 :key="item.id"
@@ -112,8 +112,8 @@
               />
             </el-select>
           </el-form-item>
-          <!-- <el-form-item prop="row.car.vfactory" label="工厂代码">
-            <el-radio-group v-model="form.row.car.vfactory">
+          <!-- <el-form-item prop="car.vfactory" label="工厂代码">
+            <el-radio-group v-model="form.car.vfactory">
               <el-radio label="QK00001轻卡" value="QK00001"></el-radio>
               <el-radio label="QK00002轻卡" value="QK00002"></el-radio>
               <el-radio label="QD00001重卡" value="QD00001"></el-radio>
@@ -127,36 +127,28 @@
             </el-radio-group>
           </el-form-item>-->
           <el-form-item label="前桥1厂家">
-            <el-input
-              clearable
-              v-model="form.row.detail.frontAxleFactoryOne"
-              placeholder="请输入前桥1厂家"
-            ></el-input>
+            <el-input clearable v-model="form.detail.frontAxleFactoryOne" placeholder="请输入前桥1厂家"></el-input>
           </el-form-item>
           <el-form-item label="前桥1型号">
-            <el-input clearable v-model="form.row.detail.frontAxleTypeOne" placeholder="请输入前桥1型号"></el-input>
+            <el-input clearable v-model="form.detail.frontAxleTypeOne" placeholder="请输入前桥1型号"></el-input>
           </el-form-item>
           <el-form-item label="前桥2厂家">
-            <el-input
-              clearable
-              v-model="form.row.detail.frontAxleFactoryTwo"
-              placeholder="请输入前桥2厂家"
-            ></el-input>
+            <el-input clearable v-model="form.detail.frontAxleFactoryTwo" placeholder="请输入前桥2厂家"></el-input>
           </el-form-item>
           <el-form-item label="前桥2型号">
-            <el-input clearable v-model="form.row.detail.frontAxleTypeTwo" placeholder="请输入前桥2型号"></el-input>
+            <el-input clearable v-model="form.detail.frontAxleTypeTwo" placeholder="请输入前桥2型号"></el-input>
           </el-form-item>
           <el-form-item label="后桥1厂家">
-            <el-input clearable v-model="form.row.detail.rearAxleFactoryOne" placeholder="请输入后桥1厂家"></el-input>
+            <el-input clearable v-model="form.detail.rearAxleFactoryOne" placeholder="请输入后桥1厂家"></el-input>
           </el-form-item>
           <el-form-item label="后桥1型号">
-            <el-input clearable v-model="form.row.detail.rearAxleTypeOne" placeholder="请输入后桥1型号"></el-input>
+            <el-input clearable v-model="form.detail.rearAxleTypeOne" placeholder="请输入后桥1型号"></el-input>
           </el-form-item>
           <el-form-item label="后桥2厂家">
-            <el-input clearable v-model="form.row.detail.rearAxleFactoryTwo" placeholder="请输入后桥2厂家"></el-input>
+            <el-input clearable v-model="form.detail.rearAxleFactoryTwo" placeholder="请输入后桥2厂家"></el-input>
           </el-form-item>
           <el-form-item label="后桥2型号">
-            <el-input clearable v-model="form.row.detail.rearAxleTypeTwo" placeholder="请输入后桥2型号"></el-input>
+            <el-input clearable v-model="form.detail.rearAxleTypeTwo" placeholder="请输入后桥2型号"></el-input>
           </el-form-item>
         </div>
 
@@ -165,35 +157,31 @@
           <el-divider></el-divider>
         </div>
         <div class="pd-10">
-          <el-form-item prop="row.car.online" label="下线日期">
+          <el-form-item prop="car.online" label="下线日期">
             <el-date-picker
-              v-model="form.row.car.online"
+              v-model="form.car.online"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择下线日期"
             ></el-date-picker>
           </el-form-item>
-          <el-form-item prop="row.car.removeTime" label="出库日期">
+          <el-form-item prop="car.removeTime" label="出库日期">
             <el-date-picker
-              v-model="form.row.car.removeTime"
+              v-model="form.car.removeTime"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择出库日期"
             ></el-date-picker>
           </el-form-item>
           <el-form-item label="STD销售状态">
-            <el-select v-model="form.row.sale.saleStatus" :placeholder="$t('common.select')">
+            <el-select v-model="form.sale.saleStatus" :placeholder="$t('common.select')">
               <el-option value="0" label="已售"></el-option>
               <el-option value="1" label="未售"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item
-            v-if="form.row.sale.saleStatus==='0'"
-            prop="row.sale.saleDate"
-            label="STD销售日期"
-          >
+          <el-form-item v-if="form.sale.saleStatus==='0'" prop="sale.saleDate" label="STD销售日期">
             <el-date-picker
-              v-model="form.row.sale.saleDate"
+              v-model="form.sale.saleDate"
               value-format="yyyy-MM-dd"
               type="date"
               placeholder="请选择STD销售日期"
@@ -201,32 +189,32 @@
           </el-form-item>
         </div>
 
-        <div v-if="form.row.sale.saleStatus==='0'">
+        <div v-if="form.sale.saleStatus==='0'">
           <span>分渠销售信息</span>
           <el-divider></el-divider>
         </div>
-        <div class="pd-10" v-if="form.row.sale.saleStatus==='0'">
+        <div class="pd-10" v-if="form.sale.saleStatus==='0'">
           <el-form-item label="AAK销售状态">
-            <el-select v-model="form.row.sale.mbSalesStatus" placeholder="请选择AAK销售状态">
+            <el-select v-model="form.sale.mbSalesStatus" placeholder="请选择AAK销售状态">
               <el-option value="0" label="已售"></el-option>
               <el-option value="1" label="未售"></el-option>
             </el-select>
           </el-form-item>
-          <span v-if="form.row.sale.mbSalesStatus =='0'">
-            <el-form-item prop="row.sale.mbSalesDate" label="AAK销售日期">
+          <span v-if="form.sale.mbSalesStatus =='0'">
+            <el-form-item prop="sale.mbSalesDate" label="AAK销售日期">
               <el-date-picker
-                v-model="form.row.car.mbSalesDate"
+                v-model="form.car.mbSalesDate"
                 value-format="yyyy-MM-dd"
                 type="date"
                 placeholder="请选择AAK销售日期"
               ></el-date-picker>
             </el-form-item>
             <el-form-item label="车牌号">
-              <el-input clearable v-model="form.row.car.carCph" placeholder="请输入底盘号"></el-input>
+              <el-input clearable v-model="form.car.carCph" placeholder="请输入底盘号"></el-input>
             </el-form-item>
 
             <el-form-item label="车牌颜色">
-              <el-select v-model="form.row.car.color" placeholder="请选择车牌颜色">
+              <el-select v-model="form.car.color" placeholder="请选择车牌颜色">
                 <el-option
                   v-for="item in colorList"
                   :key="item.id"
@@ -245,24 +233,24 @@
               :tableList="tableList"
               @search="getBusinesses"
               :total="total"
-              v-model="form.row.business.businessName"
+              v-model="form.business.businessName"
               @obj="getSelectBusiness"
             ></select-table>
             <el-form-item label="证件号">
               <!-- <span> {{businessCode}}</span> -->
               <el-input clearable disabled v-model="businessCode"></el-input>
             </el-form-item>
-            <el-form-item prop="row.sale.invoiceNumber" label="发票号">
-              <el-input clearable v-model="form.row.sale.invoiceNumber"></el-input>
+            <el-form-item prop="sale.invoiceNumber" label="发票号">
+              <el-input clearable v-model="form.sale.invoiceNumber"></el-input>
             </el-form-item>
             <el-form-item label="购车总金额（万）">
-              <el-input clearable v-model="form.row.sale.carAmount"></el-input>
+              <el-input clearable v-model="form.sale.carAmount"></el-input>
             </el-form-item>
             <el-form-item label="贷款总金额（万）">
-              <el-input clearable v-model="form.row.sale.loanAmount"></el-input>
+              <el-input clearable v-model="form.sale.loanAmount"></el-input>
             </el-form-item>
             <el-form-item label="未还总金额（万）">
-              <el-input clearable v-model="form.row.sale.surplus"></el-input>
+              <el-input clearable v-model="form.sale.surplus"></el-input>
             </el-form-item>
           </span>
         </div>
@@ -295,7 +283,9 @@ import {
   queryDealer,
   queryTerminal,
   getBaseData,
-  queryBusinesses
+  queryBusinesses,
+  updateCar,
+  queryCar
 } from "@/api/basicInfo/index";
 import pagination from "@/components/pagination";
 import selectTable from "@/components/selectTable";
@@ -341,13 +331,12 @@ export default {
         ruleName: "rulename"
       },
       form: {
-        row: {
-          car: { chassisNum: "", carModelCode: "", carType: "" },
-          controller: { sim: "", id: "" },
-          detail: { fuel: "", engineType: "" },
-          sale: { saleStatus: "", carAmount: "", loanAmount: "", surplus: "" },
-          business: { businessName: "" }
-        },
+        car: { chassisNum: "", carModelCode: "", carType: "" },
+        controller: { sim: "", id: "" },
+        detail: { fuel: "", engineType: "" },
+        sale: { saleStatus: "", carAmount: "", loanAmount: "", surplus: "" },
+        business: { businessName: "" },
+
         dealer: { name: "" }
       },
       formBack: {
@@ -357,31 +346,29 @@ export default {
       },
 
       rules: {
-        row: {
-          car: {
-            chassisNum: [
-              { required: true, message: "请输入底盘号", trigger: "blur" }
-            ],
-            carType: [
-              { required: true, message: "请选择车辆类型", trigger: "change" }
-            ],
-            carModelCode: [
-              { required: true, message: "请输入车型码", trigger: "blur" }
-            ]
-          },
-          controller: {
-            sim: [
-              { required: true, message: "请选择所属经销商", trigger: "click" }
-            ]
-          },
-          detail: {
-            fuel: [
-              { required: true, message: "请选择动力类型", trigger: "change" }
-            ],
-            engineType: [
-              { required: true, message: "请选择动力类型", trigger: "change" }
-            ]
-          }
+        car: {
+          chassisNum: [
+            { required: true, message: "请输入底盘号", trigger: "blur" }
+          ],
+          carType: [
+            { required: true, message: "请选择车辆类型", trigger: "change" }
+          ],
+          carModelCode: [
+            { required: true, message: "请输入车型码", trigger: "blur" }
+          ]
+        },
+        controller: {
+          sim: [
+            { required: true, message: "请选择所属经销商", trigger: "click" }
+          ]
+        },
+        detail: {
+          fuel: [
+            { required: true, message: "请选择动力类型", trigger: "change" }
+          ],
+          engineType: [
+            { required: true, message: "请选择动力类型", trigger: "change" }
+          ]
         },
         dealer: {
           name: [
@@ -400,6 +387,9 @@ export default {
   mounted() {
     this.getBasicData();
     this.getBaseData();
+    if (this.$route.params.id) {
+      this.getCarDetail();
+    }
   },
   methods: {
     handleRemove(res) {
@@ -415,7 +405,7 @@ export default {
       this.form.controller.id = obj.id;
     },
     getSelectBusiness(obj) {
-      this.form.row.business.id = obj.cid;
+      this.form.business.id = obj.cid;
       this.businessCode = obj.businessCode;
     },
     clear() {
@@ -425,6 +415,14 @@ export default {
       };
       this.form.dealer.name = "";
       this.getDealer();
+    },
+    async getCarDetail() {
+      const re = await queryCar({ car: { id: this.$route.params.id } });
+      if (re.data.list.length > 0) {
+        this.form = re.data.list[0];
+        this.form.dealer.name = re.data.list[0].dealer.tname;
+        console.log(this.form.dealer.name);
+      }
     },
     async getDealer(querys) {
       this.columnList = [
@@ -567,17 +565,24 @@ export default {
       this.colorList = re.data;
     },
     submit() {
-      this.$refs['form'].validate((valid, obj) => {
+      this.$refs["form"].validate((valid, obj) => {
         if (valid) {
           if (!this.finishUpload) {
             this.$message.error("请等待图片上传完成");
             return;
           }
-          this.add(this.form);
+          this.add();
         } else {
           return false;
         }
       });
+    },
+    async add() {
+      this.form = objToStringFy(this.form);
+      const re = await updateCar(this.form);
+      if (re.code === 200) {
+        this.$message.success("车辆保存成功");
+      }
     }
   }
 };

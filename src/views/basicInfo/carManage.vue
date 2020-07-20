@@ -210,7 +210,7 @@
       <el-table-column fixed="left" align="center" label="操作" width="120">
         <template slot-scope="scope">
           <el-button slot="reference" type="text" @click="getDetail(scope.row)" size="small">查看详情</el-button>
-          <el-button class="ml-10" type="text" size="small">{{$t('common.edit')}}</el-button>
+          <el-button class="ml-10" type="text" @click="goToEdit(scope.row.car.carId)" size="small">{{$t('common.edit')}}</el-button>
         </template>
       </el-table-column>
       <el-table-column

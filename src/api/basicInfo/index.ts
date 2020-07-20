@@ -34,14 +34,19 @@ export const queryBusinesses = (params: any) =>
     params
   });
 
+
+export const queryDealer = (params: any) =>
+request({
+  url: base + 'system/car/queryDealer',
+  method: 'get',
+  params
+});
+
+
 //防止重复提交
 export const operateCar = (p: object) => post(base + 'system/lockEnable/operat', p, true);
 
 export const downloadCar = (p: object) => post(base + 'system/car/downloadCar', p, true);
 
-export const queryDealer = (params: any) =>
-  request({
-    url: base + 'system/car/queryDealer',
-    method: 'get',
-    params
-  });
+
+export const updateCar = (p: object) => post(base + 'system/car/updateCar', p, true);
