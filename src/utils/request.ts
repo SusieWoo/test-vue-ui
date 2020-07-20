@@ -32,12 +32,13 @@ service.interceptors.request.use(
     let token = getToken();
 
     if (config.url && config.url.indexOf("/pro/qdfaw/api/qingqi") == -1) {
-      //tboss -云端- 假token
-      if (config.url && config.url.indexOf("/dev/qdfaw/api/qingqi") > -1) {
+      
+      if (config.url && config.url.indexOf("/qdfaw/api/qingqi") > -1) {
         //tboss -车场- 假token
-        token = 'babefaae2e114be28329fdb04f1e7c99'
+        token = 'eee23c45cec84246977d6c89682bd065'
       } else {
-        token = '27d8a7efec1640c0945b5223f21ca70f'
+        //tboss -云端- 假token
+        token = '7e80bc40bfa04940924c53ed40a3db57'
 
       }
 

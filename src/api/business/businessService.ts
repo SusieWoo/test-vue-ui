@@ -37,9 +37,9 @@ export const queryArea = (id: any) => {
   });
 }
 export const carBindList = (data: any) => {
-  if (isMock) {
-    return Mock.carBindList();
-  }
+  // if (isMock) {
+  //   return Mock.carBindList();
+  // }
   return request({
     url: 'operate/review/carBindList',
     method: 'post',

@@ -61,11 +61,6 @@
                   :placeholder="$t('common.endDate')"
                 ></el-date-picker>
               </el-form-item>
-              <car-linkage :model.sync="querys.series"
-                 :vehicle.sync="querys.type"
-                 :discharge.sync="querys.dischargeId" />
-
-              
               <el-form-item :label="$t('business.arStatus')">
                 <el-select v-model="querys.arStatus" class="search-item" placeholder="请选择当前车辆状态">
                   <el-option
@@ -81,6 +76,11 @@
                 :provinceId.sync="querys.provinceId"
                 :cityId.sync="querys.cityId"
               ></area-select>
+
+                <car-linkage :model.sync="querys.series"
+                 :vehicle.sync="querys.type"
+                 :discharge.sync="querys.dischargeId" />
+
             </span>
           </template>
         </com-search>

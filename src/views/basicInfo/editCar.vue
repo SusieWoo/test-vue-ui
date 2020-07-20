@@ -1,9 +1,9 @@
 <template>
   <div class="editCar">
-    <el-tabs v-model="carTypeFlag" type="card" @tab-click="getBasicData">
+    <!-- <el-tabs v-model="carTypeFlag" type="card" @tab-click="getBasicData">
       <el-tab-pane label="青岛" name="1"></el-tab-pane>
       <el-tab-pane label="长春" name="0"></el-tab-pane>
-    </el-tabs>
+    </el-tabs>-->
     <div class="content">
       <div>
         <span>车辆基本资料</span>
@@ -20,65 +20,51 @@
           <el-form-item prop="row.car.carModelCode" label="车型码">
             <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
           </el-form-item>
-          <el-form-item prop="dealer.name" label="所属经销商">
+          <!-- <el-form-item prop="dealer.name" label="所属经销商">
             <el-input
               v-on:click.native="openDialog('所属经销商')"
               v-model="form.dealer.name"
               placeholder="请选择所属经销商"
             ></el-input>
+          </el-form-item>-->
+
+          <select-table
+            label="所属经销商"
+            placeholder="请选择所属经销商"
+            tableTitle="所属经销商"
+            prop="dealer.name"
+            searchName="fruzzy"
+            :dialogVisible="dialogVisible"
+            :columnList="columnList"
+            :tableList="dealerList"
+            @search="getDealer"
+            :total="total"
+            v-model="form.dealer.name"
+          ></select-table>
+
+          <el-form-item prop="dealer.name" label="sim卡号">
+            <el-input
+              v-on:click.native="openDialog('关联终端')"
+              v-model="form.dealer.name"
+              placeholder="请选择关联sim卡号"
+            ></el-input>
           </el-form-item>
         </el-form>
       </div>
     </div>
-
-    <el-dialog
-      :title="title"
-      :close-on-click-modal="false"
-      :visible.sync="dialogVisible"
-      width="800px"
-    >
-      <div class="search">
-        <el-input class="params mr-10" clearable v-model="querys.fruzzy" placeholder="请输入关键字"></el-input>
-        <el-button class="mr-10" @click="getDealer" type="primary" icon="el-icon-search">查询</el-button>
-        <el-button type="primary" @click="clear" icon="el-icon-delete">清空</el-button>
-      </div>
-      <el-table
-        v-if="columnList.length>0"
-        @row-click="rowClick"
-        :data="dealerList"
-        stripe
-        style="width: 100%"
-      >
-        <el-table-column
-          v-for="(item,index) in columnList"
-          :key="index"
-          :label="item.title"
-          :width="item.width"
-        >
-          <template slot-scope="scope">
-            <span>{{scope.row[item.prop]}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="querys.page_number"
-        :limit.sync="querys.page_size"
-        @pagination="getDealer"
-      />
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { queryCarBasicData, queryDealer } from "@/api/basicInfo/index";
 import pagination from "@/components/pagination";
+import selectTable from "@/components/selectTable";
 export default {
   // 发送到邮箱，弹出框输入邮箱地址，发送邮件。
   name: "editCar",
   components: {
-    pagination
+    pagination,
+    selectTable
   },
   data() {
     return {
@@ -154,7 +140,7 @@ export default {
       this.form.dealer.name = "";
       this.getDealer();
     },
-    async getDealer() {
+    async getDealer(querys) {
       this.columnList = [
         {
           title: "经销商名称",
@@ -177,8 +163,10 @@ export default {
           width: "180"
         }
       ];
-
-      const re = await queryDealer(this.querys);
+      const re = await queryDealer(querys);
+      re.data.list.forEach(element => {
+        element.value = element.tname;
+      });
       this.dealerList = re.data.list;
       this.total = re.data.total;
     },
