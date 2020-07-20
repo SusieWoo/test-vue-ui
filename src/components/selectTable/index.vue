@@ -74,6 +74,7 @@ export default class SelectTable extends Vue {
 
   @Watch("value")
   getValue(newVal:string,oldVal:string) {
+    console.log('newVal',newVal)
     this.model = newVal
   }
 

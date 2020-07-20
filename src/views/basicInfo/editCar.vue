@@ -39,13 +39,14 @@
                 v-for="item in carList"
                 :key="item.id"
                 :label="item.dataValue"
-                :value="item.dataCode"
+                :value="item.id"
               />
             </el-select>
           </el-form-item>
 
           <select-table
             label="所属经销商"
+            :key="1"
             placeholder="请选择所属经销商"
             tableTitle="所属经销商"
             prop="dealer.name"
@@ -59,7 +60,8 @@
           ></select-table>
 
           <select-table
-            v-if="form.dealer.id"
+           :key="2"
+            v-show="form.dealer.id"
             label="FK控制器"
             placeholder="请选择FK控制器"
             tableTitle="FK控制器"
@@ -421,7 +423,8 @@ export default {
       if (re.data.list.length > 0) {
         this.form = re.data.list[0];
         this.form.dealer.name = re.data.list[0].dealer.tname;
-        console.log(this.form.dealer.name);
+        this.form.controller.sim = re.data.list[0].controller.simNo;
+        console.log(this.form.dealer.id)
       }
     },
     async getDealer(querys) {
