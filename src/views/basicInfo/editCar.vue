@@ -10,7 +10,20 @@
         <el-divider></el-divider>
       </div>
       <div class="pd-10">
-        <el-form ref="form" :model="form" :rules="rules" label-width="130px" label-position="right">
+        <el-form
+          ref="form"
+          inline
+          :model="form"
+          :rules="rules"
+          label-width="130px"
+          label-position="right"
+        >
+          <el-form-item prop="row.detail.fuel" label="动力类型">
+            <el-radio-group v-model="form.row.detail.fuel">
+              <el-radio label="柴油车" value="1"></el-radio>
+              <el-radio label="天然气车" value="0"></el-radio>
+            </el-radio-group>
+          </el-form-item>
           <el-form-item prop="row.car.chassisNum" label="底盘号">
             <el-input clearable v-model="form.row.car.chassisNum" placeholder="请输入底盘号"></el-input>
           </el-form-item>
@@ -20,13 +33,16 @@
           <el-form-item prop="row.car.carModelCode" label="车型码">
             <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
           </el-form-item>
-          <!-- <el-form-item prop="dealer.name" label="所属经销商">
-            <el-input
-              v-on:click.native="openDialog('所属经销商')"
-              v-model="form.dealer.name"
-              placeholder="请选择所属经销商"
-            ></el-input>
-          </el-form-item>-->
+          <el-form-item prop="row.car.carType" label="车辆类型">
+            <el-select v-model="form.row.car.carType" placeholder="请选择车辆类型">
+              <el-option
+                v-for="item in carList"
+                :key="item.id"
+                :label="item.dataValue"
+                :value="item.dataCode"
+              />
+            </el-select>
+          </el-form-item>
 
           <select-table
             label="所属经销商"
@@ -34,21 +50,189 @@
             tableTitle="所属经销商"
             prop="dealer.name"
             searchName="fruzzy"
-            :dialogVisible="dialogVisible"
             :columnList="columnList"
-            :tableList="dealerList"
+            :tableList="tableList"
             @search="getDealer"
             :total="total"
             v-model="form.dealer.name"
+            @obj="getSelectDealer"
           ></select-table>
 
-          <el-form-item prop="dealer.name" label="sim卡号">
+          <select-table
+            v-if="form.dealer.id"
+            label="FK控制器"
+            placeholder="请选择FK控制器"
+            tableTitle="FK控制器"
+            prop="row.controller.sim"
+            searchName="fruzzy"
+            :columnList="columnList"
+            :tableList="tableList"
+            @search="getTerminal"
+            :total="total"
+            v-model="form.row.controller.sim"
+          ></select-table>
+        </el-form>
+      </div>
+
+      <div>
+        <span>车辆信息</span>
+        <el-divider></el-divider>
+      </div>
+
+      <div class="pd-10">
+        <el-form
+          ref="form"
+          inline
+          :model="form"
+          :rules="rules"
+          label-width="130px"
+          label-position="right"
+        >
+          <el-form-item prop="row.car.chassisNum" label="车架号">
+            <el-input clearable v-model="form.row.car.vechicleVin" placeholder="请输入车架号"></el-input>
+          </el-form-item>
+          <el-form-item prop="row.detail.engineType" label="发动机类型">
+            <el-select v-model="form.row.detail.engineType" placeholder="请选择发动机类型">
+              <el-option
+                v-for="item in engineList"
+                :key="item.id"
+                :label="item.dataValue"
+                :value="item.dataCode"
+              />
+            </el-select>
+          </el-form-item>
+          <el-form-item label="发动机型号">
+            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入发动机型号"></el-input>
+          </el-form-item>
+          <el-form-item label="发动机号">
+            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入发动机号"></el-input>
+          </el-form-item>
+          <el-form-item label="油箱/天然气容量(L)">
+            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入油箱/天然气容量(L)"></el-input>
+          </el-form-item>
+          <el-form-item prop="row.car.vfactory" label="工厂代码">
+            <el-select v-model="form.row.car.vfactory" placeholder="请选择工厂代码">
+              <el-option
+                v-for="item in vfactoryList"
+                :key="item.id"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
+          <!-- <el-form-item prop="row.car.vfactory" label="工厂代码">
+            <el-radio-group v-model="form.row.car.vfactory">
+              <el-radio label="QK00001轻卡" value="QK00001"></el-radio>
+              <el-radio label="QK00002轻卡" value="QK00002"></el-radio>
+              <el-radio label="QD00001重卡" value="QD00001"></el-radio>
+              <el-radio label="QA00022重卡" value="QA00022"></el-radio>
+              <br />
+              <el-radio label="LZ00001重卡" value="LZ00001"></el-radio>
+              <el-radio label="LZ00002轻卡" value="LZ00002"></el-radio>
+              <el-radio label="QA00016重卡" value="QA00016"></el-radio>
+              <el-radio label="T重卡" value="T"></el-radio>
+              <el-radio label="QL001重卡" value="QL001"></el-radio>
+            </el-radio-group>
+          </el-form-item>-->
+          <el-form-item label="前桥1厂家">
             <el-input
-              v-on:click.native="openDialog('关联终端')"
-              v-model="form.dealer.name"
-              placeholder="请选择关联sim卡号"
+              clearable
+              v-model="form.row.detail.frontAxleFactoryOne"
+              placeholder="请输入前桥1厂家"
             ></el-input>
           </el-form-item>
+          <el-form-item label="前桥1型号">
+            <el-input clearable v-model="form.row.detail.frontAxleTypeOne" placeholder="请输入前桥1型号"></el-input>
+          </el-form-item>
+          <el-form-item label="前桥2厂家">
+            <el-input
+              clearable
+              v-model="form.row.detail.frontAxleFactoryTwo"
+              placeholder="请输入前桥2厂家"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="前桥2型号">
+            <el-input clearable v-model="form.row.detail.frontAxleTypeTwo" placeholder="请输入前桥2型号"></el-input>
+          </el-form-item>
+          <el-form-item label="后桥1厂家">
+            <el-input clearable v-model="form.row.detail.rearAxleFactoryOne" placeholder="请输入后桥1厂家"></el-input>
+          </el-form-item>
+          <el-form-item label="后桥1型号">
+            <el-input clearable v-model="form.row.detail.rearAxleTypeOne" placeholder="请输入后桥1型号"></el-input>
+          </el-form-item>
+          <el-form-item label="后桥2厂家">
+            <el-input clearable v-model="form.row.detail.rearAxleFactoryTwo" placeholder="请输入后桥2厂家"></el-input>
+          </el-form-item>
+          <el-form-item label="后桥2型号">
+            <el-input clearable v-model="form.row.detail.rearAxleTypeTwo" placeholder="请输入后桥2型号"></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+
+      <div>
+        <span>售前转运信息</span>
+        <el-divider></el-divider>
+      </div>
+      <div class="pd-10">
+        <el-form
+          ref="form"
+          inline
+          :model="form"
+          :rules="rules"
+          label-width="130px"
+          label-position="right"
+        >
+          <el-form-item prop="row.car.online" label="下线日期">
+            <el-date-picker v-model="form.row.car.online" value-format="yyyy-MM-dd" type="date" placeholder="选择下线日期"></el-date-picker>
+          </el-form-item>
+          <el-form-item prop="row.car.removeTime" label="出库日期">
+            <el-date-picker v-model="form.row.car.removeTime" value-format="yyyy-MM-dd" type="date" placeholder="选择出库日期"></el-date-picker>
+          </el-form-item>
+          
+          <el-form-item label="车辆二维码">
+            <el-input clearable v-model="form.row.car.qrCode" placeholder="请输入车辆二维码"></el-input>
+          </el-form-item>
+          <el-form-item prop="row.car.carModelCode" label="车型码">
+            <el-input clearable v-model="form.row.car.carModelCode" placeholder="请输入车型码"></el-input>
+          </el-form-item>
+          <el-form-item prop="row.car.carType" label="车辆类型">
+            <el-select v-model="form.row.car.carType" placeholder="请选择车辆类型">
+              <el-option
+                v-for="item in carList"
+                :key="item.id"
+                :label="item.dataValue"
+                :value="item.dataCode"
+              />
+            </el-select>
+          </el-form-item>
+
+          <select-table
+            label="所属经销商"
+            placeholder="请选择所属经销商"
+            tableTitle="所属经销商"
+            prop="dealer.name"
+            searchName="fruzzy"
+            :columnList="columnList"
+            :tableList="tableList"
+            @search="getDealer"
+            :total="total"
+            v-model="form.dealer.name"
+            @obj="getSelectDealer"
+          ></select-table>
+
+          <select-table
+            v-if="form.dealer.id"
+            label="FK控制器"
+            placeholder="请选择FK控制器"
+            tableTitle="FK控制器"
+            prop="row.controller.sim"
+            searchName="fruzzy"
+            :columnList="columnList"
+            :tableList="tableList"
+            @search="getTerminal"
+            :total="total"
+            v-model="form.row.controller.sim"
+          ></select-table>
         </el-form>
       </div>
     </div>
@@ -56,9 +240,14 @@
 </template>
 
 <script>
-import { queryCarBasicData, queryDealer } from "@/api/basicInfo/index";
+import {
+  queryCarBasicData,
+  queryDealer,
+  queryTerminal
+} from "@/api/basicInfo/index";
 import pagination from "@/components/pagination";
 import selectTable from "@/components/selectTable";
+import { objToStringFy } from "@/utils/rules";
 export default {
   // 发送到邮箱，弹出框输入邮箱地址，发送邮件。
   name: "editCar",
@@ -68,21 +257,30 @@ export default {
   },
   data() {
     return {
-      carTypeFlag: "1",
-      cacheDataFront: [],
-      cacheDataBack: [],
-      dialogVisible: false,
+      // carTypeFlag: "1",
+      // cacheDataFront: [],
+      // cacheDataBack: [],
       total: 0,
-      querys: {
-        page_number: 1,
-        page_size: 10
-      },
-      dealerList: [], //table渲染数据
+      engineList: [],
+      carList: [],
+      tableList: [], //table渲染数据
       columnList: [], //table展示的列内容
+      vfactoryList: [
+        { label: "QK00001", value: "QK00001轻卡" },
+        { label: "QK00002", value: "QK00002轻卡" },
+        { label: "QD00001", value: "QD00001重卡" },
+        { label: "QA00022", value: "QA00022重卡" },
+        { label: "LZ00001", value: "LZ00001重卡" },
+        { label: "LZ00002", value: "LZ00002轻卡" },
+        { label: "QA00016", value: "QA00016重卡" },
+        { label: "T重卡", value: "T" }
+      ],
       title: "",
       form: {
         row: {
-          car: { chassisNum: "", carModelCode: "" }
+          car: { chassisNum: "", carModelCode: "", carType: "" },
+          controller: { sim: "" },
+          detail: { fuel: "", engineType: "" }
         },
         dealer: { name: "" }
       },
@@ -98,8 +296,24 @@ export default {
             chassisNum: [
               { required: true, message: "请输入底盘号", trigger: "blur" }
             ],
+            carType: [
+              { required: true, message: "请选择车辆类型", trigger: "change" }
+            ],
             carModelCode: [
               { required: true, message: "请输入车型码", trigger: "blur" }
+            ]
+          },
+          controller: {
+            sim: [
+              { required: true, message: "请选择所属经销商", trigger: "click" }
+            ]
+          },
+          detail: {
+            fuel: [
+              { required: true, message: "请选择动力类型", trigger: "change" }
+            ],
+            engineType: [
+              { required: true, message: "请选择动力类型", trigger: "change" }
             ]
           }
         },
@@ -121,16 +335,8 @@ export default {
     this.getBasicData();
   },
   methods: {
-    openDialog(title) {
-      this.dialogVisible = true;
-      this.title = title;
-      this.getDealer();
-    },
-    rowClick(row) {
-      this.form.dealer.name = row.tname;
-      this.form.dealer.id = row.id;
-
-      this.dialogVisible = false;
+    getSelectDealer(obj) {
+      this.form.dealer.id = obj.id;
     },
     clear() {
       this.querys = {
@@ -167,32 +373,77 @@ export default {
       re.data.list.forEach(element => {
         element.value = element.tname;
       });
-      this.dealerList = re.data.list;
+      this.tableList = re.data.list;
+      this.total = re.data.total;
+    },
+    async getTerminal(querys) {
+      if (!this.form.dealer.id) {
+        this.$message.warning("请先选择经销商");
+        return;
+      }
+      this.columnList = [
+        {
+          title: "序号",
+          prop: "index",
+          width: "80"
+        },
+        {
+          title: "终端ID",
+          prop: "tCode",
+          width: "200"
+        },
+        {
+          title: "SIM卡",
+          prop: "sim",
+          width: "160"
+        },
+        {
+          title: "类型",
+          prop: "type_name",
+          width: "260"
+        }
+      ];
+      this.tableList = [];
+      querys.dealer = { id: this.form.dealer.id };
+      querys.terminal = { tstyle: "0" };
+
+      const re = await queryTerminal(querys);
+      re.data.list.forEach((element, index) => {
+        element.value = element.sim; //value必传
+        element.index = index + 1;
+      });
+      this.tableList = re.data.list;
       this.total = re.data.total;
     },
     async getBasicData() {
       //缓存数据，防止点击tab重复请求
-      if (this.carTypeFlag === "1") {
-        if (this.cacheDataFront) {
-          return;
-        }
-      } else if (this.carTypeFlag === "0") {
-        if (this.cacheDataBack) {
-          return;
-        }
-      }
+      // if (this.carTypeFlag === "1") {
+      //   if (this.cacheDataFront) {
+      //     return;
+      //   }
+      // } else if (this.carTypeFlag === "0") {
+      //   if (this.cacheDataBack) {
+      //     return;
+      //   }
+      // }
       const obj = {
         carType: 2,
         engineType: 40,
-        serverVersion: 3,
-        carTypeFlag: this.carTypeFlag
+        serverVersion: 3
+        // carTypeFlag: 1
       };
       const re = await queryCarBasicData(obj);
-      if (this.carTypeFlag === "1") {
-        this.cacheDataFront = re.data;
-      } else if (this.carTypeFlag === "0") {
-        this.cacheDataBack = re.data;
+      if (re.data.engineType) {
+        this.engineList = re.data.engineType;
       }
+      if (re.data.carType) {
+        this.carList = re.data.carType;
+      }
+      // if (this.carTypeFlag === "1") {
+      //   this.cacheDataFront = re.data;
+      // } else if (this.carTypeFlag === "0") {
+      //   this.cacheDataBack = re.data;
+      // }
     }
   }
 };

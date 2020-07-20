@@ -14,6 +14,12 @@ export const queryCarBasicData = (params: any) =>
     method: 'get',
     params
   });
+export const queryTerminal = (params: any) =>
+  request({
+    url: base + 'system/car/queryTerminal',
+    method: 'get',
+    params
+  });
 
 //防止重复提交
 export const operateCar = (p: object) => post(base + 'system/lockEnable/operat', p, true);

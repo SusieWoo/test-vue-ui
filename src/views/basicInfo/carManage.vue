@@ -581,7 +581,7 @@ export default {
         { label: "LZ00001", value: "LZ00001重卡" },
         { label: "LZ00002", value: "LZ00002轻卡" },
         { label: "QA00016", value: "QA00016重卡" },
-        { label: "T", value: "T重卡" }
+        { label: "T重卡", value: "T" }
       ],
       dialogVisible: false,
       checkedColumn: [],
@@ -650,7 +650,6 @@ export default {
       this.dialogVisible = true;
     },
     formatQuerys(obj) {
-      let re = {};
       for (let i in obj) {
         if (obj[i] instanceof Object) {
           obj[i] = JSON.stringify(obj[i]);

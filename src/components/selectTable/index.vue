@@ -1,5 +1,5 @@
 <template>
-  <div class="select-table">
+  <span class="select-table">
     <el-form-item :prop="prop" :label="label">
       <el-input clearable v-model="model" :placeholder="placeholder" v-on:click.native="openDialog"></el-input>
     </el-form-item>
@@ -25,7 +25,7 @@
           v-for="(item,index) in columnList"
           :key="index"
           :label="item.title"
-          :width="item.width"
+          :min-width="item.width"
         >
           <template slot-scope="scope">
             <span>{{scope.row[item.prop]}}</span>
@@ -40,7 +40,7 @@
         @pagination="search"
       />
     </el-dialog>
-  </div>
+  </span>
 </template>
 
 <script  lang="ts" >
@@ -96,8 +96,8 @@ export default class SelectTable extends Vue {
     this.$emit("search", this.querys);
   }
   private rowClick(row: any) {
-    this.model = row.value;
-    this.$emit('input',row.value)
+    this.model = row.label ? row.label : row.value; //value必传
+    this.$emit("input", row.value);
     this.$emit("obj", row);
     this.dialogVisible = false;
   }
