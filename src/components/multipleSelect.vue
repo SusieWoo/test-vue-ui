@@ -53,7 +53,7 @@ export default {
       type: Array,
       required: true
     },
-    // 是否返回label数据
+    // isLabelData : true 返回label，false返回value
     isLabelData: {
       type: Boolean,
       default: false
@@ -73,7 +73,7 @@ export default {
     };
   },
   watch: {
-    data: function(){
+    data: function() {
       this.selectNone();
       this.changeValue();
     },
@@ -112,7 +112,7 @@ export default {
         });
       }
     },
-    changeValue(){
+    changeValue() {
       const labelArr = this.List.map(item => {
         return item.label;
       });
@@ -124,12 +124,7 @@ export default {
     },
     hidePopover() {
       this.changeValue();
-
-      if (this.isLabelData) {
-        this.$emit("input", this.labelData);
-      } else {
-        this.$emit("input", this.valueData);
-      }
+      this.$emit("input", this.isLabelData ? this.labelData : this.valueData);
     }
   }
 };

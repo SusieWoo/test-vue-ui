@@ -31,7 +31,9 @@ export default {
     messageStatistics: '短信统计',
     competition: '节油大赛',
     oilSet: '奖项配置',
-    telephone: '紧急电话配置'
+    editCar:'编辑车辆',
+    telephone: '紧急电话配置',
+    care:'一键呼救'
   },
   navbar: {
     logOut: '退出登录',
@@ -108,7 +110,7 @@ export default {
     carBand: ' 品牌',
     carSeries: ' 车系',
     carModel: ' 车型',
-
+    discharge: ' 排放',
   },
   business: {
     bindTeam: '绑定车队',
@@ -148,16 +150,39 @@ export default {
       '保险公司': '保险公司',
       titleKeyword: '请输入联系人名称',
       carSeries: '系列',
-      联系人名称: '联系人名称',
-      车系选择: '车系选择',
-      联系方式: '联系方式'
+      '联系人名称': '联系人名称',
+      '车系选择': '车系选择',
+      '联系方式': '联系方式'
+    },
+    care: {
+      userTel: '手机号',
+      userTelPla: '请输入手机号',
+      uploadTime:'上报时间'
+
+      
     }
   },
   basicInfo: {
     place: '请输入',
     carNo: '车牌号',
     bottomCarNo: '底牌号',
-    reasonAlert: '请输入解绑原因'
+    reasonAlert: '请输入解绑原因',
+    carType:'车辆类型',
+    dealer:'经销商',
+    sim:'sim卡号',
+    motivitor:'发动机型号',
+    firstOnlineDate:'首次上线时间',
+    produceDate:'下线(制造)日期',
+    motorType: '发动机类型',
+    std:'STD状态',
+    stype:'动力类型',
+    aak:'AAK状态',
+    isSuooprtLock:'终端支持锁车',
+    factoryCode:'工厂代码',
+    belong:'归属',
+    lockStatus:'锁车功能状态',
+    bottomNo:'底盘号',
+    bottomNoMore:'（英文半角逗号分隔，最多1000）',
   },
   carGroup: {
     groupName: '车队名称',

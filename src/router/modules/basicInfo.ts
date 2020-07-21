@@ -16,13 +16,20 @@ const basicInfoRoutes: RouteConfig = {
       name: 'carManage',
       meta: { title: 'carManage' },
       component: () => import(/* webpackChunkName: "banner" */ '@/views/basicInfo/carManage.vue'),
+
     },
     {
-        path: 'vehicleManage',
-        name: 'vehicleManage',
-        meta: { title: 'vehicleManage' },
-        component: () => import(/* webpackChunkName: "banner" */ '@/views/businessSupport/vehicleManage.vue')
-      },
+      path: 'carManage/:id',
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/basicInfo/editCar.vue'),
+      name: 'editCar',
+      meta: { title: 'editCar', hidden: true }
+    },
+    {
+      path: 'vehicleManage',
+      name: 'vehicleManage',
+      meta: { title: 'vehicleManage' },
+      component: () => import(/* webpackChunkName: "banner" */ '@/views/businessSupport/vehicleManage.vue')
+    },
   ]
 }
 

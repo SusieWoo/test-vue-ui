@@ -90,6 +90,18 @@ const businessRoutes: RouteConfig = {
       meta: { title: 'messageStatistics', hidden: true },
       component: () => import(/* webpackChunkName: "pushMessageAdd" */ '@/views/businessSupport/message/messageStatistics.vue')
     },
+    {
+      path: 'care',
+      name: 'care',
+      meta: { title: 'care' },
+      component: () => import(/* webpackChunkName: "carGroup" */ '@/views/app/business/care/index.vue'),
+    },
+    {
+      path: 'careInfo',
+      name: 'careInfo',
+      meta: { title: 'careInfo', hidden: true },
+      component: () => import(/* webpackChunkName: "carGroupBuild" */ '@/views/app/business/care/info.vue'),
+    },
   ]
 }
 

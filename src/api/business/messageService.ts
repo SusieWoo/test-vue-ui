@@ -3,7 +3,7 @@ import request from '@/utils/request';
 // 推送消息列表
 export const noticeList = (params: any) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/notice/queryNoticeList',
+    url: 'operate/notice/queryNoticeList',
     method: 'get',
     params
   });
@@ -11,7 +11,7 @@ export const noticeList = (params: any) =>
 // 车辆品牌
 export const brandList = (params: any) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/common/brandList',
+    url: 'operate/common/brandList',
     method: 'get',
     params
   });
@@ -19,7 +19,7 @@ export const brandList = (params: any) =>
 // 车系
 export const carSeriesList = (params: any) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/common/seriseList',
+    url: 'operate/common/seriseList',
     method: 'get',
     params
   });
@@ -27,7 +27,7 @@ export const carSeriesList = (params: any) =>
 // 车型
 export const carTypeList = (params: any) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/common/activityModelList',
+    url: 'operate/common/activityModelList',
     method: 'get',
     params
   });
@@ -35,7 +35,7 @@ export const carTypeList = (params: any) =>
 // 根据手机号或者底盘号获取用户
 export const userIdByPhoneAndVin = (params: any) =>
     request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/getUserIdByPhoneAndVin',
+        url: 'operate/getUserIdByPhoneAndVin',
         method: 'get',
         params
     });
@@ -43,7 +43,7 @@ export const userIdByPhoneAndVin = (params: any) =>
 // 新增推送消息
 export const newNotice = (data: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/notice/newNotice',
+    url: 'operate/notice/newNotice',
     method: 'post',
     data: data
   });
@@ -52,7 +52,7 @@ export const newNotice = (data: any) => {
 // 重发-推送消息详情
 export const resendNotice = (data: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/notice/resendNotice',
+    url: 'operate/notice/resendNotice',
     method: 'post',
     data: data
   });
@@ -61,7 +61,7 @@ export const resendNotice = (data: any) => {
 // 短消息列表
 export const smsMessageList = (params: any) =>
     request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/msgManageGetSendedSMSList',
+        url: 'operate/msgManageGetSendedSMSList',
         method: 'get',
         params
     });
@@ -69,7 +69,7 @@ export const smsMessageList = (params: any) =>
 // 新增短消息
 export const newSms = (data: any) => {
     return request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/msgManageSendSMS',
+        url: 'operate/msgManageSendSMS',
         method: 'post',
         data: data
     });
@@ -78,7 +78,7 @@ export const newSms = (data: any) => {
 // 重发-短消息详情
 export const resendSms = (params: any) =>
     request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/msgManageReSendSMS',
+        url: 'operate/msgManageReSendSMS',
         method: 'get',
         params
     });
@@ -86,7 +86,7 @@ export const resendSms = (params: any) =>
 // 统计-发送端
 export const smsMsgTypeList = (params: any) =>
     request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/queryStatisticsSMSType',
+        url: 'operate/queryStatisticsSMSType',
         method: 'get',
         params
     });
@@ -94,7 +94,7 @@ export const smsMsgTypeList = (params: any) =>
 // 统计-类型
 export const statisticsSmsList = (params: any) =>
     request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/queryStatisticsSMSList',
+        url: 'operate/queryStatisticsSMSList',
         method: 'get',
         params
     });
@@ -103,7 +103,7 @@ export const statisticsSmsList = (params: any) =>
 // 统计-详情
 export const statisticsSmsDetail = (params: any) =>
     request({
-        url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/msgStatisticsSMSDetailList',
+        url: 'operate/msgStatisticsSMSDetailList',
         method: 'get',
         params
     });

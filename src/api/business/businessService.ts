@@ -3,7 +3,7 @@ import Mock from './mock'
 const isMock = true;
 export const querySeriesList = () =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    url: 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
     data: {
       propertyName: '1'
@@ -11,7 +11,7 @@ export const querySeriesList = () =>
   });
 export const queryCarTypeList = (data: { carSeries: String }) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    url: 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
     data: Object.assign({
       propertyName: '2'
@@ -19,7 +19,7 @@ export const queryCarTypeList = (data: { carSeries: String }) =>
   });
 export const queryEmissionList = (data: { carSeries: String; carType: String }) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API + 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    url: 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
     data: Object.assign({
       propertyName: '3'
@@ -29,7 +29,7 @@ export const queryEmissionList = (data: { carSeries: String; carType: String }) 
 
 export const queryArea = (id: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'qdfaw/api/qingqi/servicestation/activity/queryArea',
+    url: 'qdfaw/api/qingqi/servicestation/activity/queryArea',
     method: 'post',
     data: {
       provinceId: id
@@ -37,11 +37,11 @@ export const queryArea = (id: any) => {
   });
 }
 export const carBindList = (data: any) => {
-  if (isMock) {
-    return Mock.carBindList();
-  }
+  // if (isMock) {
+  //   return Mock.carBindList();
+  // }
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/review/carBindList',
+    url: 'operate/review/carBindList',
     method: 'post',
     data: data
   });
@@ -51,7 +51,7 @@ export const carBindDetail = (data: any) => {
   //   return Mock.carBindList();
   // }
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/review/carBindDetail',
+    url: 'operate/review/carBindDetail',
     method: 'post',
     data: data
   });
@@ -61,7 +61,7 @@ export const carUnBind = (data: any) => {
     return Mock.carBindList();
   }
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/review/carUnBind',
+    url: 'operate/review/carUnBind',
     method: 'post',
     data: data
   });
@@ -71,35 +71,35 @@ export const carTeamList = (params: any) => {
     return Mock.carTeamList();
   }
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamList',
+    url: 'operate/carTeam/carTeamList',
     method: 'get',
     params
   });
 }
 export const getManagerData = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/queryCarTeamByPhone',
+    url: 'operate/userManage/queryCarTeamByPhone',
     method: 'get',
     params
   });
 }
 export const newAccount = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/userManage/newAccount',
+    url: 'operate/userManage/newAccount',
     method: 'get',
     params
   });
 }
 export const queryUrgentCall = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/queryUrgentCall',
+    url:  'operate/emergency/queryUrgentCall',
     method: 'get',
     params
   });
 }
 export const delUrgentCall = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/delUrgentCall',
+    url: 'operate/emergency/delUrgentCall',
     method: 'get',
     params: {
       id: params
@@ -108,14 +108,14 @@ export const delUrgentCall = (params: any) => {
 }
 export const addTelephoneBaseList = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/add/urgentCall',
+    url: 'operate/emergency/add/urgentCall',
     method: 'get',
     params
   });
 }
 export const updTelephoneList = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/updUrgentCall',
+    url: 'operate/emergency/updUrgentCall',
     method: 'get',
     params
   });
@@ -123,7 +123,7 @@ export const updTelephoneList = (params: any) => {
 
 export const sortUrgentCall = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/emergency/sortUrgentCall',
+    url: 'operate/emergency/sortUrgentCall',
     method: 'get',
     params
   });
@@ -131,21 +131,35 @@ export const sortUrgentCall = (params: any) => {
 
 export const batchAddCarList = (params: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/batchAddCarList',
+    url: 'operate/carTeam/batchAddCarList',
     method: 'get',
     params
   });
 }
 export const getAdminList = (params: any) =>{
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carTeamAdmin',
+    url: 'operate/carTeam/carTeamAdmin',
+    method: 'get',
+    params
+  });
+}
+export const callCenter = (params: any) => {
+  return request({
+    url: 'operate/customerCare/callCenter',
     method: 'get',
     params
   });
 }
 export const getCarList = (params: any) =>{
   return request({
-    url: process.env.VUE_APP_TBOSS_API + 'yiqi/app/api/faw/operate/carTeam/carList',
+    url: 'operate/carTeam/carList',
+    method: 'get',
+    params
+  });
+}
+export const QueryRealTimeCondition = (params: any) => {
+  return request({
+    url: 'operate/customerCare/QueryRealTimeCondition',
     method: 'get',
     params
   });

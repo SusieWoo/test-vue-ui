@@ -13,6 +13,8 @@ export interface IUserState {
   introduction: string
   roles: string[]
   email: string
+  isShowVerifyCode: boolean
+  isFirstLogin: number
 }
 
 @Module({ dynamic: true, store, name: 'user' })
@@ -23,6 +25,8 @@ class User extends VuexModule implements IUserState {
   public introduction = ''
   public roles: string[] = []
   public email = ''
+  public isShowVerifyCode = false
+  public isFirstLogin = 0
 
   @Mutation
   private SET_TOKEN(token: string) {
@@ -54,13 +58,29 @@ class User extends VuexModule implements IUserState {
     this.email = email
   }
 
+  @Mutation
+  private SET_ISSHOWVERIFYCODE(isShowVerifyCode: boolean) {
+    this.isShowVerifyCode = isShowVerifyCode
+  }
+
+  @Mutation
+  private SET_ISFIRSTLOGIN(isFirstLogin: number) {
+    this.isFirstLogin = isFirstLogin
+  }
+
   @Action
-  public async Login(userInfo: { username: string; password: string }) {
-    let { username, password } = userInfo
-    username = username.trim()
-    // const { data } = await login({ loginName: username, password })
-    // todo 此处登陆先写死
-    const { data } = { 'data': { 'id': 3928, 'userId': '0e7fa348878946eba6541c1558196fd9', 'nickname': null, 'token': 'XM2t2sIISDBJzMYUPQoe4h++JCk=' } }
+  public async Login(userInfo: any) {
+    let { userName, password, verifyCodeId, mobileVerifyCodeId, verifyCode, mobileVerifyCode } = userInfo
+    userName = userName.trim()
+    const { data } = await login({ userName, password, mobileVerifyCodeId, mobileVerifyCode, verifyCodeId, verifyCode })
+    if (data.isShowVerifyCode) {
+      this.SET_ISSHOWVERIFYCODE(true)
+    } else {
+      this.SET_ISSHOWVERIFYCODE(false)
+    }
+    if (data.firstLogin === 1) {
+      this.SET_ISFIRSTLOGIN(data.firstLogin)
+    }
     setToken(data.token)
     this.SET_TOKEN(data.token)
   }

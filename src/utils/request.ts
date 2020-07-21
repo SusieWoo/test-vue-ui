@@ -26,24 +26,14 @@ let dealParams = (params: props, token: string | undefined, method: string): pro
 
 let cansubmit = true; //防止重复提交变量
 
-// const CancelToken = axios.CancelToken
-// const source = CancelToken.source()
-
 // Request interceptors
 service.interceptors.request.use(
   (config) => {
-    let token: string | undefined = '903fc78845654fc0a61ac531ecfe5905';
-    if (config.url === '/getUserInfo') {
-      token = getToken();
-    }
+    let token = getToken();
     let base = {
       token: token,
       appType: 3
     };
-    // if (config.cancelToken) {
-    //   config.cancelToken = source.token
-    // }
-
 
     /*这里解决调用接口问题，get的入参*/
     if (config.method === 'post') {
@@ -66,8 +56,6 @@ service.interceptors.request.use(
   }
 );
 
-// source.cancel('取消上次请求')
-
 // Response interceptors
 service.interceptors.response.use(
   (response) => {
@@ -76,6 +64,7 @@ service.interceptors.response.use(
     // code == 507: invalid access token
     // code == 500: time out
     // code == 506: err
+    // code == 670205: 导出条数超过3000，选择发送到邮箱
     // You can change this part for your own usage.
     const res = response.data;
     if (res.resultCode !== 200) {
@@ -105,6 +94,15 @@ service.interceptors.response.use(
           UserModule.ResetToken()
           location.reload() // To prevent bugs from vue-router
         })
+      } else if (res.resultCode === 670205) {
+        return res;
+      } else if (res.resultCode === 610191) {
+        Message({
+          message: res.message || 'Error',
+          type: 'error',
+          duration: 5 * 1000
+        });
+        return response.data;
       } else {
         Message({
           message: res.message || 'Error',
@@ -129,36 +127,36 @@ service.interceptors.response.use(
 
 
 
-// /**
-//  * post方法，对应post请求
-//  * @param {String} url [请求的url地址]
-//  * @param {Object} params [请求时携带的参数]
-//  * @param {bool} isLazy [防止重复提交]
-//  */
-// export function post(url: string, params: object, isLazy: boolean) {
-//   // let cansubmit = true;
-//   return new Promise((resolve, reject) => {
-//     if (!cansubmit) {
-//       return reject({ message: '不可重复提交' })
-//     }
-//     if (isLazy) {
-//       cansubmit = false;
-//       let timer = setTimeout(() => {
-//         cansubmit = true;
-//         clearTimeout(timer);
-//       }, 2000);
-//     }
-//     axios.post(url, QS.stringify(params))
-//       .then(res => {
-
-//         resolve(res.data);
-//       })
-//       .catch(err => {
-
-//         console.log("post error ", err)
-//         reject(err)
-//       })
-//   });
-// }
+/** 
+ * post方法，对应post请求 
+ * @param {String} url [请求的url地址] 
+ * @param {Object} params [请求时携带的参数] 
+ * @param {bool} isLazy [防止重复提交]
+ */
+export function post(url: string, params: object, isLazy: boolean) {
+  // let cansubmit = true;
+  return new Promise((resolve, reject) => {
+    if (!cansubmit) {
+      return reject({ message: '不可重复提交' })
+    }
+    if (isLazy) {
+      cansubmit = false;
+      let timer = setTimeout(() => {
+        cansubmit = true;
+        clearTimeout(timer);
+      }, 2000);
+    }
+    service.request({
+      url: url,
+      method: 'post',
+      data: params,
+    }).then(res => {
+      resolve(res);
+    }).catch(err => {
+      console.log("post error ", err)
+      reject(err)
+    })
+  });
+}
 
 export default service;

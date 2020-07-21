@@ -5,7 +5,7 @@ import nestedRouter from './modules/nested'
 import businessRoutes from './modules/business'
 import competitionRoutes from './modules/competition'
 import basicInfoRoutes from './modules/basicInfo'
-
+import monitor from  './monitor/monitor'
 Vue.use(Router)
 export const constantRoutes: RouteConfig[] = [
   {
