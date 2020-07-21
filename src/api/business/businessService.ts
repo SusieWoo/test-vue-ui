@@ -3,7 +3,7 @@ import Mock from './mock'
 const isMock = true;
 export const querySeriesList = () =>
   request({
-    url: process.env.VUE_APP_TBOSS_API +'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    url: 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
     data: {
       propertyName: '1'
@@ -11,7 +11,7 @@ export const querySeriesList = () =>
   });
 export const queryCarTypeList = (data: { carSeries: String }) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API +'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    url: 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
     data: Object.assign({
       propertyName: '2'
@@ -19,7 +19,7 @@ export const queryCarTypeList = (data: { carSeries: String }) =>
   });
 export const queryEmissionList = (data: { carSeries: String; carType: String }) =>
   request({
-    url: process.env.VUE_APP_TBOSS_API +'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
+    url: 'qdfaw/api/qingqi/sellbusiness/queryCarPropertyForMaintains',
     method: 'post',
     data: Object.assign({
       propertyName: '3'
@@ -29,7 +29,7 @@ export const queryEmissionList = (data: { carSeries: String; carType: String }) 
 
 export const queryArea = (id: any) => {
   return request({
-    url: process.env.VUE_APP_TBOSS_API +'qdfaw/api/qingqi/servicestation/activity/queryArea',
+    url: 'qdfaw/api/qingqi/servicestation/activity/queryArea',
     method: 'post',
     data: {
       provinceId: id
