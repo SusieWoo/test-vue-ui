@@ -52,11 +52,11 @@ export const detail = (params: any) =>
         method: 'get',
         params
     });
-export const edit = (params: any) =>
+export const edit = (data: any) =>
     request({
-        url: makeUrl('system/role/editRole'),
-        method: 'get',
-        params
+        url: makeUrl('system/user/editUser'),
+        method: 'post',
+        data
     });
 export const resetPassWord = (params: any) =>
     request({

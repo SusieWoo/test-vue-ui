@@ -126,6 +126,7 @@
 <script>
   import UploadImg from '@/components/UploadImg'
   // import E from 'wangeditor'
+  import { TagsViewModule } from '@/store/modules/tags-view'
   import { addOilActivityDetail, editOilActivityDetail, queryOilActivityDetail } from '@/api/oil/oilService';
   export default {
     name: 'oilnew',
@@ -342,6 +343,8 @@
           this.filters.cpoywriterDetail = this.cpoywriterDetail
           this.isShow = false
         }
+        TagsViewModule.delView(this.$route)
+        this.$router.go(-1)
       },
       submit () {
         let self = this

@@ -30,19 +30,7 @@ export const constantRoutes: RouteConfig[] = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
-    children: [
-      {
-        path: 'dashboard',
-        component: () => import(/* webpackChunkName: "dashboard" */ '@/views/dashboard/index.vue'),
-        name: 'Dashboard',
-        meta: {
-          title: 'dashboard',
-          icon: 'el-icon-s-home',
-          affix: true
-        }
-      }
-    ]
+    redirect: '/monitor',
   }
 ]
 
@@ -64,65 +52,11 @@ export const asyncRoutes: RouteConfig[] = [
       }
     ]
   },
-  // nestedRouter,
-  // {
-  //   path: '/pdf',
-  //   component: Layout,
-  //   redirect: '/pdf/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/example/pdf/index.vue'),
-  //       name: 'PDF',
-  //       meta: {
-  //         title: 'pdf',
-  //         icon: 'example'
-  //       }
-  //     }
-  //   ]
-  // },
-  // {
-  //   path: '/pdf-download-example',
-  //   component: () => import(/* webpackChunkName: "pdf-download-example" */ '@/views/example/pdf/download.vue'),
-  //   meta: { hidden: true }
-  // },
-  // {
-  //   path: '/i18n',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "i18n-demo" */ '@/views/example/i18n-demo/index.vue'),
-  //       name: 'I18n',
-  //       meta: {
-  //         title: 'i18n',
-  //         icon: 'form'
-  //       }
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/heremap',
-  //   component: Layout,
-  //   redirect: '/pdf/index',
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       component: () => import(/* webpackChunkName: "pdf" */ '@/views/here/hereMap.vue'),
-  //       name: 'HERE',
-  //       meta: {
-  //         title: 'here',
-  //         elementIcon: 'el-icon-map-location'
-  //       }
-  //     }
-  //   ]
-  // },
+  monitor,
   businessRoutes,
   imRoutes,
   competitionRoutes,
   basicInfoRoutes,
-  monitor,
   system
 ]
 

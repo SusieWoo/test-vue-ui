@@ -3,7 +3,7 @@
     <el-row :gutter="20">
       <el-col :span="4">
         <el-select v-model="filters.groupType" @change="queryGroupModelList" >
-          <el-option value="">{{$t('oil.groupTypeScreen')}}</el-option>
+          <el-option value="" :label="$t('oil.groupTypeScreen')"/>
           <el-option
               v-for="item in rankTypeList"
               :key="item.key"
@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="4">
         <el-select v-model="filters.groupId" :disabled="!filters.groupType" @change="getSelect" >
-          <el-option value="">{{$t('oil.groupRangeScreen')}}</el-option>
+          <el-option value="-1" :label="$t('oil.groupRangeScreen')"/>
           <el-option
               v-for="item in groupList"
               :key="item.activityGroupId"
@@ -23,20 +23,20 @@
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="filters.activityGroupId" @change="query(1)" :disabled="!filters.groupId">
-          <el-option value="">{{$t('oil.loadRangeScreen')}}</el-option>
+        <el-select v-model="filters.activityGroupId" @change="query(1)" :disabled="filters.groupId === '-1'">
+          <el-option value="-1" :label="$t('oil.loadRangeScreen')"/>
           <el-option
-              v-for="item in selectList.loadGroupingList"
+              v-for="item in (selectList ? selectList.loadGroupingList : {})"
               :key="item.activityGroupId"
               :label="item.activityGroupName"
               :value="item.activityGroupId"/>
         </el-select>
       </el-col>
       <el-col :span="4">
-        <el-select v-model="filters.groupCarModelId" @change="query(1)" :disabled="!filters.groupId">
-          <el-option value="">{{$t('oil.carRangeScreen')}}</el-option>
+        <el-select v-model="filters.groupCarModelId" @change="query(1)" :disabled="filters.groupId === '-1'">
+          <el-option value="-1" :label="$t('oil.carRangeScreen')"/>
           <el-option
-              v-for="item in selectList.activityGroupModelList"
+              v-for="item in (selectList ? selectList.activityGroupModelList : {})"
               :key="item.id"
               :label="item.modelName"
               :value="item.id"/>
@@ -44,7 +44,7 @@
       </el-col>
       <el-col :span="4">
         <el-select v-model="filters.rewardFlag" @change="query(1)">
-          <el-option value="">{{$t('oil.userRangeScreen')}}</el-option>
+          <el-option :label="$t('oil.userRangeScreen')" value=""/>
           <el-option
               v-for="item in userRankCheck"
               :key="item.key"
@@ -59,7 +59,7 @@
       </el-col>
     </el-row>
     <el-row type="flex" justify="end" style="margin: 10px 0px;">
-      <el-button type="primary" size="mini" :disabled="isDisabled" @click="query(1)">{{$t('common.research')}}</el-button>
+      <el-button type="primary" size="mini" :disabled="isDisabled" @click="query(1)">{{search}}</el-button>
       <el-button type="primary" size="mini" @click="seeInfos">{{$t('route.RecordDetail')}}</el-button>
       <el-button type="primary" size="mini" :disabled="isDisabled" @click="onPublish">{{$t('oil.release')}}</el-button>
       <el-button type="primary" size="mini" :disabled="isDisabled" @click="handleDownExcel">{{$t('common.export')}}</el-button>
@@ -67,14 +67,14 @@
     <el-card class="box-card">
       <el-table :data="tableData" style="width: 100%" :cell-style="{'text-align':'center'}" :header-cell-style="{'text-align':'center'}">
         <el-table-column prop="groupTypeName" :label="$t('oil.groupType')"/>
-        <el-table-column prop="groupName" :label="$t('oil.groupTypeName')"/>
-        <el-table-column prop="loadGroupName" :label="$t('oil.loadRange')"/>
-        <el-table-column prop="vin" :label="$t('business.vin')"/>
-        <el-table-column prop="carRange" :label="$t('oil.carRange')"/>
-        <el-table-column prop="phone" :label="$t('oil.userName')"/>
+        <el-table-column prop="groupName" :label="$t('oil.groupTypeName')" width="200"/>
+        <el-table-column prop="loadGroupName" :label="$t('oil.loadRange')" width="220"/>
+        <el-table-column prop="vin" :label="$t('business.vin')" width="200"/>
+        <el-table-column prop="carRange" :label="$t('oil.carRange')" width="150"/>
+        <el-table-column prop="phone" :label="$t('oil.userName')" width="150"/>
         <el-table-column prop="avgOilWearOfActivity" :label="$t('oil.averageFuel')" width="120"/>
         <el-table-column prop="totalMileage" :label="$t('oil.totalMileage')"/>
-        <el-table-column prop="activityGroupName" :label="$t('oil.totalFuel')" width="80">
+        <el-table-column prop="activityGroupName" :label="$t('oil.totalFuel')" width="120">
           <template slot-scope="scope">
             <el-input v-model="scope.row.totalOilWear" class="form-control" v-if="scope.row.isShow"/>
             <span v-if="!scope.row.isShow">{{scope.row.totalOilWear}}</span>
@@ -82,10 +82,10 @@
         </el-table-column>
         <el-table-column prop="ranking" :label="$t('oil.currentRanking')"/>
         <el-table-column prop="likeCount" :label="$t('oil.refuelingValue')"/>
-        <el-table-column :label="$t('common.operate')" width="200" v-if="activityStatus===3||activityStatus===4">
+        <el-table-column :label="$t('common.operate')" width="200" v-if="activityStatus===3||activityStatus===4" fixed="right">
           <template slot-scope="scope">
             <el-button type="text" :disabled="editing||scope.row.stopFlag === '1'|| isDisabled" @click="stop(scope.row.activityId,scope.row.carId,scope.row.phone,scope.row.stopFlag)" v-if="!scope.row.isShow">{{scope.row.stopFlag === '1'?$t('oil.terminated'):$t('oil.activityEnd')}}</el-button>
-            <el-button type="text" @click="editRule(scope.row)" v-if="!scope.row.isShow">{{$t('oil.editInfo')}}</el-button>
+            <el-button type="text" @click="editRule(scope.row)" v-if="!scope.row.isShow" :disabled="isEdit || isDisabled ">{{$t('oil.editInfo')}}</el-button>
             <el-button type="text" @click="save(scope.row)" v-if="scope.row.isShow">{{$t('oil.saveInfo')}}</el-button>
             <el-button type="text" @click="cancel(scope.row)" v-if="scope.row.isShow">{{$t('oil.cancelEdit')}}</el-button>
           </template>
@@ -102,7 +102,7 @@
 
 <script>
   import Export from '@/components/Export'
-  import { ActivityDeleteVin, queryActivityUserList, queryActivityDataGroupModelList, oilActivityRelease, editActivityCarTotalOilWearData } from '@/api/oil/oilService';
+  import { ActivityDeleteVin, queryActivityUserList, queryActivityDataGroupModelList, oilActivityRelease, editActivityCarTotalOilWearData, exportActivityUserList } from '@/api/oil/oilService';
   export default {
     name: 'record',
     components: {
@@ -115,6 +115,7 @@
         selectList: '',
         isDisabled: false,
         editing: false,
+        isEdit: false,
         rankTypeList: [
           { key: '1' ,value: this.$t('oil.oilList') },
           { key: '2',value: this.$t('oil.reductionList') },
@@ -140,6 +141,7 @@
         },
         oldData: [],
         iframeFilter: {},
+        search: this.$t('common.research')
       }
     },
     mounted() {
@@ -151,8 +153,21 @@
     methods: {
       // 活动数据列表
       async loadData () {
-        this.filters.loadGroupId = this.filters.activityGroupId
-        const res = await queryActivityUserList(this.filters);
+        this.filters.loadGroupId = this.filters.activityGroupId === '-1' ? '' : this.filters.activityGroupId
+        let obj = JSON.parse(JSON.stringify(this.filters))
+        if (obj.rewardFlag === '-1') {
+          obj.rewardFlag = ''
+        }
+        if (obj.groupCarModelId === '-1') {
+          obj.groupCarModelId = ''
+        }
+        if (obj.activityGroupId === '-1') {
+          obj.activityGroupId = ''
+        }
+        if (obj.groupId === '-1') {
+          obj.groupId = ''
+        }
+        const res = await queryActivityUserList(obj);
         this.tableData = res.data.list
         this.tableData.forEach((item,index) => {
           item.isShow = false
@@ -171,29 +186,33 @@
         }).then(() => {
           editActivityCarTotalOilWearData(row, self.filters.groupId).then(() => {
             self.editing = false
+            self.isEdit = false
             self.$message.success(self.$t('oil.operationSuccessful'))
             self.waiting()
+            self.tableData[row.indx].isShow = false
           })
         }).catch(() => {
         })
       },
       waiting () {
+        let self = this
         let ss = 30
-        this.isDisabled = true
+        self.isDisabled = true
         let timer = setInterval(function () {
           ss--
           if (ss > 0) {
-            this.search = ss + 's'
+            self.search = ss + 's'
           } else {
-            this.search = this.$t('oil.research')
-            this.isDisabled = false
-            this.loadData()
+            self.search = self.$t('oil.research')
+            self.isDisabled = false
+            self.loadData()
             clearInterval(timer)
           }
         },1000)
       },
       cancel (row) {
         this.editing = false
+        this.isEdit = false
         this.oldData[row.indx].isShow = false
         this.tableData = JSON.parse(JSON.stringify(this.oldData))
       },
@@ -206,6 +225,7 @@
         //正在编辑。
         this.editing = true
         this.oldData[row.indx].isShow = true
+        this.isEdit = true
         this.tableData = JSON.parse(JSON.stringify(this.oldData))
       },
       // 终止活动
@@ -252,6 +272,8 @@
       },
       // 得到载重值和车型
       getSelect () {
+        this.filters.activityGroupId = '-1'
+        this.filters.groupCarModelId = '-1'
         this.selectList = this.groupList.filter((item) => {
           return item.activityGroupId === this.filters.groupId
         })[0]
@@ -277,7 +299,29 @@
       },
       // 导出
       async emailExcel (email) {
-        // await carTeamListExcel(Object.assign({ email: email }, this.filters))
+        if (this.isDisabled) {
+          this.$message.warning(this.$t('oil.calculated'))
+          return false
+        }
+        if (this.editing) {
+          this.$message.warning(this.$t('oil.unsaved'))
+          return false
+        }
+        this.filters.loadGroupId = this.filters.activityGroupId === '-1' ? '' : this.filters.activityGroupId
+        let obj = JSON.parse(JSON.stringify(this.filters))
+        if (obj.rewardFlag === '-1') {
+          obj.rewardFlag = ''
+        }
+        if (obj.groupCarModelId === '-1') {
+          obj.groupCarModelId = ''
+        }
+        if (obj.activityGroupId === '-1') {
+          obj.activityGroupId = ''
+        }
+        if (obj.groupId === '-1') {
+          obj.groupId = ''
+        }
+        await exportActivityUserList(Object.assign({ email: email }, obj))
         this.$message.success(this.$t('oil.exportEmail'));
       },
       handleDownExcel () {

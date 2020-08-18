@@ -100,7 +100,7 @@
           <el-form-item prop="detail.engineType" :label="$t('basicInfo.motorType')">
             <el-select
               v-model="form.detail.engineType"
-              :placeholder="$t('basicInfo.edit.sMotorType')"
+              :placeholder="$t('basicInfo.detail.engineType')"
             >
               <el-option
                 v-for="item in engineList"
@@ -113,21 +113,21 @@
           <el-form-item :label="$t('basicInfo.motivitor')">
             <el-input
               clearable
-              v-model="form.car.carModelCode"
+              v-model="form.detail.engineTypeRear"
               :placeholder="$t('basicInfo.edit.iMotivitor')"
             ></el-input>
           </el-form-item>
           <el-form-item :label="$t('business.motor')">
             <el-input
               clearable
-              v-model="form.car.carModelCode"
+              v-model="form.detail.engineNumber"
               :placeholder="$t('basicInfo.edit.imotor')"
             ></el-input>
           </el-form-item>
           <el-form-item :label="$t('basicInfo.edit.oil')">
             <el-input
               clearable
-              v-model="form.car.carModelCode"
+              v-model="form.car.oilCapacity"
               :placeholder="$t('basicInfo.edit.ioil')"
             ></el-input>
           </el-form-item>
@@ -390,6 +390,8 @@ import selectTable from "@/components/selectTable";
 import UploadImg from "@/components/UploadImg";
 import { objToStringFy } from "@/utils/rules";
 import { parse } from "qs";
+
+import { TagsViewModule } from "@/store/modules/tags-view";
 export default {
   // 发送到邮箱，弹出框输入邮箱地址，发送邮件。
   name: "editCar",
@@ -553,10 +555,11 @@ export default {
       });
     },
     handleRemove(res) {
-      this.form.imgPath = "";
+       this.form.detail.img_path = "";
     },
     uploadSuccess(res) {
-      this.form.imgPath = res[0].filePath;
+      console.log(res)
+      this.form.detail.img_path = res[0].filePath;
     },
     getSelectDealer(obj) {
       this.form.dealer.id = obj.id;
@@ -725,6 +728,7 @@ export default {
       this.colorList = re.data;
     },
     cancel() {
+      TagsViewModule.delView(this.$route);
       this.$router.go(-1);
     },
     submit() {
@@ -741,8 +745,8 @@ export default {
       });
     },
     async add() {
-      this.form = objToStringFy(this.form);
-      const re = await updateCar(this.form);
+      const form = objToStringFy(this.form);
+      const re = await updateCar(form);
       if (re.code === 200) {
         this.$message.success(this.$t("basicInfo.edit.saveSuc"));
       }

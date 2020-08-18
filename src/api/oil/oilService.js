@@ -242,3 +242,17 @@ export const editConfigure = (filter) =>
       method: 'post',
       data: filter
     });
+
+export const exportActivityUserList = (filter) =>
+    request({
+      url: '/oilwearcompetition/exportActivityUserList',
+      method: 'get',
+      params: filter
+    });
+
+export const exportRewardInformationList = (filter) =>
+    request({
+      url: '/oilwearcompetition/exportRewardInformationList',
+      method: 'get',
+      params: filter
+    });

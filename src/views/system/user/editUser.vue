@@ -13,7 +13,7 @@
                         </el-select>
                     </el-form-item>
                     <div v-for="(item, index) in ruleForm.user" :key="item.id">
-                        <el-form-item v-if="ruleForm.accountType === '5'" :label="$t('user.number')" :prop="'user.'+index+'.numbers'" :rules="rules.number">
+                        <!--<el-form-item v-if="ruleForm.accountType === '5'" :label="$t('user.number')" :prop="'user.'+index+'.numbers'" :rules="rules.number">
                             <el-select v-model="item.numbers" class="search-item" @change="changeAccountNums(index)">
                                 <el-option value="1">1</el-option>
                                 <el-option value="2">2</el-option>
@@ -32,6 +32,9 @@
                         </el-form-item>
                         <el-form-item v-for="(x, i) in item.accountNums" v-else :key="x.name" :label="x.text" :prop="'user.'+index+'.accountNums.'+ i + '.accountName'" :rules="rules.accountName">
                             <el-input v-model="item.accountNums[i].accountName" class="search-item" />
+                        </el-form-item>-->
+                        <el-form-item :label="$t('user.accountName')" :prop="'user.'+index+'.accountName'" :rules="rules.accountName">
+                            <el-input v-model="item.accountName" class="search-item" />
                         </el-form-item>
                         <el-form-item v-if="!isEdit && ruleForm.user.length === 1" :label="$t('login.password')" prop="accountPwd" class="mb30">
                             <el-input v-model="ruleForm.accountPwd" type="password" class="search-item" auto-complete="new-password" />
@@ -89,9 +92,9 @@
                                 <el-button size="medium" type="primary" @click="removeUser(index)">{{ $t('user.delUser') }}</el-button>
                             </el-form-item>
                         </div>
-                        <Roledialog :dialog-visible="item.dialogTableRole" :type="ruleForm.accountType" :roles="item.roles" :index="index" @roleDialogClose="showRoleDialog(index)" @roleDialog="roleDialogReturn($event, index)" />
-                        <Teamdialog :dialog-visible="item.dialogTableTeam" :type="ruleForm.accountType" :data="item.teamData" :index="index" @teamDialogClose="showTeamDialog(index)" @teamDialog="showTeamDialogReturn($event, index)" />
-                        <Stationdialog :dialog-visible="item.dialogTableStation" :type="ruleForm.accountType" :data="item.stationsId" :index="index" @stationDialogClose="showStationDialog(index)" @stationDialog="showStationDialogReturn($event, index)" />
+                        <Roledialog :dialog-visible="ruleForm.dialogTableRole" :type="ruleForm.accountType" :roles="item.roles" :index="index" @roleDialogClose="showRoleDialog" @roleDialog="roleDialogReturn($event, index)" />
+                        <Teamdialog :dialog-visible="ruleForm.dialogTableTeam" :type="ruleForm.accountType" :data="item.team" :index="index" @teamDialogClose="showTeamDialog" @teamDialog="showTeamDialogReturn($event, index)" />
+                        <Stationdialog :dialog-visible="ruleForm.dialogTableStation" :type="ruleForm.accountType" :data="item.stationsId" :index="index" @stationDialogClose="showStationDialog" @stationDialog="showStationDialogReturn($event, index)" />
                     </div>
                 </div>
                 <div class="pd-10 pb-60">
@@ -107,7 +110,7 @@
                 </div>
                 <div class="pd-10 center">
                     <el-form-item>
-                        <el-button v-if="ruleForm.accountType === '5' && !isEdit" v-loading.fullscreen.lock="fullscreenLoading" type="primary" size="medium" @click="addUser">{{ $t('user.addUser') }}</el-button>
+<!--                        <el-button v-if="ruleForm.accountType === '5' && !isEdit" v-loading.fullscreen.lock="fullscreenLoading" type="primary" size="medium" @click="addUser">{{ $t('user.addUser') }}</el-button>-->
                         <el-button v-loading.fullscreen.lock="fullscreenLoading" type="primary" size="medium" @click="save('form')">{{ $t('common.confirm') }}</el-button>
                         <el-button size="medium" @click.native="$router.go(-1)">{{ $t('common.cancel') }}</el-button>
                     </el-form-item>
@@ -117,7 +120,7 @@
     </div>
 </template>
 <script>
-    import { baseData, queryDepartment, add, getDetail } from '@/api/system/user'
+    import { baseData, queryDepartment, add, getDetail, edit } from '@/api/system/user'
     import { letterOrNumber16, mobilePhone } from '@/utils/rules'
     import Roledialog from './components/Roledialog'
     import Teamdialog from './components/Teamdialog'
@@ -199,8 +202,11 @@
                 },
                 teamName: '',
                 ruleForm: {
-                    accountType: '1',
+                    accountType: '',
                     termVilidate: '2025-10-01',
+                    dialogTableRole: false,
+                    dialogTableTeam: false,
+                    dialogTableStation: false,
                     user: [{
                         showAccountName: true,
                         accountName: '',
@@ -208,14 +214,11 @@
                             accountName: ''
                         }],
                         role: '',
-                        team: '',
                         roles: '',
                         roleNames: '',
                         showTeam: false,
-                        dialogTableRole: false,
-                        dialogTableTeam: false,
-                        dialogTableStation: false,
                         teams: '',
+                        team: [],
                         teamNames: '',
                         teamData: [],
                         stations: '',
@@ -231,6 +234,8 @@
             if (this.$route.params.id !== 'null') {
                 this.isEdit = true
                 this.getDetail()
+            } else {
+                this.ruleForm.accountType = '1'
             }
         },
         methods: {
@@ -244,8 +249,47 @@
             },
             async getDetail() {
                 let _this = this
+                let roles = []; let team = []; let teams = []; let teamData = []
                 const re = await getDetail({ accountId: _this.$route.params.id })
                 _this.$set(_this.ruleForm.user, 0, re.data)
+                _this.ruleForm.accountType = re.data.accountType
+                _this.ruleForm.user[0].deptId = parseInt(re.data.deptId)
+                if (_this.ruleForm.accountType === '2') {
+                    _this.teamName = _this.$t('basicInfo.dealer') + _this.$t('user.team')
+                } else if (_this.ruleForm.accountType === '5') {
+                    _this.teamName = _this.$t('user.team')
+                }
+                if (re.data.role.length) {
+                    re.data.role.forEach(item => {
+                        roles.push(item.name)
+                    })
+                    _this.ruleForm.user[0].roles = roles.join(',')
+                }
+                if (re.data.team.length) {
+                    _this.ruleForm.user[0]['teamData'] = []
+                    re.data.team.forEach(item => {
+                        if (item.code) {
+                            team.push(item.code)
+                            teamData.push(item.code + ',' + item.nodeType)
+                        } else {
+                            team.push(item.id)
+                            teamData.push(item.id + ',' + item.nodeType)
+                        }
+                        teams.push(item.name)
+                    })
+                    _this.ruleForm.user[0].teams = teams.join(',')
+                    _this.ruleForm.user[0].team = team.join(',')
+                    _this.ruleForm.user[0].teamData.push(teamData)
+                }
+                if (re.data.serviceStation.length) {
+                    let stations = []; let stationsId = []
+                    re.data.serviceStation.forEach(item => {
+                        stations.push(item.name)
+                        stationsId.push(item.code)
+                    })
+                    _this.ruleForm.user[0].stations = stations.join(',')
+                    _this.ruleForm.user[0].stationsId = stationsId
+                }
             },
             async add() {
                 let params = []
@@ -265,6 +309,9 @@
                         })
                         this.$set(params[index],'accountName', accountName)
                     }
+                    if (this.ruleForm.accountType === '2' || this.ruleForm.accountType === '5') {
+                        this.$set(params[index],'jobType', '1')
+                    }
                     this.$set(params[index],'numbers', item.numbers || '')
                     this.$set(params[index],'accountPwd', this.ruleForm.accountPwd)
                     this.$set(params[index],'confirmPwd', this.ruleForm.confirmPwd)
@@ -276,19 +323,34 @@
                     this.$set(params[index],'lockAccount', item.lockAccount)
                     this.$set(params[index],'termVilidate', this.ruleForm.termVilidate)
                     this.$set(params[index],'role', role.join(','))
+                    if (item.stationsId) {
+                        this.$set(params[index],'serviceStation', item.stationsId.join(','))
+                    }
+                    if (this.ruleForm.user[index].teamData) {
+                        this.$set(params[index],'team', this.ruleForm.user[index].teamData.join(','))
+                    }
+                    this.$set(params[index],'huanyou', 1)
                 })
-                const re = await add({ data: params });
+                let re
+                if (!this.isEdit) {
+                    re = await add({ data: params });
+                } else {
+                    params[0].numbers = params[0].numbers ? params[0].numbers : '1'
+                    params[0].accountId = this.$route.params.id
+                    params = Object.assign(...params)
+                    re = await edit({ data: params });
+                }
                 if (re.resultCode === 200) {
-                    if (this.type === 'add') this.$message.success(`${this.$t('user.addSuccess')}`);
+                    if (!this.isEdit) this.$message.success(`${this.$t('user.addSuccess')}`);
                     else this.$message.success(`${this.$t('user.editSuccess')}`);
                     this.$router.back(-1)
                 }
             },
             userTypeChange() {
                 this.ruleForm.user[0].numbers = '1';
-                if (this.ruleForm.user[0].accountNums[0].accountName) {
+                /*if (this.ruleForm.user[0].accountNums[0].accountName) {
                     this.ruleForm.user[0].accountNums = [];
-                }
+                }*/
                 if (this.ruleForm.user[0].accountName) {
                     this.ruleForm.user[0].accountName = '';
                 }
@@ -311,6 +373,7 @@
             },
             changeAccountNums(index) {
                 this.ruleForm.user[index].accountNums = [];
+                this.ruleForm.user[index].accountName = ''
                 let count = parseInt(this.ruleForm.user[index].numbers)
 
                 if (count > 1) {
@@ -331,14 +394,11 @@
                         accountName: ''
                     }],
                     role: '',
-                    team: '',
                     roles: '',
                     roleNames: '',
                     showTeam: false,
-                    dialogTableRole: false,
-                    dialogTableTeam: false,
-                    dialogTableStation: false,
                     teams: '',
+                    team: [],
                     teamNames: '',
                     teamData: [],
                     stations: '',
@@ -351,8 +411,8 @@
                     this.ruleForm.user.splice(index,1);
                 }
             },
-            showRoleDialog(index) {
-                this.ruleForm.user[index].dialogTableRole = !this.ruleForm.user[index].dialogTableRole
+            showRoleDialog() {
+                this.ruleForm.dialogTableRole = !this.ruleForm.dialogTableRole
             },
             roleDialogReturn(data, index) {
                 let rolesData = []
@@ -363,25 +423,29 @@
                 this.ruleForm.user[index].roleNames = ''
                 this.ruleForm.user[index].role = data || [];
             },
-            showTeamDialog(index) {
-                this.ruleForm.user[index].dialogTableTeam = !this.ruleForm.user[index].dialogTableTeam
+            showTeamDialog() {
+                this.ruleForm.dialogTableTeam = !this.ruleForm.dialogTableTeam
             },
             showTeamDialogReturn(data, index) {
                 let teamData = []
                 if (data) {
                     data.forEach(item => {
                         teamData.push(item.name)
-                        this.ruleForm.user[index].teamData.push(item.id)
+                        if (item.code) {
+                            this.ruleForm.user[index].team.push(item.code)
+                            this.ruleForm.user[index].teamData.push(item.code + ',' + item.nodeType)
+                        } else {
+                            this.ruleForm.user[index].team.push(item.id)
+                            this.ruleForm.user[index].teamData.push(item.id + ',' + item.nodeType)
+                        }
                     });
                     this.ruleForm.user[index].teams = teamData.join(',')
-                    this.ruleForm.user[index].team += this.ruleForm.user[index].teamData.join(',')
                 } else {
                     this.ruleForm.user[index].teams = ''
                 }
-                this.ruleForm.user[index].team = data || [];
             },
-            showStationDialog(index) {
-                this.ruleForm.user[index].dialogTableStation = !this.ruleForm.user[index].dialogTableStation
+            showStationDialog() {
+                this.ruleForm.dialogTableStation = !this.ruleForm.dialogTableStation
             },
             showStationDialogReturn(data, index) {
                 this.ruleForm.user[index].serviceStation = data;
@@ -391,7 +455,7 @@
                 data.forEach((item, index) => {
                     //if (!item.isParent) {
                         dealResult.push(item.name)
-                        dealId.push(item.id)
+                        dealId.push(item.did)
                     //}
                 })
                 _this.ruleForm.user[index].stations = dealResult.join(',');

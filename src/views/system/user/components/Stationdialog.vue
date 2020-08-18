@@ -13,7 +13,7 @@
         </el-row>
         <div style="height: 58vh; overflow-y: auto;" class="mt20">
             <el-tree ref="tree" :data="stationTreeData" show-checkbox node-key="id"
-                     highlight-current :props="defaultProps" :default-expanded-keys="[1]" />
+                     highlight-current :props="defaultProps" :default-expanded-keys='["1"]' />
         </div>
         <div slot="footer" class="dialog-footer">
             <el-button class="cancel" @click="cancel">{{ $t('common.cancel') }}</el-button>
@@ -41,11 +41,10 @@
         },
         methods: {
             async getStation() {
-                let _this = this
-                const re = await getStation(_this.query)
-                _this.stationTreeData = re.data
-                if (_this.data.length) {
-                    _this.$refs.tree.setCheckedKeys(_this.data)
+                const re = await getStation(this.query)
+                this.stationTreeData = [re.data]
+                if (this.data.length) {
+                    this.$refs.tree.setCheckedKeys(this.data)
                 }
             },
             getStationTree() {

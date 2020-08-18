@@ -68,6 +68,13 @@
             }
         },
         methods: {
+            async getTeam() {
+                const re = await getTeam(this.query)
+                this.teamTreeData = re.data
+                if (this.data.length) {
+                    this.$refs.tree.setCheckedKeys(this.data)
+                }
+            },
             getTeamTree() {
                 if (this.keyword) {
                     this.query['searchType'] = 1
@@ -81,14 +88,7 @@
                 } else {
                     delete this.query.lightHeavyFlg
                 }
-                getTeam(this.query).then((res) => {
-                    this.teamTreeData = res.data
-                    if (this.data) {
-                        this.$refs.tree.setCheckedKeys(this.data)
-                    }
-                }).catch((error) => {
-                    this.$message({ message: error.message, type: 'error', duration: 5 * 1000 })
-                })
+                this.getTeam()
             },
             cancel() {
                 this.$emit('teamDialogClose', null)

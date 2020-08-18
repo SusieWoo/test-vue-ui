@@ -5,7 +5,7 @@ export default {
   roleId: 20022,
   component: Layout,
   /*重定向，当用户访问时，路径会自动变化*/
-  // redirect: '/monitor/car',
+  redirect: '/monitor/car',
   name: 'monitor',
   meta: {
     title: 'monitor',

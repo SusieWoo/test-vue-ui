@@ -53,7 +53,6 @@ export default class extends Vue {
       if (UserModule.roles.indexOf(data[j].roleId) !== -1) {
         data[j].isShow = true
       } else {
-        //TODO
         data[j].isShow = true
       }
       if (data[j].children) {
