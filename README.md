@@ -1,4 +1,4 @@
-# test-vue-ui
+# global-operate-plateform
 
 ## Project setup
 ```
@@ -7,12 +7,12 @@ yarn install
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+yarn serve:dev
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+yarn build:dev
 ```
 
 ### Lints and fixes files

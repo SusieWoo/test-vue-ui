@@ -1,0 +1,549 @@
+  /* 封面背景及主题背景，可以设置图片 */
+  $album_background: #0091e4;
+  $theme_background: #f9fcff;
+  $main_background: #e5f4ff;
+
+  /* 导航及tab相关颜色 */
+  $color_nav_background: #fff;
+  $color_nav_font: #333;
+  $color_nav_active_background: #e5f4ff;
+  $color_nav_active_font: #0091e4;
+
+  /* 输入框颜色 */
+  $color_chat_editor_background: #e5f4ff;
+  $color_chat_editor_button: #0091e4;
+
+  /* 基础按钮颜色 */
+  $color_base_font: #333;
+  $color_error: #ed0e0e;
+  $color_tip_background: #e0e0e0;
+  $color_tip_font: #ccc;
+  $color_button_font: #fff;
+  $color_button_primary: #0091e4;
+  $color_button_warn: #f04d64;
+
+  $color_input_dark: #333;
+  $color_input_light: #999;
+
+  /* 设置颜色变量 */
+  $color_white: #fff;
+
+  $height_editor: 70px;
+  $height_editor_top:20px;
+
+  /* 消息变量 */
+  $msg_bg_you: #5cacde;
+  $msg_tx_you: #fff;
+  $msg_bg_me: #e5f4ff;
+  $msg_tx_me: #666;
+
+
+  .list,
+  .chat,
+  .info {
+    float: left;
+    width: 300px;
+    padding: 10px;
+  }
+
+  .chat {
+    width: calc(100% - 600px);
+    min-width: 300px;
+  }
+
+  .info {
+    width: 300px;
+  }
+
+  .p-session {
+    border: 1px $main_background solid;
+  }
+
+  .m-article {
+    border: 1px $main_background solid;
+  }
+
+  .m-main {
+    min-height: 650px;
+  }
+
+  /* 二级页面的tab */
+  .m-tab {
+    color: #0091e4;
+    background-color: $main_background;
+    margin: 0;
+    padding: 10px;
+    width: 100%;
+    overflow: hidden;
+    z-index: 3;
+
+    .vux-header-left,
+    .vux-header-right {
+      top: 20px;
+    }
+
+    .m-tab-top {
+      position: relative;
+      padding: 0;
+      font-size: 14px;
+
+      &.vux-button-group {
+        margin: 4px auto;
+      }
+    }
+
+    .m-tab-top {
+      font-size: 14px;
+    }
+
+    .m-tab-right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      font-size: 14px;
+      text-align: right;
+      width: 4rem;
+    }
+  }
+
+  /* 消息记录 */
+  .u-msg {
+    position: relative;
+    padding: 0.2rem 0;
+
+    &.session-chat {
+      padding: 0.6rem 0;
+      clear: both;
+    }
+
+    /* 用户头像 */
+    .msg-head {
+      position: relative;
+      display: inline-block;
+      top: 0.1rem;
+      margin: 0;
+      margin-right: 0.6rem;
+      margin-left: 0.6rem;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      vertical-align: top;
+
+      img {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+      }
+
+
+    }
+    .u-circle{
+            i{
+              font-size: 22px;
+              border: 1px #eee solid;
+              border-radius: 50%;
+              padding: 5px;
+              background: #eee;
+            }
+          }
+    .msg-user {
+      font-style: italic;
+      color: #999;
+
+      em {
+        font-weight: normal;
+        margin-right: 1rem;
+      }
+    }
+
+    .msg-text {
+      position: relative;
+      display: inline-block;
+      max-width: 54%;
+      min-height: 1.2rem;
+      word-break: break-word;
+      height: auto;
+      line-height: 1.2rem;
+      font-size: 0.9rem;
+      border: none;
+
+      img {
+        position: relative;
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        max-width: 100%;
+        vertical-align: bottom;
+
+        &.emoji-small {
+          width: 1.4rem;
+          height: 1.4rem;
+          vertical-align: bottom;
+        }
+
+        &.emoji-big {
+          width: 3rem;
+          height: 3rem;
+          vertical-align: middle;
+        }
+
+        &.emoji-big {
+          width: 4.8rem;
+          height: 4.8rem;
+          vertical-align: middle;
+        }
+      }
+
+      embed,
+      video {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        //max-height: 8rem;
+        vertical-align: bottom;
+        background-color: #000;
+        text-align: center;
+        color: #fff;
+      }
+
+      &::before,
+      &::after {
+        content: ' ';
+        position: absolute;
+        top: 0.8rem;
+        border-top: 0.4rem solid transparent;
+        border-bottom: 0.4rem solid transparent;
+        width: 0;
+        height: 0;
+      }
+
+      &.notify {
+        max-width: 100%;
+      }
+
+      .button {
+        margin: 0.1rem 0;
+        padding: 0.1rem 0.2rem;
+        border: 1px solid #fff;
+        border-radius: 0.2rem;
+        background-color: $color_nav_active_background;
+        color: #666;
+      }
+    }
+
+    .msg-failed {
+      position: relative;
+      float: right;
+      margin-right: 0.2rem;
+      vertical-align: top;
+      font-size: 0.92rem;
+      line-height: 2.0rem;
+    }
+
+    .msg-link {
+      display: block;
+      position: absolute;
+      bottom: -2rem;
+      right: 0;
+      min-width: 4rem;
+      min-height: 1.2rem;
+      word-break: normal;
+      height: auto;
+      line-height: 1.2rem;
+      font-size: 1.0rem;
+      border: none;
+
+      a {
+        color: $color_nav_active_font;
+        text-decoration: underline;
+        float: right;
+      }
+    }
+
+    &.session-chat .msg-text {
+      padding: 0.4rem;
+      margin-bottom: 0.8rem;
+      border-radius: 0.4rem;
+      box-shadow: 2px 3px 5px 0 rgba(0,0,0,.07);
+    }
+
+    &.session-chat.item-you {
+
+      .msg-head,
+      .msg-text {
+        float: left;
+      }
+
+      .msg-text {
+        background-color: $msg_bg_you;
+        color: $msg_tx_you;
+
+        &::before {
+          right: 99%;
+          border-right: 0.4rem solid $msg_bg_you;
+        }
+
+        &::after {
+          background: none;
+        }
+      }
+    }
+
+    &.session-chat.item-me {
+
+      .msg-head,
+      .msg-text {
+        float: right;
+      }
+
+      .msg-text {
+        color: $msg_tx_me;
+        background-color: $msg_bg_me;
+        text-align: left;
+        &::before {
+          background: none;
+        }
+
+        &::after {
+          left: 99%;
+          border-left: 0.4rem solid $msg_bg_me;
+        }
+      }
+    }
+
+    &.item-time {
+      font-size: 0.8rem;
+      text-align: center;
+      color: $color_tip_font;
+    }
+
+    &.item-tip {
+      font-size: 0.8rem;
+      text-align: center;
+
+      .tip {
+        margin: 0 auto;
+        width: 10rem;
+        padding: 0.1rem;
+        background-color: $color_tip_background;
+        border-radius: 0.4rem;
+      }
+    }
+    .tips-msg {
+      > span {
+        display: inline-block;
+        background: #f5f5f5;
+        color: #999;
+        padding: 5px 10px;
+        border-radius: 10px;
+        margin-bottom: 0.8rem;
+      }
+    }
+
+    .notification {
+      font-size: 0.8rem;
+      text-align: center;
+      color: $color_tip_font;
+    }
+
+    .notify {
+      color: #f50;
+      font-size: 0.8rem;
+    }
+  }
+
+  .m-chat-editor {
+    width: 100%;
+    height: $height_editor;
+    background-color: $color_chat_editor_background;
+    position: relative;
+  }
+
+  /* 聊天按钮组件 */
+  .m-chat-editor-main {
+    position: relative;
+    //display: block;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+
+    .u-editor-input {
+      position: relative;
+      display: inline-block;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0.2rem;
+      //padding-right: 7rem;
+      //width: 100%;
+      height: $height_editor;
+      flex: 1;
+
+      textarea {
+        position: relative;
+        display: inline-block;
+        box-sizing: border-box;
+        padding: 0.2rem;
+        font-size: 1rem;
+        width: 100%;
+        height: 100%;
+        text-align: left;
+        border: 1px solid #ccc;
+        border-radius: 0.4rem;
+      }
+    }
+
+    .u-editor-icons {
+      //position: absolute;
+      display: flex;
+      align-items: center;
+      //right: 0;
+      padding-right: 10px;
+      //top: 0;
+      //width: 7rem;
+      height: $height_editor;
+
+      .u-editor-icon {
+        //position: relative;
+        display: inline-block;
+        //top: $height_editor_top;
+        width: 1.6rem;
+        height: 1.6rem;
+        margin: 0 10px;
+        box-sizing: border-box;
+        margin-left: 0.2rem;
+        vertical-align: middle;
+
+        input[type="file"] {
+          position: absolute;
+          display: inline-block;
+          left: 0;
+          top: 0;
+          width: inherit;
+          height: inherit;
+          opacity: 0;
+          font-size: 1rem;
+        }
+      }
+    }
+
+    .u-editor-send {
+      position: relative;
+      display: inline-block;
+      top: $height_editor_top;
+      margin-left: 0.2rem;
+      width: 2.6rem;
+      height: 1.6rem;
+      line-height: 1.6rem;
+      padding: 0.1rem 0.2rem;
+      border-radius: 0.2rem;
+      font-size: 0.9rem;
+      color: $color_button_font;
+      background-color: $color_chat_editor_button;
+      text-align: center;
+      cursor: pointer;
+    }
+  }
+
+  .u-error {
+    color: $color_error;
+  }
+
+  .u-icon {
+    display: inline-block;
+    width: inherit;
+    height: inherit;
+
+    &.icon-file {
+      background-position: -7.6rem -7rem;
+    }
+  }
+
+  .u-icon {
+    background-size: 20rem;
+    background-image: url(../im/images/im/icons.png);
+    position: relative;
+  }
+
+  .u-icon-img {
+    position: relative;
+    width: inherit;
+    height: inherit;
+
+    img {
+      position: relative;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .u-circle {
+    border-radius: 50%;
+  }
+
+  /* 列表 */
+  .u-list {
+    width: 100%;
+    padding-bottom: 50px;
+    .u-circle{
+      width: 80px;
+      i{
+        font-size: 15px;
+        border: 1px #eee solid;
+        border-radius: 50%;
+        padding: 5px;
+        background: #eee;
+      }
+    }
+  }
+
+  .u-list-item {
+    //height: 55px;
+    vertical-align: middle;
+    width: 100%;
+    padding: 10px 5px;
+    //border: 1px solid red;
+    border-bottom: 1px $main_background solid;
+    cursor: pointer;
+    margin-left: 0!important;
+    .icon {
+      display: inline-block;
+      margin-right: 0.6rem;
+      width: 50px;
+      height: 50px;
+      border: 1px solid #DFE4ED;
+    }
+
+    span {
+      width: 160px;
+      overflow: hidden;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .weui-cells {
+    margin-top: 0;
+    font-size: inherit;
+    background-color: transparent;
+  }
+
+  .weui-cell {
+    font-size: 1.08rem;
+    padding: 0.5rem 0.7rem;
+
+    .vux-label-desc {
+      font-size: 0.8rem;
+      color: #999;
+    }
+
+    &:before {
+      /*left: 0;*/
+    }
+  }

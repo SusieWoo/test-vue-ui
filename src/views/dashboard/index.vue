@@ -1,44 +1,60 @@
 <template>
   <div class="home">
-    <HelloWorld msg="from home.vue" />
-    <div class="qqq">
-      123123123123
-    </div>
-    <el-slider v-model="value2" />
+    <car-linkage :model.sync="chexing"
+                 :vehicle.sync="chexi"
+                 :discharge.sync="paifang" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
-import Bus from '@/common/bus.js';
-Bus.$on('XXXX-a', (data) => {});
+import Bus from '@/utils/bus.ts';
+import carLinkage from '@/components/carLinkage/carLinkage.vue';
+
+Bus.$on('XXXX-a', data => { });
 
 export default {
   name: 'Dashboard',
   components: {
-    HelloWorld
+    carLinkage
   },
-  data() {
-      return {
-          value2: 50
-      };
+  data () {
+    return {
+      chexing: '',
+      chexi: '',
+      paifang: '',
+
+      qqqqq: '',
+
+      qqqqqList: []
+    };
   },
-  mounted() {
+  mounted () {
     setTimeout(() => {
       Bus.$emit('XXXX-a', {
-        res:1111
+        res: 1111
       });
-    },1000);
+    }, 1000);
   },
-  destroyed() {
-
+  destroyed () { 
+    
+  },
+  methods: {
+    output (val) {
+      console.log(val);
+    },
+    arrOpen (arr) {
+      const peak = arr.map(item => {
+        return { id: item, label: item };
+      });
+      return peak;
+    }
   }
 };
 </script>
 
 <style scoped>
-  .qqq{
-    color: blue;
-  }
+.qqq {
+  color: blue;
+}
 </style>
