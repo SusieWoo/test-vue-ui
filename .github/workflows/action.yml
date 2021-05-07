@@ -1,27 +1,71 @@
-name: "github actions build and deploy gh-pages" #流程名称
-on: [push] #当对当前仓库push代码的时候触发
-jobs: 
-  build-and-deploy: #脚本名称
-    runs-on: ubuntu-latest #运行在乌班图linux上
+# 工作流名称，不设置的话默认取配置文件名
+name: Build and Deploy
+# 指定触发 workflow 的条件
+# 指定触发事件时，可以限定分支或标签
+# 当前是 只有 master分支上触发 push 事件时才执行工作流任务
+on: 
+  push:
+    branches:
+      - master
+# 工作流执行的一个或多个任务
+jobs:
+  # 任务名称
+  build-and-deploy:
+    # 任务运行的容器类型（虚拟机环境）
+    runs-on: ubuntu-latest
+    # 任务执行的步骤
     steps:
-      - name: Checkout  #步骤1：checkout
-        uses: actions/checkout@v2.3.1 #checkout需要引用的依赖
+      # 步骤名称
+      - name: Checkout 🛎️
+        # 使用的操作 actions，可以使用公共仓库，本地仓库，别人的仓库的action
+        # 拉取代码
+        uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false #checkout依赖参数：不保存证书
-      - name: install and build #步骤2：安装依赖和打包
-        run: | #运行下面两行命令
-          npm install #安装依赖，当前分支的根目录做为默认目录
-          npm run build:prod #打包代码
+      - name: Build and Deploy
+        # 构建发布 Github pages
+        uses: JamesIves/github-pages-deploy-action@3.5.9
+        # 该步骤所需的环境变量
+        env:
+          ACCESS_TOKEN: ${{ secrets.TESTVUECICD }}
+          # 在部署前要checkout的基本分支，默认是master
+          BASE_BRANCH: master # The branch the action should deploy from.
+          # 指定部署的分支，默认是 gh-pages 分支
+          BRANCH: master # The branch the action should deploy to.
+          # 存储库中要部署的文件夹。
+          # 该步骤会将项目中 FOLDER 指定文件夹下的文件推送到 BRANCH 分支，作为Github Pages 部署的内容。
+          # Vue CLI默认打包到 dist 目录
+          FOLDER: dist # The folder the action should deploy.
+          # 在向 BRANCH 分支推送代码前，可以指定构建脚本
+          BUILD_SCRIPT: npm install && npm run build:prod # The build script the action should run prior to deploying.
 
-      - name: Install SSH Client #步骤3：关联ssh私钥
-        uses: webfactory/ssh-agent@v0.2.0 #这里调用这个第三方的库，可以直接关联ssh私钥
-        with: #下面是参数
-          #这里需要通过github的环境参数中获取私钥，并传给这个库，（这是最安全的，git当然不能让用户直接输入私钥内容）
-          ssh-private-key: ${{ secrets.TESTVUECICD }} 
 
-      - name: Deploy #步骤4：把编译好的静态目录上传到gh-pages分支上
-        uses: JamesIves/github-pages-deploy-action@3.5.9 #这里调用第三方依赖，用于上传代码到指定分支上
-        with:
-          SSH: true #是否通过ssh方式
-          BRANCH: gh-pages #github pages 默认的分支
-          FOLDER: dist #上传文件的目录，我这个目录在根目录下，如果是子目录可以这么写  docs/.vuepress/dist
+
+
+#name: "github actions build and deploy gh-pages" #流程名称
+#on: [push] #当对当前仓库push代码的时候触发
+#jobs: 
+#  build-and-deploy: #脚本名称
+#    runs-on: ubuntu-latest #运行在乌班图linux上
+#    steps:
+#     - name: Checkout  #步骤1：checkout
+#        uses: actions/checkout@v2.3.1 #checkout需要引用的依赖
+#        with:
+#          persist-credentials: false #checkout依赖参数：不保存证书
+#      - name: install and build #步骤2：安装依赖和打包
+#        run: | #运行下面两行命令
+#          npm install #安装依赖，当前分支的根目录做为默认目录
+#          npm run build:prod #打包代码
+#
+#      - name: Install SSH Client #步骤3：关联ssh私钥
+#        uses: webfactory/ssh-agent@v0.2.0 #这里调用这个第三方的库，可以直接关联ssh私钥
+#        with: #下面是参数
+#          #这里需要通过github的环境参数中获取私钥，并传给这个库，（这是最安全的，git当然不能让用户直接输入私钥内容）
+#          ssh-private-key: ${{ secrets.TESTVUECICD }} 
+
+#      - name: Deploy #步骤4：把编译好的静态目录上传到gh-pages分支上
+#        uses: JamesIves/github-pages-deploy-action@3.5.9 #这里调用第三方依赖，用于上传代码到指定分支上
+#        with:
+#          SSH: true #是否通过ssh方式
+#          BRANCH: gh-pages #github pages 默认的分支
+#          FOLDER: dist #上传文件的目录，我这个目录在根目录下，如果是子目录可以这么写  docs/.vuepress/dist
