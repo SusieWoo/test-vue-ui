@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["manual"],{e6f6:function(n,e,a){"use strict";a.r(e);var s=function(){var n=this,e=n.$createElement,a=n._self._c||e;return a("el-row",[n._v(n._s(n.$t("business.bConfig")))])},t=[],u={name:"manual"},l=u,c=a("2877"),o=Object(c["a"])(l,s,t,!1,null,"035b30c7",null);e["default"]=o.exports}}]);
+//# sourceMappingURL=manual.eb7008e3.js.map
