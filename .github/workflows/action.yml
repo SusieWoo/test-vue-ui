@@ -4,7 +4,7 @@ jobs:
   build-and-deploy: #脚本名称
     runs-on: ubuntu-latest #运行在乌班图linux上
     steps:
-      - uses: ./.github/workflows/action
+      - uses: ./.github/workflows
         env:
           GITHUB_TOKEN: ${{ secrets.TESTVUECICD }}
         id: action
