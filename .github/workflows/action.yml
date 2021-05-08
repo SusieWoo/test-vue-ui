@@ -36,7 +36,7 @@ jobs:
           # 该步骤会将项目中 FOLDER 指定文件夹下的文件推送到 BRANCH 分支，作为Github Pages 部署的内容。
           # Vue CLI默认打包到 dist 目录
           # 环境变量ACTIONS_ALLOW_UNSECURE_COMMANDS设置为true来选择不安全的命令执行
-          ACTIONS_ALLOW_UNSECURE_COMMANDS:true
+          # ACTIONS_ALLOW_UNSECURE_COMMANDS: true
           FOLDER: dist # The folder the action should deploy.
           # 在向 BRANCH 分支推送代码前，可以指定构建脚本
           BUILD_SCRIPT: npm install && npm run build:prod # The build script the action should run prior to deploying.
