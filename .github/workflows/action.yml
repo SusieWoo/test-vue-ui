@@ -23,7 +23,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           # 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
-          personal_token: ${{ secrets.SUSIE_TOKEN }}
+          personal_token: ${{ secrets.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 }}
           publish_branch: master  
           deploy_key: ${{ secrets.VUE_CI }}
           publish_dir: ./dist
