@@ -4,14 +4,14 @@ jobs:
   build-and-deploy: #脚本名称
     runs-on: ubuntu-latest #运行在乌班图linux上
     steps:
-      - uses: ./.github/workflows
-        env:
-          GITHUB_TOKEN: ${{ secrets.TESTVUECICD }}
-        id: action
       - name: Checkout  #步骤1：checkout
         uses: actions/checkout@v2.3.1 #checkout需要引用的依赖
         with:
           persist-credentials: false #checkout依赖参数：不保存证书
+      - uses: ./.github/workflows
+        env:
+          GITHUB_TOKEN: ${{ secrets.TESTVUECICD }}
+        id: action
       - name: Upload to this repo
         run: |
           git config --global user.name "SusieWu" # 改成Github账号用户名
