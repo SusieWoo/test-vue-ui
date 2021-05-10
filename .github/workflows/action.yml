@@ -25,5 +25,7 @@ jobs:
           # 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
           personal_token: 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
           publish_branch: master  
+          user_name: 'SusieWu'
+          user_email: '943299594@qq.com'
           deploy_key: ${{ secrets.VUE_CI }}
           publish_dir: ./dist
