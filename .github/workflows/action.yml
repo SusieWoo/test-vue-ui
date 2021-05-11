@@ -20,12 +20,8 @@ jobs:
       - run: npm run build:test
 
       - name: deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action.1.5
         with:
-          # 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
-          personal_token: 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
-          publish_branch: master  
-          user_name: SusieWu
-          user_email: 943299594@qq.com
-          deploy_key: ${{ secrets.VUE_CI }}
-          publish_dir: ./dist
+          ACCESS_TOKEN: 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
+          BRANCH: master
+          FOLDER: dist
