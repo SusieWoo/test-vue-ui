@@ -27,5 +27,6 @@ jobs:
           # publish_branch: master  
           # user_name: SusieWu
           # user_email: 943299594@qq.com
-          deploy_key: ${{ secrets.testvue }}
+          # deploy_key: ${{ secrets.testvue }}
+          github_token: ${{ secrets.testvue }}
           publish_dir: ./dist
