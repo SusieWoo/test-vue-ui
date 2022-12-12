@@ -23,7 +23,7 @@
     "moment": "^2.27.0",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^3.0.0",
-    "qs": "^6.9.4",
+    "qs": "^6.9.7",
     "screenfull": "^5.0.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
